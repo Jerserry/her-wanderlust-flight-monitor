@@ -9,7 +9,7 @@
 .radar-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .radar-route{font-size:16px;font-weight:800;letter-spacing:-.3px;margin-top:10px}
 .radar-airline{font-size:10px;color:#94838e;margin-top:5px}
-.radar-flight-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:16px 0 12px}
+.radar-flight-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:16px 0 12px}
 .radar-meta-cell{background:#fff9fc;border:1px solid #f5edf1;border-radius:10px;padding:9px}
 .radar-meta-cell span{display:block;color:#ad9da7;font-size:8px;margin-bottom:5px}
 .radar-meta-cell b{display:block;color:#665560;font-size:10px;overflow-wrap:anywhere}
