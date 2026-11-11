@@ -1,15 +1,20 @@
 # Her Wanderlust Path Flight Monitor ✈️
 
-KUL-origin flight fare monitor with MYR budgets, price history, Telegram alerts, a GitHub Pages dashboard and daily GitHub Actions runs.
+A KUL-origin flight fare monitor using Google Flights results through SerpApi, with MYR budgets, price history, optional Telegram alerts, a GitHub Pages dashboard and daily GitHub Actions runs.
 
 ## Setup
-1. Create an app at https://developers.amadeus.com/ and add repository Actions secrets `AMADEUS_CLIENT_ID` and `AMADEUS_CLIENT_SECRET`.
+1. Create a SerpApi account and add the repository Actions secret `SERPAPI_API_KEY`.
 2. Optional Telegram secrets: `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
-3. Edit `config/routes.json` with your dates and budgets.
+3. Edit `config/routes.json` to change travel dates, destinations and MYR budgets.
 4. In Settings → Pages, select Deploy from a branch → `main` → `/docs`.
 
-The workflow uses Amadeus test API by default. Test results can be limited or synthetic and are not guaranteed bookable live fares. Production access requires approval. Never put API keys in source code.
+## Schedule and usage
+The workflow runs daily at 00:00 UTC / 08:00 Malaysia time. You can also run it manually from the Actions tab. Each destination uses one SerpApi search request per run. Check your SerpApi dashboard for current quota and usage.
 
-Daily run: 00:00 UTC / 08:00 Malaysia time. You can also run it manually in Actions.
+The initial configuration monitors BKK and NRT only to keep test usage low. Add more destinations after confirming the results and quota.
 
-The initial routes/dates are examples. API fares are indicative; recheck baggage, fees and availability before booking.
+## Important notes
+- Results are indicative Google Flights search results, not a guaranteed booking price or ticket hold.
+- Prices and availability can change. Recheck baggage, fees, fare conditions and availability with the airline or booking provider before purchase.
+- Search coverage and results may vary by route and date.
+- Never put API keys in source code or public files.
