@@ -1,4 +1,4 @@
-name: Flight Monitor
+name: Daily Flight Monitor
 on:
   schedule:
     # Malaysia time (UTC+8): 06:00, 12:00, 18:00 and 00:00.
