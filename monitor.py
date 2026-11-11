@@ -9,7 +9,8 @@ ROOT = Path(__file__).parent
 CONFIG = json.loads((ROOT / "config/routes.json").read_text(encoding="utf-8"))
 DATA = ROOT / "docs/data/prices.json"
 SERPAPI_URL = "https://serpapi.com/search.json"
-HISTORY_LIMIT = 1500
+HISTORY_LIMIT = 6000
+PRICE_DROP_ALERT_PERCENT = float(CONFIG.get("price_drop_alert_percent", 5))
 
 
 def telegram(message):
@@ -17,13 +18,22 @@ def telegram(message):
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
     if not token or not chat_id:
         print("Telegram secrets not configured; skipping notification.")
-        return
-    response = requests.post(
-        f"https://api.telegram.org/bot{token}/sendMessage",
-        json={"chat_id": chat_id, "text": message, "disable_web_page_preview": True},
-        timeout=30,
-    )
-    response.raise_for_status()
+        return False
+    try:
+        response = requests.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            json={"chat_id": chat_id, "text": message, "disable_web_page_preview": True},
+            timeout=30,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        if not payload.get("ok"):
+            raise RuntimeError(payload.get("description", "Telegram API returned ok=false"))
+        return True
+    except (requests.RequestException, ValueError, RuntimeError) as error:
+        # A notification outage must never discard successfully collected fare data.
+        print(f"WARNING Telegram notification failed: {error}")
+        return False
 
 
 def airline_identity(itinerary):
@@ -74,6 +84,7 @@ def search_fares(route, api_key, now, trip_type):
     if payload.get("error"):
         raise RuntimeError(payload["error"])
 
+    # Collect every priced itinerary returned in both Google Flights result groups.
     flights = payload.get("best_flights", []) + payload.get("other_flights", [])
     priced = [f for f in flights if isinstance(f.get("price"), (int, float))]
     if not priced:
@@ -118,6 +129,7 @@ def search_fares(route, api_key, now, trip_type):
             "departure_time": first.get("departure_airport", {}).get("time"),
             "arrival_time": last.get("arrival_airport", {}).get("time"),
             "booking_options_available": bool(itinerary.get("booking_token")),
+            "is_stale": False,
         })
     return sorted(results, key=lambda item: item["price"])
 
@@ -133,6 +145,7 @@ def fetch_route(route, api_key, now):
         raise RuntimeError("Both one-way and round-trip searches failed: " + "; ".join(errors))
     return results, errors
 
+
 def main():
     api_key = os.getenv("SERPAPI_API_KEY")
     if not api_key:
@@ -142,8 +155,14 @@ def main():
         "history": [], "results": [], "currency": CONFIG.get("currency", "MYR")
     }
     previous_results = state.get("results", [])
+    history = state.get("history", [])
     now = datetime.now(timezone.utc).isoformat()
     results, errors = [], []
+    active_destinations = {
+        str(route.get("destination", "")).upper()
+        for route in CONFIG.get("routes", [])
+        if route.get("destination")
+    }
 
     for route in CONFIG["routes"]:
         destination = route.get("destination", "").upper()
@@ -156,7 +175,7 @@ def main():
                 airline_key = item["airline_key"]
                 trip_type = item["trip_type"]
                 previous = [
-                    entry for entry in state.get("history", [])
+                    entry for entry in history
                     if entry.get("destination") == destination
                     and entry.get("departure_date") == item["departure_date"]
                     and entry.get("trip_type", "round_trip") == trip_type
@@ -173,21 +192,42 @@ def main():
                     and entry.get("airline_key", entry.get("airline", "unknown")) == airline_key
                 ), None)
 
-                state.setdefault("history", []).append(item)
+                old_price = float(previous_current["price"]) if previous_current and previous_current.get("price") is not None else None
+                item["previous_price"] = old_price
+                item["price_change"] = round(item["price"] - old_price, 2) if old_price is not None else None
+                item["price_change_pct"] = round((item["price"] - old_price) / old_price * 100, 2) if old_price else None
+                item["historical_low"] = round(min(previous_low, item["price"]), 2) if previous_low is not None else item["price"]
+                item["is_new_historical_low"] = previous_low is None or item["price"] < previous_low
+
+                history.append(item)
                 results.append(item)
-                is_new_low = previous_low is None or item["price"] < previous_low
+
                 crossed_budget = (
                     trip_type == "round_trip" and item["below_budget"] and
                     (previous_current is None or not previous_current.get("below_budget", False))
                 )
-                if trip_type == "round_trip" and item["below_budget"] and (is_new_low or crossed_budget):
-                    reason = "达到目标预算" if crossed_budget else "刷新该航空公司历史最低价"
+                significant_drop = (
+                    old_price is not None and old_price > 0 and
+                    item["price_change_pct"] <= -PRICE_DROP_ALERT_PERCENT
+                )
+                new_low_in_budget = (
+                    trip_type == "round_trip" and item["below_budget"] and item["is_new_historical_low"]
+                )
+                if crossed_budget or significant_drop or new_low_in_budget:
+                    reasons = []
+                    if crossed_budget:
+                        reasons.append("首次达到目标预算")
+                    if significant_drop:
+                        reasons.append(f"较上次下降 {abs(item['price_change_pct']):.1f}%")
+                    if new_low_in_budget:
+                        reasons.append("刷新该航空公司历史最低价")
+                    budget_text = f"（预算 RM{item['budget']:.2f}）" if item["budget"] is not None else ""
                     telegram(
                         f"✈️ Her Wanderlust Path Flight Alert\n"
                         f"{item['origin']} → {destination}\n"
                         f"航空公司：{item['airline']}\n"
-                        f"来回最低参考价：RM{item['price']:.2f}（预算 RM{item['budget']:.2f}）\n"
-                        f"提醒原因：{reason}\n"
+                        f"{'来回' if trip_type == 'round_trip' else '单程'}参考价：RM{item['price']:.2f}{budget_text}\n"
+                        f"提醒原因：{'；'.join(dict.fromkeys(reasons))}\n"
                         "请核实最终价格、行李与可订状态。"
                     )
                 print(f"{destination} | {trip_type} | {item['airline']}: RM{item['price']:.2f}")
@@ -195,21 +235,36 @@ def main():
             errors.append(f"{destination}: {error}")
             print(f"ERROR {destination}: {error}")
 
-    state["history"] = state.get("history", [])[-HISTORY_LIMIT:]
+    # Preserve the last known result for a failed route/search, but clearly mark it stale.
+    fresh_keys = {
+        (item.get("destination"), item.get("trip_type", "round_trip"))
+        for item in results
+    }
+    for old in previous_results:
+        key = (old.get("destination"), old.get("trip_type", "round_trip"))
+        if old.get("destination") in active_destinations and key not in fresh_keys:
+            stale = dict(old)
+            stale["is_stale"] = True
+            stale["stale_reason"] = "本次搜索失败，以下为上次成功结果"
+            results.append(stale)
+
+    state["history"] = history[-HISTORY_LIMIT:]
     state.update({
         "updated_at": now,
         "currency": CONFIG.get("currency", "MYR"),
         "origin": CONFIG.get("origin", "KUL"),
         "departure_date": CONFIG["departure_date"],
         "return_date": CONFIG["return_date"],
-        "results": results if results else previous_results,
+        "searches_per_day": 4,
+        "price_drop_alert_percent": PRICE_DROP_ALERT_PERCENT,
+        "results": sorted(results, key=lambda item: (item.get("destination", ""), item.get("trip_type", ""), item.get("price", 0))),
         "errors": errors,
-        "monitor_status": "partial" if errors and results else ("error" if errors else "success"),
+        "monitor_status": "partial" if errors and any(not item.get("is_stale") for item in results) else ("error" if errors else "success"),
     })
     DATA.parent.mkdir(parents=True, exist_ok=True)
     DATA.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    if errors and not results:
-        raise SystemExit("All route checks failed. Existing results were preserved; see logs.")
+    if errors and not any(not item.get("is_stale") for item in results):
+        raise SystemExit("All route checks failed. Previous results were preserved and marked stale; see logs.")
 
 
 if __name__ == "__main__":
