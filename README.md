@@ -34,6 +34,7 @@ Edit `config/routes.json` and commit the changes:
 - `destination`: destination airport IATA code.
 - `budget_myr`: your target round-trip fare in MYR.
 - `travel_class`: 1 Economy, 2 Premium Economy, 3 Business, 4 First.
+- `airlines`: optional airline allowlist using 2-character IATA codes. The current KUL watchlist includes AirAsia (AK), AirAsia X (D7), Singapore Airlines (SQ), Cathay Pacific (CX), Thai Airways (TG), Thai AirAsia (FD), Malaysia Airlines (MH), Batik Air Malaysia (OD), Firefly (FY), and Scoot (TR). The monitor passes these to SerpApi Google Flights as `include_airlines`.
 - All routes currently share the same outbound and return dates, passenger count and cabin class.
 
 ## GitHub Actions secrets
