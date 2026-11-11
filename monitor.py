@@ -26,6 +26,19 @@ def telegram(message):
     response.raise_for_status()
 
 
+def airline_identity(itinerary):
+    segments = itinerary.get("flights", [])
+    names = list(dict.fromkeys(
+        str(segment.get("airline", "")).strip()
+        for segment in segments
+        if segment.get("airline")
+    ))
+    if not names and itinerary.get("airline"):
+        names = [str(itinerary["airline"]).strip()]
+    label = " + ".join(names) if names else "Not specified"
+    return label, "|".join(names) if names else "unknown"
+
+
 def fetch_route(route, api_key, now):
     destination = route["destination"].upper()
     origin = CONFIG.get("origin", "KUL").upper()
@@ -55,7 +68,11 @@ def fetch_route(route, api_key, now):
         "sort_by": "2",
         "api_key": api_key,
     }
-    airline_codes = [str(item.get("code", "")).upper() for item in CONFIG.get("airlines", []) if item.get("code")]
+    airline_codes = [
+        str(item.get("code", "")).upper()
+        for item in CONFIG.get("airlines", [])
+        if item.get("code")
+    ]
     if airline_codes:
         params["include_airlines"] = ",".join(airline_codes)
 
@@ -66,41 +83,53 @@ def fetch_route(route, api_key, now):
         raise RuntimeError(payload["error"])
 
     flights = payload.get("best_flights", []) + payload.get("other_flights", [])
-    priced = [f for f in flights if isinstance(f.get("price"), (int, float))]
+    priced = [flight for flight in flights if isinstance(flight.get("price"), (int, float))]
     if not priced:
         raise RuntimeError("No priced itineraries returned by Google Flights.")
 
-    cheapest = min(priced, key=lambda f: float(f["price"]))
-    segments = cheapest.get("flights", [])
-    first = segments[0] if segments else {}
-    last = segments[-1] if segments else {}
-    layovers = cheapest.get("layovers", [])
-    price = round(float(cheapest["price"]), 2)
-    budget = float(route["budget_myr"])
+    # Keep the cheapest itinerary for each airline (or airline combination).
+    cheapest_by_airline = {}
+    for itinerary in priced:
+        airline, airline_key = airline_identity(itinerary)
+        current = cheapest_by_airline.get(airline_key)
+        if current is None or float(itinerary["price"]) < float(current["price"]):
+            cheapest_by_airline[airline_key] = itinerary
 
-    return {
-        "origin": origin,
-        "destination": destination,
-        "departure_date": CONFIG["departure_date"],
-        "return_date": CONFIG["return_date"],
-        "price": price,
-        "currency": currency,
-        "budget": budget,
-        "below_budget": price <= budget,
-        "checked_at": now,
-        "source": "Google Flights via SerpApi",
-        "airline_filter": airline_codes,
-        "airline": cheapest.get("airline") or first.get("airline") or "Not specified",
-        "airlines": list(dict.fromkeys(
-            segment.get("airline", "") for segment in segments if segment.get("airline")
-        )),
-        "flight_numbers": [s.get("flight_number") for s in segments if s.get("flight_number")],
-        "stops": len(layovers),
-        "duration_minutes": cheapest.get("total_duration"),
-        "departure_time": first.get("departure_airport", {}).get("time"),
-        "arrival_time": last.get("arrival_airport", {}).get("time"),
-        "booking_options_available": bool(cheapest.get("booking_token")),
-    }
+    budget = float(route["budget_myr"])
+    results = []
+    for airline_key, itinerary in cheapest_by_airline.items():
+        segments = itinerary.get("flights", [])
+        first = segments[0] if segments else {}
+        last = segments[-1] if segments else {}
+        layovers = itinerary.get("layovers", [])
+        airline, _ = airline_identity(itinerary)
+        price = round(float(itinerary["price"]), 2)
+        results.append({
+            "origin": origin,
+            "destination": destination,
+            "departure_date": CONFIG["departure_date"],
+            "return_date": CONFIG["return_date"],
+            "price": price,
+            "currency": currency,
+            "budget": budget,
+            "below_budget": price <= budget,
+            "checked_at": now,
+            "source": "Google Flights via SerpApi",
+            "airline_filter": airline_codes,
+            "airline": airline,
+            "airline_key": airline_key,
+            "airlines": list(dict.fromkeys(
+                segment.get("airline", "") for segment in segments if segment.get("airline")
+            )) or ([airline] if airline != "Not specified" else []),
+            "flight_numbers": [segment.get("flight_number") for segment in segments if segment.get("flight_number")],
+            "stops": len(layovers),
+            "duration_minutes": itinerary.get("total_duration"),
+            "departure_time": first.get("departure_airport", {}).get("time"),
+            "arrival_time": last.get("arrival_airport", {}).get("time"),
+            "booking_options_available": bool(itinerary.get("booking_token")),
+        })
+
+    return sorted(results, key=lambda item: item["price"])
 
 
 def main():
@@ -121,42 +150,47 @@ def main():
         if not destination:
             continue
         try:
-            item = fetch_route(route, api_key, now)
-            budget = item["budget"]
-            previous = [
-                entry for entry in state.get("history", [])
-                if entry.get("destination") == destination
-                and entry.get("departure_date") == item["departure_date"]
-                and entry.get("return_date") == item["return_date"]
-            ]
-            previous_low = min(
-                (float(entry["price"]) for entry in previous if entry.get("price") is not None),
-                default=None,
-            )
-            previous_current = next(
-                (entry for entry in previous_results if entry.get("destination") == destination),
-                None,
-            )
-            state.setdefault("history", []).append(item)
-            results.append(item)
-
-            is_new_low = previous_low is None or item["price"] < previous_low
-            crossed_budget = item["below_budget"] and (
-                previous_current is None or not previous_current.get("below_budget", False)
-            )
-            if item["below_budget"] and (is_new_low or crossed_budget):
-                reason = "达到目标预算" if crossed_budget else "刷新历史最低价"
-                airline_text = ", ".join(item["airlines"]) or item["airline"]
-                telegram(
-                    f"✈️ Her Wanderlust Path Flight Alert\n"
-                    f"{item['origin']} → {destination}\n"
-                    f"{item['departure_date']} 至 {item['return_date']}\n"
-                    f"最低参考价：RM{item['price']:.2f}（预算 RM{budget:.2f}）\n"
-                    f"航空公司：{airline_text}\n"
-                    f"提醒原因：{reason}\n"
-                    "请前往航空公司或订票平台核实最终价格、行李与可订状态。"
+            airline_results = fetch_route(route, api_key, now)
+            for item in airline_results:
+                airline_key = item["airline_key"]
+                previous = [
+                    entry for entry in state.get("history", [])
+                    if entry.get("destination") == destination
+                    and entry.get("departure_date") == item["departure_date"]
+                    and entry.get("return_date") == item["return_date"]
+                    and entry.get("airline_key", entry.get("airline", "unknown")) == airline_key
+                ]
+                previous_low = min(
+                    (float(entry["price"]) for entry in previous if entry.get("price") is not None),
+                    default=None,
                 )
-            print(f"{destination}: RM{item['price']:.2f} | budget RM{budget:.2f}")
+                previous_current = next(
+                    (
+                        entry for entry in previous_results
+                        if entry.get("destination") == destination
+                        and entry.get("airline_key", entry.get("airline", "unknown")) == airline_key
+                    ),
+                    None,
+                )
+                state.setdefault("history", []).append(item)
+                results.append(item)
+
+                is_new_low = previous_low is None or item["price"] < previous_low
+                crossed_budget = item["below_budget"] and (
+                    previous_current is None or not previous_current.get("below_budget", False)
+                )
+                if item["below_budget"] and (is_new_low or crossed_budget):
+                    reason = "达到目标预算" if crossed_budget else "刷新该航空公司历史最低价"
+                    telegram(
+                        f"✈️ Her Wanderlust Path Flight Alert\\n"
+                        f"{item['origin']} → {destination}\\n"
+                        f"{item['departure_date']} 至 {item['return_date']}\\n"
+                        f"航空公司：{item['airline']}\\n"
+                        f"该航空公司最低参考价：RM{item['price']:.2f}（预算 RM{item['budget']:.2f}）\\n"
+                        f"提醒原因：{reason}\\n"
+                        "请前往航空公司或订票平台核实最终价格、行李与可订状态。"
+                    )
+                print(f"{destination} | {item['airline']}: RM{item['price']:.2f} | budget RM{item['budget']:.2f}")
         except (requests.RequestException, RuntimeError, ValueError, KeyError) as error:
             message = f"{destination}: {error}"
             errors.append(message)
@@ -174,7 +208,7 @@ def main():
         "monitor_status": "partial" if errors and results else ("error" if errors else "success"),
     })
     DATA.parent.mkdir(parents=True, exist_ok=True)
-    DATA.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    DATA.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
     if errors and not results:
         raise SystemExit("All route checks failed. Existing results were preserved; see logs.")
 
