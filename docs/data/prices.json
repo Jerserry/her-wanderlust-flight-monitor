@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-11T15:46:45.389410+00:00",
+  "updated_at": "2026-11-11T15:54:43.404797+00:00",
   "currency": "MYR",
   "results": [
     {
@@ -12,20 +12,8 @@
       "currency": "MYR",
       "budget": null,
       "below_budget": null,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "THAI",
       "airline_key": "THAI",
       "airlines": [
@@ -50,20 +38,8 @@
       "currency": "MYR",
       "budget": null,
       "below_budget": null,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "Malaysia Airlines",
       "airline_key": "Malaysia Airlines",
       "airlines": [
@@ -88,20 +64,8 @@
       "currency": "MYR",
       "budget": null,
       "below_budget": null,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "Scoot",
       "airline_key": "Scoot",
       "airlines": [
@@ -120,6 +84,34 @@
     {
       "origin": "KUL",
       "destination": "BKK",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 1907.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Malaysia Airlines + Bangkok Airways",
+      "airline_key": "Malaysia Airlines|Bangkok Airways",
+      "airlines": [
+        "Malaysia Airlines",
+        "Bangkok Airways"
+      ],
+      "flight_numbers": [
+        "MH 790",
+        "PG 278"
+      ],
+      "stops": 1,
+      "duration_minutes": 285,
+      "departure_time": "2027-05-15 17:00",
+      "arrival_time": "2027-05-15 20:45",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "BKK",
       "trip_type": "round_trip",
       "departure_date": "2027-05-15",
       "return_date": "2027-05-22",
@@ -127,20 +119,8 @@
       "currency": "MYR",
       "budget": 600.0,
       "below_budget": false,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "THAI",
       "airline_key": "THAI",
       "airlines": [
@@ -165,20 +145,8 @@
       "currency": "MYR",
       "budget": 600.0,
       "below_budget": false,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "Malaysia Airlines",
       "airline_key": "Malaysia Airlines",
       "airlines": [
@@ -203,20 +171,8 @@
       "currency": "MYR",
       "budget": 600.0,
       "below_budget": false,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "Scoot",
       "airline_key": "Scoot",
       "airlines": [
@@ -238,24 +194,39 @@
       "trip_type": "one_way",
       "departure_date": "2027-05-15",
       "return_date": null,
+      "price": 662.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Vietjet",
+      "airline_key": "Vietjet",
+      "airlines": [
+        "Vietjet"
+      ],
+      "flight_numbers": [
+        "VJ 906",
+        "VJ 934"
+      ],
+      "stops": 1,
+      "duration_minutes": 1560,
+      "departure_time": "2027-05-15 12:30",
+      "arrival_time": "2027-05-16 15:30",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
       "price": 1263.0,
       "currency": "MYR",
       "budget": null,
       "below_budget": null,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "Scoot",
       "airline_key": "Scoot",
       "airlines": [
@@ -270,44 +241,6 @@
       "duration_minutes": 900,
       "departure_time": "2027-05-15 19:15",
       "arrival_time": "2027-05-16 11:15",
-      "booking_options_available": true
-    },
-    {
-      "origin": "KUL",
-      "destination": "NRT",
-      "trip_type": "one_way",
-      "departure_date": "2027-05-15",
-      "return_date": null,
-      "price": 1348.0,
-      "currency": "MYR",
-      "budget": null,
-      "below_budget": null,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
-      "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
-      "airline": "Batik Air",
-      "airline_key": "Batik Air",
-      "airlines": [
-        "Batik Air"
-      ],
-      "flight_numbers": [
-        "OD 870"
-      ],
-      "stops": 0,
-      "duration_minutes": 425,
-      "departure_time": "2027-05-15 12:45",
-      "arrival_time": "2027-05-15 20:50",
       "booking_options_available": true
     },
     {
@@ -320,20 +253,8 @@
       "currency": "MYR",
       "budget": null,
       "below_budget": null,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "THAI",
       "airline_key": "THAI",
       "airlines": [
@@ -347,6 +268,89 @@
       "duration_minutes": 960,
       "departure_time": "2027-05-15 13:20",
       "arrival_time": "2027-05-16 06:20",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 1608.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "AirAsia + Thai AirAsia X",
+      "airline_key": "AirAsia|Thai AirAsia X",
+      "airlines": [
+        "AirAsia",
+        "Thai AirAsia X"
+      ],
+      "flight_numbers": [
+        "AK 896",
+        "XJ 600"
+      ],
+      "stops": 1,
+      "duration_minutes": 680,
+      "departure_time": "2027-05-15 19:40",
+      "arrival_time": "2027-05-16 08:00",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2027.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "SriLankan",
+      "airline_key": "SriLankan",
+      "airlines": [
+        "SriLankan"
+      ],
+      "flight_numbers": [
+        "UL 315",
+        "UL 454"
+      ],
+      "stops": 1,
+      "duration_minutes": 970,
+      "departure_time": "2027-05-15 15:00",
+      "arrival_time": "2027-05-16 08:10",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2029.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Malaysia Airlines + Cathay Pacific",
+      "airline_key": "Malaysia Airlines|Cathay Pacific",
+      "airlines": [
+        "Malaysia Airlines",
+        "Cathay Pacific"
+      ],
+      "flight_numbers": [
+        "MH 78",
+        "CX 524"
+      ],
+      "stops": 1,
+      "duration_minutes": 600,
+      "departure_time": "2027-05-15 19:50",
+      "arrival_time": "2027-05-16 06:50",
       "booking_options_available": true
     },
     {
@@ -359,20 +363,8 @@
       "currency": "MYR",
       "budget": null,
       "below_budget": null,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "Cathay Pacific",
       "airline_key": "Cathay Pacific",
       "airlines": [
@@ -386,6 +378,86 @@
       "duration_minutes": 595,
       "departure_time": "2027-05-15 02:45",
       "arrival_time": "2027-05-15 13:40",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2241.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Korean Air",
+      "airline_key": "Korean Air",
+      "airlines": [
+        "Korean Air"
+      ],
+      "flight_numbers": [
+        "KE 428",
+        "KE 701"
+      ],
+      "stops": 1,
+      "duration_minutes": 630,
+      "departure_time": "2027-05-15 23:20",
+      "arrival_time": "2027-05-16 10:50",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2326.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Philippine Airlines",
+      "airline_key": "Philippine Airlines",
+      "airlines": [
+        "Philippine Airlines"
+      ],
+      "flight_numbers": [
+        "PR 530",
+        "PR 428"
+      ],
+      "stops": 1,
+      "duration_minutes": 585,
+      "departure_time": "2027-05-15 02:15",
+      "arrival_time": "2027-05-15 13:00",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2504.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "JAL",
+      "airline_key": "JAL",
+      "airlines": [
+        "JAL"
+      ],
+      "flight_numbers": [
+        "JL 724"
+      ],
+      "stops": 0,
+      "duration_minutes": 425,
+      "departure_time": "2027-05-15 22:50",
+      "arrival_time": "2027-05-16 06:55",
       "booking_options_available": true
     },
     {
@@ -398,20 +470,8 @@
       "currency": "MYR",
       "budget": null,
       "below_budget": null,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "Malaysia Airlines",
       "airline_key": "Malaysia Airlines",
       "airlines": [
@@ -432,37 +492,79 @@
       "trip_type": "one_way",
       "departure_date": "2027-05-15",
       "return_date": null,
-      "price": 3542.0,
+      "price": 3796.0,
       "currency": "MYR",
       "budget": null,
       "below_budget": null,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
-      "airline": "JAL",
-      "airline_key": "JAL",
+      "airline": "ANA",
+      "airline_key": "ANA",
       "airlines": [
-        "JAL"
+        "ANA"
       ],
       "flight_numbers": [
-        "JL 724"
+        "NH 816"
       ],
       "stops": 0,
-      "duration_minutes": 425,
-      "departure_time": "2027-05-15 22:50",
-      "arrival_time": "2027-05-16 06:55",
+      "duration_minutes": 430,
+      "departure_time": "2027-05-15 07:15",
+      "arrival_time": "2027-05-15 15:25",
       "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 1720.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": true,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Vietjet",
+      "airline_key": "Vietjet",
+      "airlines": [
+        "Vietjet"
+      ],
+      "flight_numbers": [
+        "VJ 906",
+        "VJ 934"
+      ],
+      "stops": 1,
+      "duration_minutes": 1560,
+      "departure_time": "2027-05-15 12:30",
+      "arrival_time": "2027-05-16 15:30",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 2693.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Philippine Airlines",
+      "airline_key": "Philippine Airlines",
+      "airlines": [
+        "Philippine Airlines"
+      ],
+      "flight_numbers": [
+        "PR 526",
+        "PR 430"
+      ],
+      "stops": 1,
+      "duration_minutes": 1130,
+      "departure_time": "2027-05-15 12:20",
+      "arrival_time": "2027-05-16 08:10",
+      "booking_options_available": false
     },
     {
       "origin": "KUL",
@@ -474,33 +576,21 @@
       "currency": "MYR",
       "budget": 1800.0,
       "below_budget": false,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "THAI",
       "airline_key": "THAI",
       "airlines": [
         "THAI"
       ],
       "flight_numbers": [
-        "TG 416",
-        "TG 640"
+        "TG 418",
+        "TG 642"
       ],
       "stops": 1,
-      "duration_minutes": 960,
-      "departure_time": "2027-05-15 13:20",
-      "arrival_time": "2027-05-16 06:20",
+      "duration_minutes": 615,
+      "departure_time": "2027-05-15 20:55",
+      "arrival_time": "2027-05-16 08:10",
       "booking_options_available": false
     },
     {
@@ -509,64 +599,12 @@
       "trip_type": "round_trip",
       "departure_date": "2027-05-15",
       "return_date": "2027-05-22",
-      "price": 2904.0,
+      "price": 3130.0,
       "currency": "MYR",
       "budget": 1800.0,
       "below_budget": false,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
-      "airline": "Malaysia Airlines + Cathay Pacific",
-      "airline_key": "Malaysia Airlines|Cathay Pacific",
-      "airlines": [
-        "Malaysia Airlines",
-        "Cathay Pacific"
-      ],
-      "flight_numbers": [
-        "MH 72",
-        "CX 500"
-      ],
-      "stops": 1,
-      "duration_minutes": 640,
-      "departure_time": "2027-05-15 09:10",
-      "arrival_time": "2027-05-15 20:50",
-      "booking_options_available": false
-    },
-    {
-      "origin": "KUL",
-      "destination": "NRT",
-      "trip_type": "round_trip",
-      "departure_date": "2027-05-15",
-      "return_date": "2027-05-22",
-      "price": 2957.0,
-      "currency": "MYR",
-      "budget": 1800.0,
-      "below_budget": false,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
-      "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "Scoot",
       "airline_key": "Scoot",
       "airlines": [
@@ -574,13 +612,12 @@
       ],
       "flight_numbers": [
         "TR 469",
-        "TR 866",
-        "TR 866"
+        "TR 884"
       ],
-      "stops": 2,
-      "duration_minutes": 900,
+      "stops": 1,
+      "duration_minutes": 650,
       "departure_time": "2027-05-15 19:15",
-      "arrival_time": "2027-05-16 11:15",
+      "arrival_time": "2027-05-16 07:05",
       "booking_options_available": false
     },
     {
@@ -593,20 +630,8 @@
       "currency": "MYR",
       "budget": 1800.0,
       "below_budget": false,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "Cathay Pacific",
       "airline_key": "Cathay Pacific",
       "airlines": [
@@ -628,36 +653,24 @@
       "trip_type": "round_trip",
       "departure_date": "2027-05-15",
       "return_date": "2027-05-22",
-      "price": 5169.0,
+      "price": 3684.0,
       "currency": "MYR",
       "budget": 1800.0,
       "below_budget": false,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
-      "airline": "Malaysia Airlines",
-      "airline_key": "Malaysia Airlines",
+      "airline": "ANA",
+      "airline_key": "ANA",
       "airlines": [
-        "Malaysia Airlines"
+        "ANA"
       ],
       "flight_numbers": [
-        "MH 70"
+        "NH 816"
       ],
       "stops": 0,
-      "duration_minutes": 435,
-      "departure_time": "2027-05-15 09:50",
-      "arrival_time": "2027-05-15 18:05",
+      "duration_minutes": 430,
+      "departure_time": "2027-05-15 07:15",
+      "arrival_time": "2027-05-15 15:25",
       "booking_options_available": false
     },
     {
@@ -666,24 +679,12 @@
       "trip_type": "round_trip",
       "departure_date": "2027-05-15",
       "return_date": "2027-05-22",
-      "price": 5500.0,
+      "price": 4331.0,
       "currency": "MYR",
       "budget": 1800.0,
       "below_budget": false,
-      "checked_at": "2026-11-11T15:46:45.389410+00:00",
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
       "source": "Google Flights via SerpApi",
-      "airline_filter": [
-        "AK",
-        "D7",
-        "SQ",
-        "CX",
-        "TG",
-        "FD",
-        "MH",
-        "OD",
-        "FY",
-        "TR"
-      ],
       "airline": "JAL",
       "airline_key": "JAL",
       "airlines": [
@@ -696,6 +697,32 @@
       "duration_minutes": 425,
       "departure_time": "2027-05-15 22:50",
       "arrival_time": "2027-05-16 06:55",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 4862.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Malaysia Airlines",
+      "airline_key": "Malaysia Airlines",
+      "airlines": [
+        "Malaysia Airlines"
+      ],
+      "flight_numbers": [
+        "MH 70"
+      ],
+      "stops": 0,
+      "duration_minutes": 435,
+      "departure_time": "2027-05-15 09:50",
+      "arrival_time": "2027-05-15 18:05",
       "booking_options_available": false
     }
   ],
@@ -1856,6 +1883,729 @@
       "duration_minutes": 425,
       "departure_time": "2027-05-15 22:50",
       "arrival_time": "2027-05-16 06:55",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 514.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "THAI",
+      "airline_key": "THAI",
+      "airlines": [
+        "THAI"
+      ],
+      "flight_numbers": [
+        "TG 418"
+      ],
+      "stops": 0,
+      "duration_minutes": 130,
+      "departure_time": "2027-05-15 20:55",
+      "arrival_time": "2027-05-15 22:05",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 579.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Malaysia Airlines",
+      "airline_key": "Malaysia Airlines",
+      "airlines": [
+        "Malaysia Airlines"
+      ],
+      "flight_numbers": [
+        "MH 788"
+      ],
+      "stops": 0,
+      "duration_minutes": 135,
+      "departure_time": "2027-05-15 12:10",
+      "arrival_time": "2027-05-15 13:25",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 716.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Scoot",
+      "airline_key": "Scoot",
+      "airlines": [
+        "Scoot"
+      ],
+      "flight_numbers": [
+        "TR 451",
+        "TR 610"
+      ],
+      "stops": 1,
+      "duration_minutes": 315,
+      "departure_time": "2027-05-15 11:35",
+      "arrival_time": "2027-05-15 15:50",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 1907.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Malaysia Airlines + Bangkok Airways",
+      "airline_key": "Malaysia Airlines|Bangkok Airways",
+      "airlines": [
+        "Malaysia Airlines",
+        "Bangkok Airways"
+      ],
+      "flight_numbers": [
+        "MH 790",
+        "PG 278"
+      ],
+      "stops": 1,
+      "duration_minutes": 285,
+      "departure_time": "2027-05-15 17:00",
+      "arrival_time": "2027-05-15 20:45",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 975.0,
+      "currency": "MYR",
+      "budget": 600.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "THAI",
+      "airline_key": "THAI",
+      "airlines": [
+        "THAI"
+      ],
+      "flight_numbers": [
+        "TG 418"
+      ],
+      "stops": 0,
+      "duration_minutes": 130,
+      "departure_time": "2027-05-15 20:55",
+      "arrival_time": "2027-05-15 22:05",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 1142.0,
+      "currency": "MYR",
+      "budget": 600.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Malaysia Airlines",
+      "airline_key": "Malaysia Airlines",
+      "airlines": [
+        "Malaysia Airlines"
+      ],
+      "flight_numbers": [
+        "MH 788"
+      ],
+      "stops": 0,
+      "duration_minutes": 135,
+      "departure_time": "2027-05-15 12:10",
+      "arrival_time": "2027-05-15 13:25",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 1349.0,
+      "currency": "MYR",
+      "budget": 600.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Scoot",
+      "airline_key": "Scoot",
+      "airlines": [
+        "Scoot"
+      ],
+      "flight_numbers": [
+        "TR 451",
+        "TR 610"
+      ],
+      "stops": 1,
+      "duration_minutes": 315,
+      "departure_time": "2027-05-15 11:35",
+      "arrival_time": "2027-05-15 15:50",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 662.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Vietjet",
+      "airline_key": "Vietjet",
+      "airlines": [
+        "Vietjet"
+      ],
+      "flight_numbers": [
+        "VJ 906",
+        "VJ 934"
+      ],
+      "stops": 1,
+      "duration_minutes": 1560,
+      "departure_time": "2027-05-15 12:30",
+      "arrival_time": "2027-05-16 15:30",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 1263.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Scoot",
+      "airline_key": "Scoot",
+      "airlines": [
+        "Scoot"
+      ],
+      "flight_numbers": [
+        "TR 469",
+        "TR 866",
+        "TR 866"
+      ],
+      "stops": 2,
+      "duration_minutes": 900,
+      "departure_time": "2027-05-15 19:15",
+      "arrival_time": "2027-05-16 11:15",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 1448.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "THAI",
+      "airline_key": "THAI",
+      "airlines": [
+        "THAI"
+      ],
+      "flight_numbers": [
+        "TG 416",
+        "TG 640"
+      ],
+      "stops": 1,
+      "duration_minutes": 960,
+      "departure_time": "2027-05-15 13:20",
+      "arrival_time": "2027-05-16 06:20",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 1608.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "AirAsia + Thai AirAsia X",
+      "airline_key": "AirAsia|Thai AirAsia X",
+      "airlines": [
+        "AirAsia",
+        "Thai AirAsia X"
+      ],
+      "flight_numbers": [
+        "AK 896",
+        "XJ 600"
+      ],
+      "stops": 1,
+      "duration_minutes": 680,
+      "departure_time": "2027-05-15 19:40",
+      "arrival_time": "2027-05-16 08:00",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2027.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "SriLankan",
+      "airline_key": "SriLankan",
+      "airlines": [
+        "SriLankan"
+      ],
+      "flight_numbers": [
+        "UL 315",
+        "UL 454"
+      ],
+      "stops": 1,
+      "duration_minutes": 970,
+      "departure_time": "2027-05-15 15:00",
+      "arrival_time": "2027-05-16 08:10",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2029.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Malaysia Airlines + Cathay Pacific",
+      "airline_key": "Malaysia Airlines|Cathay Pacific",
+      "airlines": [
+        "Malaysia Airlines",
+        "Cathay Pacific"
+      ],
+      "flight_numbers": [
+        "MH 78",
+        "CX 524"
+      ],
+      "stops": 1,
+      "duration_minutes": 600,
+      "departure_time": "2027-05-15 19:50",
+      "arrival_time": "2027-05-16 06:50",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2174.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Cathay Pacific",
+      "airline_key": "Cathay Pacific",
+      "airlines": [
+        "Cathay Pacific"
+      ],
+      "flight_numbers": [
+        "CX 732",
+        "CX 526"
+      ],
+      "stops": 1,
+      "duration_minutes": 595,
+      "departure_time": "2027-05-15 02:45",
+      "arrival_time": "2027-05-15 13:40",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2241.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Korean Air",
+      "airline_key": "Korean Air",
+      "airlines": [
+        "Korean Air"
+      ],
+      "flight_numbers": [
+        "KE 428",
+        "KE 701"
+      ],
+      "stops": 1,
+      "duration_minutes": 630,
+      "departure_time": "2027-05-15 23:20",
+      "arrival_time": "2027-05-16 10:50",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2326.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Philippine Airlines",
+      "airline_key": "Philippine Airlines",
+      "airlines": [
+        "Philippine Airlines"
+      ],
+      "flight_numbers": [
+        "PR 530",
+        "PR 428"
+      ],
+      "stops": 1,
+      "duration_minutes": 585,
+      "departure_time": "2027-05-15 02:15",
+      "arrival_time": "2027-05-15 13:00",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 2504.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "JAL",
+      "airline_key": "JAL",
+      "airlines": [
+        "JAL"
+      ],
+      "flight_numbers": [
+        "JL 724"
+      ],
+      "stops": 0,
+      "duration_minutes": 425,
+      "departure_time": "2027-05-15 22:50",
+      "arrival_time": "2027-05-16 06:55",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 3160.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Malaysia Airlines",
+      "airline_key": "Malaysia Airlines",
+      "airlines": [
+        "Malaysia Airlines"
+      ],
+      "flight_numbers": [
+        "MH 70"
+      ],
+      "stops": 0,
+      "duration_minutes": 435,
+      "departure_time": "2027-05-15 09:50",
+      "arrival_time": "2027-05-15 18:05",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "one_way",
+      "departure_date": "2027-05-15",
+      "return_date": null,
+      "price": 3796.0,
+      "currency": "MYR",
+      "budget": null,
+      "below_budget": null,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "ANA",
+      "airline_key": "ANA",
+      "airlines": [
+        "ANA"
+      ],
+      "flight_numbers": [
+        "NH 816"
+      ],
+      "stops": 0,
+      "duration_minutes": 430,
+      "departure_time": "2027-05-15 07:15",
+      "arrival_time": "2027-05-15 15:25",
+      "booking_options_available": true
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 1720.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": true,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Vietjet",
+      "airline_key": "Vietjet",
+      "airlines": [
+        "Vietjet"
+      ],
+      "flight_numbers": [
+        "VJ 906",
+        "VJ 934"
+      ],
+      "stops": 1,
+      "duration_minutes": 1560,
+      "departure_time": "2027-05-15 12:30",
+      "arrival_time": "2027-05-16 15:30",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 2693.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Philippine Airlines",
+      "airline_key": "Philippine Airlines",
+      "airlines": [
+        "Philippine Airlines"
+      ],
+      "flight_numbers": [
+        "PR 526",
+        "PR 430"
+      ],
+      "stops": 1,
+      "duration_minutes": 1130,
+      "departure_time": "2027-05-15 12:20",
+      "arrival_time": "2027-05-16 08:10",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 2894.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "THAI",
+      "airline_key": "THAI",
+      "airlines": [
+        "THAI"
+      ],
+      "flight_numbers": [
+        "TG 418",
+        "TG 642"
+      ],
+      "stops": 1,
+      "duration_minutes": 615,
+      "departure_time": "2027-05-15 20:55",
+      "arrival_time": "2027-05-16 08:10",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 3130.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Scoot",
+      "airline_key": "Scoot",
+      "airlines": [
+        "Scoot"
+      ],
+      "flight_numbers": [
+        "TR 469",
+        "TR 884"
+      ],
+      "stops": 1,
+      "duration_minutes": 650,
+      "departure_time": "2027-05-15 19:15",
+      "arrival_time": "2027-05-16 07:05",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 3274.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Cathay Pacific",
+      "airline_key": "Cathay Pacific",
+      "airlines": [
+        "Cathay Pacific"
+      ],
+      "flight_numbers": [
+        "CX 732",
+        "CX 526"
+      ],
+      "stops": 1,
+      "duration_minutes": 595,
+      "departure_time": "2027-05-15 02:45",
+      "arrival_time": "2027-05-15 13:40",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 3684.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "ANA",
+      "airline_key": "ANA",
+      "airlines": [
+        "ANA"
+      ],
+      "flight_numbers": [
+        "NH 816"
+      ],
+      "stops": 0,
+      "duration_minutes": 430,
+      "departure_time": "2027-05-15 07:15",
+      "arrival_time": "2027-05-15 15:25",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 4331.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "JAL",
+      "airline_key": "JAL",
+      "airlines": [
+        "JAL"
+      ],
+      "flight_numbers": [
+        "JL 724"
+      ],
+      "stops": 0,
+      "duration_minutes": 425,
+      "departure_time": "2027-05-15 22:50",
+      "arrival_time": "2027-05-16 06:55",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "trip_type": "round_trip",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 4862.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:54:43.404797+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Malaysia Airlines",
+      "airline_key": "Malaysia Airlines",
+      "airlines": [
+        "Malaysia Airlines"
+      ],
+      "flight_numbers": [
+        "MH 70"
+      ],
+      "stops": 0,
+      "duration_minutes": 435,
+      "departure_time": "2027-05-15 09:50",
+      "arrival_time": "2027-05-15 18:05",
       "booking_options_available": false
     }
   ],
