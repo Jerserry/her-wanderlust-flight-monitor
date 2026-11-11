@@ -1,6 +1,56 @@
 {
-  "updated_at": null,
+  "updated_at": "2026-11-11T14:27:47.114852+00:00",
   "currency": "MYR",
-  "results": [],
-  "history": []
+  "results": [
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 975.0,
+      "currency": "MYR",
+      "budget": 600.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T14:27:47.114852+00:00",
+      "source": "Google Flights via SerpApi"
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 1723.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": true,
+      "checked_at": "2026-11-11T14:27:47.114852+00:00",
+      "source": "Google Flights via SerpApi"
+    }
+  ],
+  "history": [
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 975.0,
+      "currency": "MYR",
+      "budget": 600.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T14:27:47.114852+00:00",
+      "source": "Google Flights via SerpApi"
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 1723.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": true,
+      "checked_at": "2026-11-11T14:27:47.114852+00:00",
+      "source": "Google Flights via SerpApi"
+    }
+  ]
 }
