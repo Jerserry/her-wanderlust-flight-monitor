@@ -68,13 +68,6 @@ def search_fares(route, api_key, now, trip_type):
     if trip_type == "round_trip":
         params["return_date"] = CONFIG["return_date"]
 
-    airline_codes = [
-        str(item.get("code", "")).upper()
-        for item in CONFIG.get("airlines", []) if item.get("code")
-    ]
-    if airline_codes:
-        params["include_airlines"] = ",".join(airline_codes)
-
     response = requests.get(SERPAPI_URL, params=params, timeout=60)
     response.raise_for_status()
     payload = response.json()
@@ -114,7 +107,6 @@ def search_fares(route, api_key, now, trip_type):
             "below_budget": price <= budget if budget is not None else None,
             "checked_at": now,
             "source": "Google Flights via SerpApi",
-            "airline_filter": airline_codes,
             "airline": airline,
             "airline_key": airline_key,
             "airlines": list(dict.fromkeys(
