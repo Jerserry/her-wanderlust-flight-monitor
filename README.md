@@ -50,7 +50,7 @@ GitHub Actions schedules are expressed in UTC. The corresponding cron is `0 22,4
 
 Each route uses two SerpApi searches per run (one-way and round-trip). With two routes, this is approximately 16 searches per day or 480 searches per 30-day month, excluding manual runs and retries. Confirm that your SerpApi plan covers this usage before leaving the schedule enabled.
 
-You can also start a manual run from Actions → Flight Monitor → Run workflow. Scheduled runs can start a little later than the exact minute because GitHub Actions scheduling is best-effort.
+You can also start a manual run from Actions → Daily Flight Monitor → Run workflow. Scheduled runs can start a little later than the exact minute because GitHub Actions scheduling is best-effort.
 
 ## GitHub Actions secrets
 
