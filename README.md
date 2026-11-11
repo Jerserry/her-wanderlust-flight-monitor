@@ -67,3 +67,14 @@ Repository Settings → Pages → Deploy from a branch → `main` → `/docs`.
 ### Airline-by-airline price tracking
 
 The monitor searches the configured airline allowlist and saves the cheapest returned itinerary for each airline (or airline combination) on every monitored route. The dashboard shows a separate fare card per airline, and historical lows and Telegram alerts are tracked separately for each airline. An airline appears only when Google Flights returns a priced itinerary for that route and date.
+
+
+### One-way and round-trip comparison
+
+Each monitoring run now performs two Google Flights searches for every configured route:
+- One-way: uses the configured departure date and no return date.
+- Round-trip: uses both the configured departure and return dates.
+
+The dashboard's Airlines page compares the cheapest returned fare per airline for both trip types. The configured route budget is applied only to round-trip fares; one-way prices are shown as reference values so they are not incorrectly compared against a round-trip budget. Telegram budget alerts remain round-trip only.
+
+This doubles the Google Flights / SerpApi search requests per route compared with round-trip-only monitoring. Actual results depend on Google Flights returning a priced itinerary for the selected airline, route, and dates.
