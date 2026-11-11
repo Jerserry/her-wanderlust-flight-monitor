@@ -30,6 +30,16 @@ def fetch_route(route, api_key, now):
     destination = route["destination"].upper()
     origin = CONFIG.get("origin", "KUL").upper()
     currency = CONFIG.get("currency", "MYR")
+    cabin_value = str(CONFIG.get("travel_class", "1")).strip().upper()
+    cabin_class = {
+        "ECONOMY": "1",
+        "PREMIUM ECONOMY": "2",
+        "BUSINESS": "3",
+        "FIRST": "4",
+    }.get(cabin_value, cabin_value)
+    if cabin_class not in {"1", "2", "3", "4"}:
+        raise ValueError("travel_class must be 1-4 or Economy/Premium Economy/Business/First.")
+
     params = {
         "engine": "google_flights",
         "departure_id": origin,
@@ -38,7 +48,7 @@ def fetch_route(route, api_key, now):
         "return_date": CONFIG["return_date"],
         "type": "1",
         "adults": CONFIG.get("adults", 1),
-        "travel_class": str(CONFIG.get("travel_class", "1")),
+        "travel_class": cabin_class,
         "currency": currency,
         "hl": CONFIG.get("language", "en"),
         "gl": CONFIG.get("country", "my"),
