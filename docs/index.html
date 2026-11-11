@@ -1,4 +1,73 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Her Wanderlust Path · Flight Monitor</title><style>
-:root{--bg:#fff9fc;--ink:#453b43;--muted:#8a7d85}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:32px 18px}h1{font-size:clamp(28px,5vw,42px);margin:0}.sub,.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card{background:white;border:1px solid #f4e5ec;border-radius:18px;padding:18px;box-shadow:0 5px 18px #5a33400a}.route{font-size:20px;font-weight:700}.price{font-size:28px;font-weight:750;margin:8px 0}.muted{font-size:13px}.tag{display:inline-block;background:#fff0f6;border-radius:20px;padding:4px 10px;font-size:12px}.empty{padding:28px;text-align:center;color:var(--muted)}</style></head><body><main><header><div class="sub">HER WANDERLUST PATH ✈️</div><h1>Flight Price Monitor</h1><p class="sub">从吉隆坡出发 · 机票价格追踪 · MYR 马币</p></header><section class="card"><b>监控状态</b><p id="updated" class="sub">读取数据中…</p><span class="muted">报价仅供参考，订票前请核实实时价格、行李和付款费用。</span></section><h2>航线价格</h2><section id="results" class="grid"><div class="card empty">尚未有监控数据。</div></section><p class="muted">Her Wanderlust Path · 价格由配置的航班 API 提供，不保证可订。</p></main><script>
-fetch('./data/prices.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{document.getElementById('updated').textContent='最后更新：'+(d.updated_at||'尚未更新');let root=document.getElementById('results');root.replaceChildren();if(!d.results?.length){root.innerHTML='<div class="card empty">暂时没有报价。请检查 API 设置、日期及航线。</div>';return}d.results.forEach(x=>{let c=document.createElement('article');c.className='card';let a=document.createElement('div');a.className='route';a.textContent=x.origin+' → '+x.destination;let b=document.createElement('div');b.className='price';b.textContent='RM '+Number(x.price).toFixed(2);let p=document.createElement('p');p.className='muted';p.textContent=x.departure_date+' 至 '+x.return_date;let t=document.createElement('span');t.className='tag';t.textContent=x.below_budget?'达到预算 ✓':'预算 RM '+Number(x.budget).toFixed(0);c.append(a,b,p,t);root.append(c)})}).catch(()=>{document.getElementById('updated').textContent='尚未生成数据；完成 API 设置并运行 GitHub Actions 后显示。'});
-</script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fff8fb">
+<meta name="description" content="Her Wanderlust Path Flight Monitor — track flight prices from Kuala Lumpur.">
+<title>Flight Monitor · Her Wanderlust Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="#overview"><span class="brand-mark">✈</span><span><b>HER WANDERLUST</b><small>PATH · FLIGHT RADAR</small></span></a>
+  <div class="side-label">WORKSPACE</div>
+  <nav class="nav">
+    <button class="nav-link active" data-view="overview"><span>◫</span> 总览 Overview</button>
+    <button class="nav-link" data-view="routes"><span>⌁</span> 航线管理 Routes</button>
+    <button class="nav-link" data-view="radar"><span>⌖</span> 特价雷达 Flight Radar</button>
+    <button class="nav-link" data-view="history"><span>▥</span> 价格历史 Price History</button>
+    <button class="nav-link" data-view="alerts"><span>♧</span> 价格提醒 Alerts</button>
+  </nav>
+  <div class="side-label side-label-bottom">PREFERENCES</div>
+  <nav class="nav"><button class="nav-link" data-view="settings"><span>⚙</span> 设置 Settings</button></nav>
+  <div class="sidebar-bottom"><div class="mini-plane">✈</div><b>Travel more, worry less.</b><p>Good flights are worth waiting for.</p><span class="version">HER WANDERLUST PATH · 2026</span></div>
+</aside>
+<main class="main">
+<header class="topbar"><button class="mobile-menu" id="menuBtn" aria-label="打开菜单">☰</button><div class="crumb">Workspace <span>/</span> <b id="crumbName">Overview</b></div><div class="top-actions"><span class="currency-pill">MYR · RM</span><span class="status-dot"></span><span class="status-text">监控数据</span></div></header>
+<div class="content">
+<section class="page-view active" id="view-overview">
+  <div class="welcome-row"><div><div class="eyebrow">YOUR LITTLE FLIGHT CONTROL ROOM ✦</div><h1>旅行灵感，从好价格开始。</h1><p class="muted">追踪喜欢的航线，等待值得出发的价格。</p></div><div class="updated-box"><span class="live-dot"></span><span id="lastUpdated">正在读取最新数据…</span></div></div>
+  <div class="stat-grid">
+    <article class="stat-card"><div class="stat-top"><span>监控航线</span><span class="stat-icon pink">⌁</span></div><strong id="statRoutes">—</strong><small>Active routes</small></article>
+    <article class="stat-card"><div class="stat-top"><span>当前最低票价</span><span class="stat-icon peach">✈</span></div><strong id="statLowest">—</strong><small id="statLowestRoute">Lowest tracked fare</small></article>
+    <article class="stat-card"><div class="stat-top"><span>达到预算</span><span class="stat-icon green">✓</span></div><strong id="statBudget">—</strong><small>Within target budget</small></article>
+    <article class="stat-card"><div class="stat-top"><span>历史记录</span><span class="stat-icon lilac">▥</span></div><strong id="statChecks">—</strong><small>Price observations</small></article>
+  </div>
+  <div class="section-heading"><div><h2>价格趋势</h2><p>Price movement across your tracked routes</p></div><div class="range-switch"><button class="range-btn active" data-range="7">7D</button><button class="range-btn" data-range="30">30D</button><button class="range-btn" data-range="90">90D</button><button class="range-btn" data-range="all">全部</button></div></div>
+  <article class="panel chart-panel"><div class="chart-legend" id="chartLegend"></div><div class="chart-wrap"><svg id="priceChart" viewBox="0 0 900 260" preserveAspectRatio="none" role="img" aria-label="机票价格趋势图"></svg></div><div class="chart-foot"><span>价格以 MYR 计算</span><span>价格来自 Google Flights via SerpApi</span></div></article>
+  <div class="two-col">
+    <section><div class="section-heading compact"><div><h2>正在追踪的航线</h2><p>Your watchlist</p></div><button class="text-button" data-goto="routes">查看全部 →</button></div><div class="route-list" id="overviewRoutes"></div></section>
+    <section><div class="section-heading compact"><div><h2>最近价格记录</h2><p>Latest price checks</p></div><button class="text-button" data-goto="history">查看历史 →</button></div><div class="activity-list" id="recentActivity"></div></section>
+  </div>
+</section>
+<section class="page-view" id="view-routes">
+ <div class="page-title"><div><div class="eyebrow">YOUR WATCHLIST</div><h1>航线管理</h1><p class="muted">管理你想持续追踪的目的地与目标预算。</p></div><span class="soft-tag">✦ Route manager</span></div>
+ <div class="notice"><b>如何新增真正的自动监控航线？</b><p>目前航线由 GitHub 的 <code>config/routes.json</code> 控制。修改该文件并提交后，系统会按排程追踪新航线。此网页不会把 API 密钥暴露在浏览器，也不会假装本地新增的航线已开始监控。</p><a href="https://github.com/Jerserry/her-wanderlust-flight-monitor/blob/main/config/routes.json" target="_blank" rel="noopener">打开 GitHub 航线设置 ↗</a></div>
+ <div class="panel table-panel"><div class="panel-head"><div><h3>Tracked routes</h3><span id="routeCount" class="muted small"></span></div><input id="routeSearch" class="search-input" placeholder="搜索目的地 / 机场代码…" aria-label="搜索航线"></div><div class="table-scroll"><table><thead><tr><th>航线</th><th>旅行日期</th><th>当前价格</th><th>目标预算</th><th>状态</th><th>最后检查</th></tr></thead><tbody id="routesTable"></tbody></table></div></div>
+</section>
+<section class="page-view" id="view-radar">
+ <div class="page-title"><div><div class="eyebrow">FIND YOUR NEXT GETAWAY</div><h1>特价雷达</h1><p class="muted">优先查看低于目标预算或出现新低价的航线。</p></div><span class="soft-tag">✦ Deal radar</span></div>
+ <div class="radar-summary" id="radarSummary"></div><div class="radar-grid" id="radarGrid"></div>
+</section>
+<section class="page-view" id="view-history">
+ <div class="page-title"><div><div class="eyebrow">EVERY PRICE HAS A STORY</div><h1>价格历史</h1><p class="muted">查看每次扫描的票价变化，帮助判断何时预订。</p></div><span class="soft-tag">✦ Price archive</span></div>
+ <div class="panel table-panel"><div class="panel-head"><div><h3>Price observations</h3><span class="muted small" id="historyCount"></span></div><select id="historyFilter" class="search-input"><option value="all">所有航线</option></select></div><div class="table-scroll"><table><thead><tr><th>检查时间</th><th>航线</th><th>出发日期</th><th>往返价格</th><th>预算</th><th>差额</th></tr></thead><tbody id="historyTable"></tbody></table></div></div>
+</section>
+<section class="page-view" id="view-alerts">
+ <div class="page-title"><div><div class="eyebrow">DON'T MISS A GOOD FARE</div><h1>价格提醒</h1><p class="muted">当票价达到预算或刷新历史低价时，收到通知。</p></div><span class="soft-tag">✦ Smart alerts</span></div>
+ <div class="alert-grid"><article class="panel alert-card"><span class="alert-symbol">✉</span><h3>Telegram 通知</h3><p>当票价达到预算，或低于此前记录的最低价格时，发送提醒。</p><span class="soft-tag" id="telegramStatus">需检查设置</span><p class="tiny muted">需在 GitHub Secrets 设置 TELEGRAM_BOT_TOKEN 与 TELEGRAM_CHAT_ID。</p></article><article class="panel alert-card"><span class="alert-symbol">♡</span><h3>预算状态</h3><div id="alertRoutes"></div></article></div>
+ <div class="notice"><b>通知规则</b><p>系统每日检查航线。首次低于预算或出现新的历史低价时会发送 Telegram 通知。若没有配置 Telegram Secrets，价格仍会保存到历史记录，但不会发送消息。</p><a href="https://github.com/Jerserry/her-wanderlust-flight-monitor/settings/secrets/actions" target="_blank" rel="noopener">前往 GitHub Actions Secrets ↗</a></div>
+</section>
+<section class="page-view" id="view-settings">
+ <div class="page-title"><div><div class="eyebrow">A FEW LITTLE DETAILS</div><h1>设置</h1><p class="muted">网站与监控系统信息。</p></div><span class="soft-tag">✦ Preferences</span></div>
+ <div class="settings-grid"><article class="panel settings-card"><h3>网站偏好</h3><div class="setting-row"><div><b>显示货币</b><small>Dashboard display currency</small></div><strong>MYR · RM</strong></div><div class="setting-row"><div><b>默认出发机场</b><small>Default departure airport</small></div><strong>KUL</strong></div><div class="setting-row"><div><b>时区</b><small>Dashboard timezone</small></div><strong>Asia / Kuala Lumpur</strong></div></article><article class="panel settings-card"><h3>监控系统</h3><div class="setting-row"><div><b>价格数据来源</b><small>Flight data provider</small></div><strong>SerpApi</strong></div><div class="setting-row"><div><b>自动检查</b><small>GitHub Actions schedule</small></div><strong>每日 08:00</strong></div><div class="setting-row"><div><b>数据保存</b><small>Price history storage</small></div><strong>GitHub JSON</strong></div><a class="github-link" href="https://github.com/Jerserry/her-wanderlust-flight-monitor" target="_blank" rel="noopener">查看 GitHub Repository ↗</a></article></div>
+ <div class="notice"><b>重要说明</b><p>机票价格会变动。监控价格是搜索时的参考报价，不是锁定票价或保证可订价格。购买前请到航空公司或订票平台确认税费、行李、转机、退改条件及最终付款金额。</p></div>
+</section>
+<footer class="footer">Made for curious hearts & spontaneous getaways. <b>Her Wanderlust Path</b> · <span id="footerYear">2026</span></footer>
+</div></main></div>
+<div class="toast" id="toast" role="status"></div>
+<script src="./app.js" defer></script>
+</body></html>
