@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-11T14:43:08.803026+00:00",
+  "updated_at": "2026-11-11T15:17:28.925859+00:00",
   "currency": "MYR",
   "results": [
     {
@@ -11,7 +11,7 @@
       "currency": "MYR",
       "budget": 600.0,
       "below_budget": false,
-      "checked_at": "2026-11-11T14:43:08.803026+00:00",
+      "checked_at": "2026-11-11T15:17:28.925859+00:00",
       "source": "Google Flights via SerpApi",
       "airline": "THAI",
       "airlines": [
@@ -35,7 +35,7 @@
       "currency": "MYR",
       "budget": 1800.0,
       "below_budget": true,
-      "checked_at": "2026-11-11T14:43:08.803026+00:00",
+      "checked_at": "2026-11-11T15:17:28.925859+00:00",
       "source": "Google Flights via SerpApi",
       "airline": "Vietjet",
       "airlines": [
@@ -111,6 +111,55 @@
       "budget": 1800.0,
       "below_budget": true,
       "checked_at": "2026-11-11T14:43:08.803026+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "Vietjet",
+      "airlines": [
+        "Vietjet"
+      ],
+      "flight_numbers": [
+        "VJ 906",
+        "VJ 934"
+      ],
+      "stops": 1,
+      "duration_minutes": 1560,
+      "departure_time": "2027-05-15 12:30",
+      "arrival_time": "2027-05-16 15:30",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "BKK",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 975.0,
+      "currency": "MYR",
+      "budget": 600.0,
+      "below_budget": false,
+      "checked_at": "2026-11-11T15:17:28.925859+00:00",
+      "source": "Google Flights via SerpApi",
+      "airline": "THAI",
+      "airlines": [
+        "THAI"
+      ],
+      "flight_numbers": [
+        "TG 418"
+      ],
+      "stops": 0,
+      "duration_minutes": 130,
+      "departure_time": "2027-05-15 20:55",
+      "arrival_time": "2027-05-15 22:05",
+      "booking_options_available": false
+    },
+    {
+      "origin": "KUL",
+      "destination": "NRT",
+      "departure_date": "2027-05-15",
+      "return_date": "2027-05-22",
+      "price": 1721.0,
+      "currency": "MYR",
+      "budget": 1800.0,
+      "below_budget": true,
+      "checked_at": "2026-11-11T15:17:28.925859+00:00",
       "source": "Google Flights via SerpApi",
       "airline": "Vietjet",
       "airlines": [
