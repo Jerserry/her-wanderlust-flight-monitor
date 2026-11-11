@@ -29,3 +29,5 @@
 .airline-tile small{font-size:9px;color:#b1a3ac}
 @media(max-width:900px){.airline-directory{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.airline-directory{grid-template-columns:1fr}}
+
+.price-delta{font-size:10px;font-weight:700;margin:2px 0 4px}.price-delta.down{color:#548d70}.price-delta.up{color:#b98260}.price-delta.neutral{color:#a99ba5}
