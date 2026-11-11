@@ -14,47 +14,5 @@
       "destination": "NRT",
       "budget_myr": 1800
     }
-  ],
-  "airlines": [
-    {
-      "code": "AK",
-      "name": "AirAsia"
-    },
-    {
-      "code": "D7",
-      "name": "AirAsia X"
-    },
-    {
-      "code": "SQ",
-      "name": "Singapore Airlines"
-    },
-    {
-      "code": "CX",
-      "name": "Cathay Pacific"
-    },
-    {
-      "code": "TG",
-      "name": "Thai Airways"
-    },
-    {
-      "code": "FD",
-      "name": "Thai AirAsia"
-    },
-    {
-      "code": "MH",
-      "name": "Malaysia Airlines"
-    },
-    {
-      "code": "OD",
-      "name": "Batik Air Malaysia"
-    },
-    {
-      "code": "FY",
-      "name": "Firefly"
-    },
-    {
-      "code": "TR",
-      "name": "Scoot"
-    }
   ]
 }
