@@ -62,3 +62,8 @@ The workflow runs daily at 00:00 UTC (08:00 Malaysia time) and can also be start
 ## Deploy
 
 Repository Settings → Pages → Deploy from a branch → `main` → `/docs`.
+
+
+### Airline-by-airline price tracking
+
+The monitor searches the configured airline allowlist and saves the cheapest returned itinerary for each airline (or airline combination) on every monitored route. The dashboard shows a separate fare card per airline, and historical lows and Telegram alerts are tracked separately for each airline. An airline appears only when Google Flights returns a priced itinerary for that route and date.
