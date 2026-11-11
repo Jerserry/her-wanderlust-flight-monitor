@@ -1,20 +1,63 @@
-# Her Wanderlust Path Flight Monitor ✈️
+# Her Wanderlust Path · Flight Monitor ✈️
 
-A KUL-origin flight fare monitor using Google Flights results through SerpApi, with MYR budgets, price history, optional Telegram alerts, a GitHub Pages dashboard and daily GitHub Actions runs.
+A pastel flight-price monitoring dashboard for routes departing from Kuala Lumpur (KUL). It uses Google Flights results through SerpApi, stores price observations in GitHub, and can send Telegram alerts.
 
-## Setup
-1. Create a SerpApi account and add the repository Actions secret `SERPAPI_API_KEY`.
-2. Optional Telegram secrets: `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
-3. Edit `config/routes.json` to change travel dates, destinations and MYR budgets.
-4. In Settings → Pages, select Deploy from a branch → `main` → `/docs`.
+## Dashboard
 
-## Schedule and usage
-The workflow runs daily at 00:00 UTC / 08:00 Malaysia time. You can also run it manually from the Actions tab. Each destination uses one SerpApi search request per run. Check your SerpApi dashboard for current quota and usage.
+GitHub Pages serves the dashboard from `docs/`. It includes:
+- Overview cards and price trend chart (7 / 30 / 90 days / all)
+- Route watchlist and target-budget status
+- Flight deal radar
+- Price history table
+- Telegram alert guidance and system settings
+- Responsive mobile layout
 
-The initial configuration monitors BKK and NRT only to keep test usage low. Add more destinations after confirming the results and quota.
+## Configure the monitor
 
-## Important notes
-- Results are indicative Google Flights search results, not a guaranteed booking price or ticket hold.
-- Prices and availability can change. Recheck baggage, fees, fare conditions and availability with the airline or booking provider before purchase.
-- Search coverage and results may vary by route and date.
-- Never put API keys in source code or public files.
+Edit `config/routes.json` and commit the changes:
+
+```json
+{
+  "origin": "KUL",
+  "currency": "MYR",
+  "travel_class": "1",
+  "adults": 1,
+  "departure_date": "2027-05-15",
+  "return_date": "2027-05-22",
+  "routes": [
+    { "destination": "BKK", "budget_myr": 600 },
+    { "destination": "NRT", "budget_myr": 1800 }
+  ]
+}
+```
+
+- `destination`: destination airport IATA code.
+- `budget_myr`: your target round-trip fare in MYR.
+- `travel_class`: 1 Economy, 2 Premium Economy, 3 Business, 4 First.
+- All routes currently share the same outbound and return dates, passenger count and cabin class.
+
+## GitHub Actions secrets
+
+In Repository → Settings → Secrets and variables → Actions, add:
+
+1. `SERPAPI_API_KEY` — required for fare searches.
+2. `TELEGRAM_BOT_TOKEN` — optional Telegram bot token.
+3. `TELEGRAM_CHAT_ID` — optional Telegram chat ID.
+
+Never put API keys in frontend files or commit them to the repository.
+
+## Schedule
+
+The workflow runs daily at 00:00 UTC (08:00 Malaysia time) and can also be started manually from Actions → Daily Flight Monitor → Run workflow. It commits updated price observations to `docs/data/prices.json`.
+
+## Data and limitations
+
+- The browser dashboard is read-only. To add or change monitored routes, edit `config/routes.json` in GitHub and commit the change. This avoids exposing a write token or SerpApi key in the public website.
+- Prices are indicative search results, not guaranteed inventory, a fare hold, or a booking. Verify the final price, taxes, baggage, fare rules and availability at checkout.
+- Google Flights results can differ from what is shown in the consumer website. The project uses a third-party SerpApi service; check its current usage limits and billing.
+- The monitor stores up to 1,500 observations. The history chart becomes more useful as daily scans accumulate.
+- Routes share a single date range in this initial full-dashboard version. Per-route date ranges and an authenticated route editor can be added in a later backend phase.
+
+## Deploy
+
+Repository Settings → Pages → Deploy from a branch → `main` → `/docs`.
