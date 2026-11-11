@@ -34,8 +34,7 @@ Edit `config/routes.json` and commit the changes:
 - `destination`: destination airport IATA code.
 - `budget_myr`: your target round-trip fare in MYR.
 - `travel_class`: 1 Economy, 2 Premium Economy, 3 Business, 4 First.
-- `airlines`: optional airline allowlist using 2-character IATA codes. The current KUL watchlist includes AirAsia (AK), AirAsia X (D7), Singapore Airlines (SQ), Cathay Pacific (CX), Thai Airways (TG), Thai AirAsia (FD), Malaysia Airlines (MH), Batik Air Malaysia (OD), Firefly (FY), and Scoot (TR). The monitor passes these to SerpApi Google Flights as `include_airlines`.
-- All routes currently share the same outbound and return dates, passenger count and cabin class.
+- The monitor does not use a fixed airline allowlist: it collects every airline / airline combination that Google Flights returns in the search results for the configured KUL route. This is broader than a manually maintained list, but it is not a guarantee that every airline operating that route appears in every search response.\n- All routes currently share the same outbound and return dates, passenger count and cabin class.
 
 ## GitHub Actions secrets
 
@@ -66,7 +65,7 @@ Repository Settings → Pages → Deploy from a branch → `main` → `/docs`.
 
 ### Airline-by-airline price tracking
 
-The monitor searches the configured airline allowlist and saves the cheapest returned itinerary for each airline (or airline combination) on every monitored route. The dashboard shows a separate fare card per airline, and historical lows and Telegram alerts are tracked separately for each airline. An airline appears only when Google Flights returns a priced itinerary for that route and date.
+The monitor searches Google Flights without a fixed airline allowlist and saves the cheapest returned itinerary for each airline (or airline combination) on every monitored route. The dashboard shows a separate fare card per airline, and historical lows and Telegram alerts are tracked separately for each airline. An airline appears only when Google Flights returns a priced itinerary for that route and date.
 
 
 ### One-way and round-trip comparison
