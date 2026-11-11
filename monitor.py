@@ -55,6 +55,10 @@ def fetch_route(route, api_key, now):
         "sort_by": "2",
         "api_key": api_key,
     }
+    airline_codes = [str(item.get("code", "")).upper() for item in CONFIG.get("airlines", []) if item.get("code")]
+    if airline_codes:
+        params["include_airlines"] = ",".join(airline_codes)
+
     response = requests.get(SERPAPI_URL, params=params, timeout=60)
     response.raise_for_status()
     payload = response.json()
@@ -85,6 +89,7 @@ def fetch_route(route, api_key, now):
         "below_budget": price <= budget,
         "checked_at": now,
         "source": "Google Flights via SerpApi",
+        "airline_filter": airline_codes,
         "airline": cheapest.get("airline") or first.get("airline") or "Not specified",
         "airlines": list(dict.fromkeys(
             segment.get("airline", "") for segment in segments if segment.get("airline")
