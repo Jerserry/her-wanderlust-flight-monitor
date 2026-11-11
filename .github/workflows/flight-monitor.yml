@@ -1,13 +1,19 @@
-name: Daily Flight Monitor
+name: Flight Monitor
 on:
   schedule:
-    - cron: "0 0 * * *"
+    # Malaysia time (UTC+8): 06:00, 12:00, 18:00 and 00:00.
+    # GitHub Actions scheduled workflows use UTC.
+    - cron: "0 22,4,10,16 * * *"
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: her-wanderlust-flight-monitor
+  cancel-in-progress: false
 jobs:
   monitor:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
