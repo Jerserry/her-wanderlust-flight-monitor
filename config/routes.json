@@ -11,40 +11,8 @@
       "budget_myr": 600
     },
     {
-      "destination": "SIN",
-      "budget_myr": 500
-    },
-    {
-      "destination": "HKG",
-      "budget_myr": 1000
-    },
-    {
-      "destination": "TPE",
-      "budget_myr": 1100
-    },
-    {
       "destination": "NRT",
       "budget_myr": 1800
-    },
-    {
-      "destination": "ICN",
-      "budget_myr": 1500
-    },
-    {
-      "destination": "LHR",
-      "budget_myr": 3500
-    },
-    {
-      "destination": "CDG",
-      "budget_myr": 3500
-    },
-    {
-      "destination": "FRA",
-      "budget_myr": 3500
-    },
-    {
-      "destination": "SYD",
-      "budget_myr": 2200
     }
   ]
 }
