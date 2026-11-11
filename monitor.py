@@ -208,7 +208,7 @@ def main():
         "monitor_status": "partial" if errors and results else ("error" if errors else "success"),
     })
     DATA.parent.mkdir(parents=True, exist_ok=True)
-    DATA.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    DATA.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if errors and not results:
         raise SystemExit("All route checks failed. Existing results were preserved; see logs.")
 
