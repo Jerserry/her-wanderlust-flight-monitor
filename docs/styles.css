@@ -18,3 +18,14 @@
 .radar-progress span{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,#e9a9c2,#d98eae)}
 .radar-source{font-size:8px;color:#b1a3ac;margin-top:12px}
 @media(max-width:720px){.welcome-actions{justify-content:flex-start}.radar-flight-meta{gap:6px}.radar-meta-cell{padding:8px 6px}.radar-meta-cell b{font-size:9px}}
+
+/* Airlines and fare comparison */
+.airline-directory{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0 18px 18px}
+.airline-tile{border:1px solid var(--line);background:#fff;border-radius:13px;padding:14px}
+.airline-tile-icon{width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:#fff0f6;color:#bd7895;margin-bottom:9px}
+.airline-tile-name{font-size:12px;font-weight:800;color:#5d4c57}
+.airline-tile-fares{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0 7px;font-size:9px;color:#a2949e}
+.airline-tile-fares b{display:block;font-size:12px;color:#795b6b;margin-top:3px}
+.airline-tile small{font-size:9px;color:#b1a3ac}
+@media(max-width:900px){.airline-directory{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.airline-directory{grid-template-columns:1fr}}
