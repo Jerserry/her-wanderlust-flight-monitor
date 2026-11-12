@@ -5,11 +5,11 @@ A flight-price monitoring dashboard for routes departing from Kuala Lumpur (KUL)
 ## Dashboard
 
 GitHub Pages serves the dashboard from `docs/`. It includes:
-- Overview cards and price trend chart
-- Route watchlist and target-budget status
+- Overview cards and flexible-date monitoring summary (no price-trend chart)
+- Route watchlist with departure / return dates and trip duration
 - Flight deal radar
 - Price history table
-- Airline-by-airline comparison
+- Airline-by-airline round-trip fare comparison
 - Telegram alerts and system status
 
 ## Configure monitored routes
@@ -22,8 +22,6 @@ Edit `config/routes.json`:
   "currency": "MYR",
   "travel_class": "ECONOMY",
   "adults": 1,
-  "departure_date": "2027-05-15",
-  "return_date": "2027-05-22",
   "price_drop_alert_percent": 5,
   "routes": [
     { "destination": "BKK", "budget_myr": 600 },
@@ -32,12 +30,11 @@ Edit `config/routes.json`:
 }
 ```
 
-- The origin remains KUL.
-- Every configured destination is searched in both one-way and round-trip modes.
-- No airline allowlist is used. The monitor collects every priced airline / airline combination returned in the Google Flights `best_flights` and `other_flights` groups for the selected route and dates. This does not guarantee that Google Flights returns every airline operating that route.
-- `price_drop_alert_percent` controls the Telegram alert threshold for a fall versus the previous successful scan (default 5%).
-- All routes currently share the same dates, passenger count and cabin class.
-
+- The origin remains KUL and currency is MYR.
+- Flexible date settings live in config/flexible_dates.json: rolling 180-day departure window, 5–14 day trips, representative durations of 5 / 7 / 10 / 14 days, and two date pairs searched per destination per run.
+- Candidate departure dates are spaced 7 days apart. Each scheduled run rotates to the next two date combinations per destination; the return date may extend beyond the 180-day departure window by the selected trip duration.
+- No airline allowlist is used. The monitor collects every priced airline / airline combination returned in Google Flights best_flights and other_flights for each selected date pair. This does not guarantee that Google Flights returns every airline operating that route.
+- price_drop_alert_percent controls the Telegram alert threshold for a fall versus the previous successful scan (default 5%).
 ## Schedule and API usage
 
 The GitHub Actions workflow runs four times daily at Malaysia time:
@@ -48,7 +45,7 @@ The GitHub Actions workflow runs four times daily at Malaysia time:
 
 GitHub Actions schedules are expressed in UTC. The corresponding cron is `0 22,4,10,16 * * *`.
 
-Each route uses two SerpApi searches per run (one-way and round-trip). With two routes, this is approximately 16 searches per day or 480 searches per 30-day month, excluding manual runs and retries. Confirm that your SerpApi plan covers this usage before leaving the schedule enabled.
+Each destination uses two round-trip date-pair searches per run. With the current two destinations and four scheduled runs daily, this is approximately 16 searches per day or 480 searches per 30-day month, excluding manual runs and retries. Confirm that your SerpApi plan covers this usage before leaving the schedule enabled.
 
 You can also start a manual run from Actions → Daily Flight Monitor → Run workflow. Scheduled runs can start a little later than the exact minute because GitHub Actions scheduling is best-effort.
 
