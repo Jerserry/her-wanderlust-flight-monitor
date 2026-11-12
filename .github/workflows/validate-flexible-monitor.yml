@@ -44,11 +44,12 @@ jobs:
           assert "价格趋势" not in html
           print("Dashboard checks passed.")
           PY
-      - name: Check flexible date generation and rotation
+      - name: Check flexible date generation, rotation and route list
         run: |
           python - <<'PY'
           from datetime import date
           from pathlib import Path
+          import json
           import monitor
 
           pairs = monitor.flexible_candidates(date(2026, 11, 12))
@@ -66,8 +67,10 @@ jobs:
           assert len(first) == 1 and len(second) == 1
           assert first != second, "Rotation did not advance to the next date pairs"
           assert cursor["BKK"] == 2
-          routes = __import__("json").loads(Path("config/routes.json").read_text(encoding="utf-8"))["routes"]
-          assert len(routes) == 12
+          routes = json.loads(Path("config/routes.json").read_text(encoding="utf-8"))["routes"]
+          destinations = [route["destination"] for route in routes]
+          assert len(destinations) == 28, f"Expected 28 destinations, got {len(destinations)}"
+          assert len(set(destinations)) == 28, "Duplicate destination airport codes found"
           assert all("budget_myr" not in route for route in routes)
-          print(f"Validation passed: {len(pairs)} date combinations; rotation works.")
+          print(f"Validation passed: {len(destinations)} destinations; {len(pairs)} date combinations; rotation works.")
           PY
