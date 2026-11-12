@@ -5,7 +5,7 @@
   "maximum_trip_days": 14,
   "departure_step_days": 7,
   "trip_duration_options_days": [5, 7, 10, 14],
-  "search_pairs_per_destination_per_run": 2,
+  "search_pairs_per_destination_per_run": 1,
   "rotate_candidates": true,
   "search_trip_type": "round_trip",
   "timezone": "Asia/Kuala_Lumpur",
