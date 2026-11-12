@@ -16,7 +16,7 @@
   <div class="side-label">WORKSPACE</div>
   <nav class="nav">
     <button class="nav-link active" data-view="overview"><span>◫</span> 总览 Overview</button>
-    <button class="nav-link" data-view="routes"><span>⌁</span> 航线管理 Routes</button>
+    <button class="nav-link" data-view="routes"><span>⌁</span> 航线管理 Routes</button><button class="nav-link" data-view="details"><span>▤</span> 航班明细 Flight Details</button>
     <button class="nav-link" data-view="airlines"><span>✈</span> 航空公司 Airlines</button>
     <button class="nav-link" data-view="radar"><span>⌖</span> 特价雷达 Flight Radar</button>
     <button class="nav-link" data-view="history"><span>▥</span> 价格历史 Price History</button>
@@ -64,6 +64,26 @@
  <div class="page-title"><div><div class="eyebrow">YOUR WATCHLIST</div><h1>航线管理</h1><p class="muted">管理你想持续追踪的目的地与目标预算。</p></div><span class="soft-tag">✦ Route manager</span></div>
  <div class="notice"><b>如何新增真正的自动监控航线？</b><p>目前航线由 GitHub 的 <code>config/routes.json</code> 控制。修改该文件并提交后，系统会按排程追踪新航线。此网页不会把 API 密钥暴露在浏览器，也不会假装本地新增的航线已开始监控。</p><a href="https://github.com/Jerserry/her-wanderlust-flight-monitor/blob/main/config/routes.json" target="_blank" rel="noopener">打开 GitHub 航线设置 ↗</a></div>
  <div class="panel table-panel"><div class="panel-head"><div><h3>Tracked routes</h3><span id="routeCount" class="muted small"></span></div><input id="routeSearch" class="search-input" placeholder="搜索目的地 / 机场代码…" aria-label="搜索航线"></div><div class="table-scroll"><table><thead><tr><th>航线</th><th>旅行日期（出发–回程）</th><th>当前价格</th><th>目标预算</th><th>状态</th><th>最后检查</th></tr></thead><tbody id="routesTable"></tbody></table></div></div>
+</section>
+<section class="page-view" id="view-details">
+ <div class="page-title"><div><div class="eyebrow">FLIGHT DETAILS · KUL DEPARTURES</div><h1>航班明细</h1><p class="muted">筛选、排序并展开查看已监控的机票报价。报价来源为 Google Flights via SerpApi。</p></div><button class="refresh-button" id="exportFlightDetails" type="button">↓ 导出 CSV</button></div>
+ <div class="details-summary" id="detailsSummary"></div>
+ <div class="panel details-filter-panel">
+  <div class="details-filter-title"><div><h3>筛选条件</h3><span class="muted small">Filter and refine tracked fares</span></div><button class="text-button" id="resetFlightFilters" type="button">重置筛选 ↺</button></div>
+  <div class="details-filter-grid">
+   <label>目的地 / 航空公司 / 航班号<input id="detailsSearch" class="search-input" type="search" placeholder="例如：BKK、AirAsia、AK 604…"></label>
+   <label>航空公司<select id="detailsAirline" class="search-input"><option value="all">所有航空公司</option></select></label>
+   <label>航程类型<select id="detailsStops" class="search-input"><option value="all">所有航程</option><option value="0">直飞</option><option value="1">1 次中转</option><option value="2">2 次或以上中转</option></select></label>
+   <label>预算状态<select id="detailsBudget" class="search-input"><option value="all">所有状态</option><option value="within">达到预算</option><option value="over">高于预算</option><option value="none">参考价 / 无预算</option></select></label>
+   <label>最低价格 (RM)<input id="detailsMinPrice" class="search-input" type="number" min="0" placeholder="不限"></label>
+   <label>最高价格 (RM)<input id="detailsMaxPrice" class="search-input" type="number" min="0" placeholder="不限"></label>
+   <label>排序方式<select id="detailsSort" class="search-input"><option value="price">价格：低至高</option><option value="price_desc">价格：高至低</option><option value="departure">出发日期：早至晚</option><option value="destination">目的地：A–Z</option></select></label>
+  </div>
+ </div>
+ <div class="panel table-panel details-table-panel"><div class="panel-head"><div><h3>监控航班报价</h3><span class="muted small" id="detailsCount">读取报价中…</span></div><span class="details-source-tag">MYR · KUL</span></div>
+ <div class="table-scroll"><table class="details-table"><thead><tr><th>航线 / 航空公司</th><th>出发 – 回程</th><th>航程</th><th>飞行时长</th><th>价格</th><th>预算状态</th><th>更新时间</th><th></th></tr></thead><tbody id="flightDetailsTable"></tbody></table></div>
+ </div>
+ <p class="tiny muted details-disclaimer">价格为最近一次监控时的参考报价，可能已变化。此页面展示系统已保存的搜索结果；没有列出的日期或航空公司不代表没有航班。购买前请再次确认最终票价、行李及预订条件。</p>
 </section>
 <section class="page-view" id="view-radar">
  <div class="page-title"><div><div class="eyebrow">FIND YOUR NEXT GETAWAY</div><h1>机票价格排行榜</h1><p class="muted">来回与单程分开排名，按当前搜索价格由低至高排列；过期数据会排在后面。</p></div><span class="soft-tag">✦ Deal radar</span></div>
