@@ -3,16 +3,7 @@
   "currency": "MYR",
   "travel_class": "ECONOMY",
   "adults": 1,
-  "departure_date": "2027-05-15",
-  "return_date": "2027-05-22",
-  "routes": [
-    {
-      "destination": "BKK",
-      "budget_myr": 600
-    },
-    {
-      "destination": "NRT",
-      "budget_myr": 1800
-    }
-  ]
+  "departure_date": null,
+  "return_date": null,
+  "routes": []
 }
