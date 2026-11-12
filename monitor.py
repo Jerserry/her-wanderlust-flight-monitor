@@ -291,7 +291,8 @@ def main():
                             f"{item['origin']} → {destination}\n"
                             f"日期：{departure_date} 至 {return_date}（{item['trip_duration_days']}天）\n"
                             f"航空公司：{item['airline']}\n"
-                            f"来回参考价：RM{item['price']:.2f}\n" + (f"目标预算：RM{item['budget']:.2f}\n" if item['budget'] is not None else "")
+                            f"来回参考价：RM{item['price']:.2f}\n"
+                            f"{('目标预算：RM' + format(item['budget'], '.2f') + chr(10)) if item['budget'] is not None else ''}"
                             f"提醒原因：{'；'.join(dict.fromkeys(reasons))}\n"
                             "请核实最终价格、行李与可订状态。"
                         )
