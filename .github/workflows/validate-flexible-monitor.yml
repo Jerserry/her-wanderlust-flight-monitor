@@ -48,6 +48,7 @@ jobs:
         run: |
           python - <<'PY'
           from datetime import date
+          from pathlib import Path
           import monitor
 
           pairs = monitor.flexible_candidates(date(2026, 11, 12))
