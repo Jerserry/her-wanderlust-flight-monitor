@@ -127,3 +127,73 @@
 .destination-no-fare{font-size:10px;color:#b4a6af;padding:10px 0 4px}
 @media(max-width:1100px){.destination-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:720px){.destination-region{padding:12px}.destination-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.destination-card{padding:11px}.destination-price{font-size:18px}.destination-city{font-size:13px}}
+
+/* Responsive dashboard polish — desktop, tablet and mobile */
+.destination-grid{grid-auto-rows:1fr;align-items:stretch}
+.destination-card{width:100%;height:100%;min-height:154px;justify-content:flex-start;overflow:hidden}
+.destination-city{line-height:1.35;min-height:19px}
+.destination-airline{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;min-height:26px}
+.destination-dates{font-variant-numeric:tabular-nums;white-space:normal;line-height:1.45}
+.destination-updated{margin-top:auto;padding-top:7px;overflow-wrap:anywhere}
+.destination-card:focus-visible,.nav-link:focus-visible,.refresh-button:focus-visible,.text-button:focus-visible{outline:2px solid #cf83a3;outline-offset:3px}
+.content{width:100%;max-width:1600px}
+.stat-card{min-width:0}
+.stat-card strong{overflow-wrap:anywhere}
+.nav{scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+@media(min-width:1440px){
+  .destination-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  .destination-card{padding:15px;min-height:164px}
+}
+@media(min-width:721px) and (max-width:1050px){
+  .topbar{padding-left:20px;padding-right:20px}
+  .content{padding:24px 20px}
+  .destination-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+  .destination-card{min-height:158px}
+  .two-col{grid-template-columns:1fr;gap:22px}
+  .nav{min-width:0}
+  .nav-link{flex:0 0 auto}
+}
+@media(max-width:720px){
+  .content{padding:18px 13px 22px}
+  .topbar{gap:8px}
+  .top-actions{gap:7px}
+  .currency-pill{padding:6px 9px;font-size:9px}
+  .welcome-row{gap:12px;margin-bottom:16px}
+  .welcome-row h1{font-size:22px;line-height:1.35}
+  .welcome-row p{line-height:1.6}
+  .welcome-actions{width:100%;gap:10px}
+  .updated-box{font-size:9px;line-height:1.5}
+  .refresh-button{padding:9px 11px;white-space:nowrap}
+  .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:20px}
+  .stat-card{padding:12px;border-radius:12px}
+  .stat-card strong{font-size:21px;margin-top:9px}
+  .stat-top{font-size:10px}
+  .flexible-summary-panel{padding:15px;margin-bottom:22px}
+  .flexible-summary-grid{gap:8px}
+  .flexible-metric{padding:11px}
+  .flexible-metric b{font-size:13px}
+  .destination-dashboard{margin-top:4px}
+  .destination-region{padding:11px;margin-bottom:12px}
+  .destination-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .destination-card{min-height:150px;padding:10px;border-radius:11px}
+  .destination-country{font-size:8px}
+  .destination-city{font-size:13px;margin:8px 0 4px}
+  .destination-price{font-size:18px}
+  .destination-airline{font-size:8px;min-height:24px}
+  .destination-dates{font-size:8px}
+  .destination-updated{font-size:7px}
+  .section-heading{gap:10px}
+  .section-heading h2{font-size:14px}
+  .section-heading p{line-height:1.5}
+  .two-col{gap:20px}
+}
+@media(max-width:380px){
+  .content{padding-left:10px;padding-right:10px}
+  .destination-grid{gap:7px}
+  .destination-card{padding:9px;min-height:146px}
+  .destination-price{font-size:16px}
+  .destination-city{font-size:12px}
+  .topbar{padding-left:10px;padding-right:10px}
+  .crumb{font-size:10px;margin-left:8px}
+}
