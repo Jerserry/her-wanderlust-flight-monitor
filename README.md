@@ -24,13 +24,13 @@ Edit `config/routes.json`:
   "adults": 1,
   "price_drop_alert_percent": 5,
   "routes": [
-    { "destination": "BKK", "budget_myr": 600 },
-    { "destination": "NRT", "budget_myr": 1800 }
+    { "destination": "NRT" },
+    { "destination": "KIX" }
   ]
 }
 ```
 
-- The origin remains KUL and currency is MYR.
+- The origin remains KUL and currency is MYR. `budget_myr` is optional; omit it to track and compare fares without a budget threshold.
 - Flexible date settings live in config/flexible_dates.json: rolling 180-day departure window, 5–14 day trips, representative durations of 5 / 7 / 10 / 14 days, and two date pairs searched per destination per run.
 - Candidate departure dates are spaced 7 days apart. Each scheduled run rotates to the next two date combinations per destination; the return date may extend beyond the 180-day departure window by the selected trip duration.
 - No airline allowlist is used. The monitor collects every priced airline / airline combination returned in Google Flights best_flights and other_flights for each selected date pair. This does not guarantee that Google Flights returns every airline operating that route.
@@ -45,7 +45,7 @@ The GitHub Actions workflow runs four times daily at Malaysia time:
 
 GitHub Actions schedules are expressed in UTC. The corresponding cron is `0 22,4,10,16 * * *`.
 
-Each destination uses two round-trip date-pair searches per run. With the current two destinations and four scheduled runs daily, this is approximately 16 searches per day or 480 searches per 30-day month, excluding manual runs and retries. Confirm that your SerpApi plan covers this usage before leaving the schedule enabled.
+Each destination uses one round-trip date-pair search per run. With 12 destinations and four scheduled runs daily, this is approximately 48 searches per day or 1,440 searches per 30-day month, excluding manual runs and retries. Routes do not require a budget; the monitor records and compares fares. Telegram alerts are sent for a price drop of at least 5% versus the previous successful scan. Confirm that your SerpApi plan covers this usage before leaving the schedule enabled.
 
 You can also start a manual run from Actions → Daily Flight Monitor → Run workflow. Scheduled runs can start a little later than the exact minute because GitHub Actions scheduling is best-effort.
 
