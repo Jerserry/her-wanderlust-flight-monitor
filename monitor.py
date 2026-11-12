@@ -136,7 +136,8 @@ def search_fares(route, api_key, now, departure_date, return_date):
             cheapest_by_airline[key] = itinerary
 
     results = []
-    budget = float(route["budget_myr"])
+    budget_value = route.get("budget_myr")
+    budget = float(budget_value) if budget_value not in (None, "") else None
     for airline_key, itinerary in cheapest_by_airline.items():
         segments = itinerary.get("flights", [])
         first = segments[0] if segments else {}
@@ -153,7 +154,7 @@ def search_fares(route, api_key, now, departure_date, return_date):
             "price": price,
             "currency": currency,
             "budget": budget,
-            "below_budget": price <= budget,
+            "below_budget": (price <= budget) if budget is not None else None,
             "checked_at": now,
             "source": "Google Flights via SerpApi",
             "airline": airline,
@@ -264,14 +265,19 @@ def main():
                     results.append(item)
 
                     crossed_budget = (
-                        item["below_budget"]
+                        item["budget"] is not None
+                        and item["below_budget"]
                         and (previous_current is None or not previous_current.get("below_budget", False))
                     )
                     significant_drop = (
                         old_price is not None and old_price > 0
                         and item["price_change_pct"] <= -PRICE_DROP_ALERT_PERCENT
                     )
-                    new_low_in_budget = item["below_budget"] and item["is_new_historical_low"]
+                    new_low_in_budget = (
+                        item["budget"] is not None
+                        and item["below_budget"]
+                        and item["is_new_historical_low"]
+                    )
                     if crossed_budget or significant_drop or new_low_in_budget:
                         reasons = []
                         if crossed_budget:
@@ -285,7 +291,7 @@ def main():
                             f"{item['origin']} → {destination}\n"
                             f"日期：{departure_date} 至 {return_date}（{item['trip_duration_days']}天）\n"
                             f"航空公司：{item['airline']}\n"
-                            f"来回参考价：RM{item['price']:.2f}（预算 RM{item['budget']:.2f}）\n"
+                            f"来回参考价：RM{item['price']:.2f}\n" + (f"目标预算：RM{item['budget']:.2f}\n" if item['budget'] is not None else "")
                             f"提醒原因：{'；'.join(dict.fromkeys(reasons))}\n"
                             "请核实最终价格、行李与可订状态。"
                         )
