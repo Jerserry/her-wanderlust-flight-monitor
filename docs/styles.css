@@ -39,3 +39,27 @@
 @media(max-width:720px){.sidebar{position:fixed;inset:0 auto 0 0;width:260px;height:100vh;min-height:0;padding:24px 18px;display:flex;flex-direction:column;align-items:stretch;gap:0;transform:translateX(-100%);transition:transform .25s;box-shadow:10px 0 30px #5a334014}.sidebar.open{transform:translateX(0)}.brand{padding:4px 8px 25px}.nav{display:grid;overflow:visible;flex:initial}.side-label{display:block;padding:0 12px 12px}.side-label-bottom{display:block;margin-top:24px}.sidebar-bottom{display:block;margin-top:auto}.topbar{height:58px;padding:0 14px}.content{padding:20px 14px}.welcome-row,.page-title{padding:15px;align-items:flex-start;flex-direction:column}.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat-card{padding:12px}.two-col{grid-template-columns:1fr}.chart-wrap{height:190px}}
 
 .scan-pill{display:inline-flex;align-items:center;gap:6px;background:#f8f0f4;border:1px solid #f0e3ea;border-radius:20px;padding:7px 10px;color:#a18e9a;font-size:10px;white-space:nowrap}.scan-pill b{color:#b86789;font-size:10px}@media(max-width:720px){.scan-pill{display:none}}
+
+
+/* Phase 3 — Flight Radar fare cards: clearer hierarchy and scan-friendly layout */
+.radar-summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:18px 22px;border-radius:16px;background:linear-gradient(115deg,#fff0f6,#fff9f4);box-shadow:0 5px 18px rgba(160,91,124,.045)}
+.radar-summary b{display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid #f2dce7;border-radius:12px;padding:8px 12px;margin:0;font-size:22px;white-space:nowrap}
+.radar-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.radar-card{padding:20px;border:1px solid #f0e3ea;border-radius:17px;box-shadow:0 5px 20px rgba(91,55,74,.035);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.radar-card:hover{transform:translateY(-2px);border-color:#eac5d6;box-shadow:0 10px 26px rgba(91,55,74,.075)}
+.radar-card-top{padding-bottom:12px;border-bottom:1px solid #f7edf2}
+.radar-card .route-sub{font-size:9px;font-weight:800;letter-spacing:1.2px;color:#c18aa3}
+.radar-route{font-size:20px;margin-top:15px;color:#574653;letter-spacing:-.5px}
+.radar-airline{line-height:1.6;min-height:16px}
+.radar-card .big-price{font-size:31px;letter-spacing:-.8px;color:#b65f86;margin:14px 0 3px}
+.radar-card .price-delta{display:inline-flex;border-radius:7px;padding:5px 7px;background:#fff7fa;font-size:9px;margin:3px 0 7px}
+.radar-card p{font-size:10px;line-height:1.55}
+.radar-flight-meta{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:16px 0 14px}
+.radar-meta-cell{padding:11px 12px;background:#fffafd;border-color:#f3e7ee;border-radius:11px;min-height:50px}
+.radar-meta-cell span{font-size:9px;letter-spacing:.2px}
+.radar-meta-cell b{font-size:11px;line-height:1.45}
+.radar-budget-line{margin-top:15px;font-size:10px;font-weight:600}
+.radar-progress{height:7px;background:#f8edf2;margin-top:8px}
+.radar-progress span{background:linear-gradient(90deg,#edb4cc,#d985aa)}
+.radar-source{padding-top:10px;border-top:1px solid #f7edf2;line-height:1.5}
+@media(max-width:720px){.radar-grid{grid-template-columns:1fr;gap:12px}.radar-card{padding:16px}.radar-route{font-size:18px}.radar-card .big-price{font-size:28px}.radar-meta-cell{padding:9px 10px}}
