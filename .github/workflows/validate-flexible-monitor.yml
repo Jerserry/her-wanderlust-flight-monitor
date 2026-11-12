@@ -3,10 +3,12 @@ name: Validate Flexible Flight Monitor
 on:
   push:
     branches:
+      - main
       - feature/flexible-date-monitoring
     paths:
       - "monitor.py"
       - "config/flexible_dates.json"
+      - "config/routes.json"
       - "docs/index.html"
       - "docs/app.js"
       - "docs/styles.css"
@@ -60,8 +62,11 @@ jobs:
           cursor = {}
           first, _ = monitor.choose_candidates({"destination": "BKK"}, pairs, cursor)
           second, _ = monitor.choose_candidates({"destination": "BKK"}, pairs, cursor)
-          assert len(first) == 2 and len(second) == 2
+          assert len(first) == 1 and len(second) == 1
           assert first != second, "Rotation did not advance to the next date pairs"
-          assert cursor["BKK"] == 4
+          assert cursor["BKK"] == 2
+          routes = __import__("json").loads(Path("config/routes.json").read_text(encoding="utf-8"))["routes"]
+          assert len(routes) == 12
+          assert all("budget_myr" not in route for route in routes)
           print(f"Validation passed: {len(pairs)} date combinations; rotation works.")
           PY
