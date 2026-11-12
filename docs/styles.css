@@ -101,3 +101,29 @@
 .details-disclaimer{margin:12px 2px;line-height:1.6}
 @media(max-width:950px){.details-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.details-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-expanded-content{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.details-filter-grid{grid-template-columns:1fr}.details-summary-metric{padding:13px}.details-summary-metric b{font-size:20px}.details-filter-panel{padding:15px}.details-summary{gap:8px}.detail-expanded-content{grid-template-columns:1fr}}
+
+/* Destination price dashboard */
+.destination-dashboard{margin:26px 0 30px}
+.destination-heading{align-items:center;margin-bottom:16px}
+.destination-heading h2{font-size:17px;margin:0 0 4px}
+.destination-heading p{font-size:10px;color:#a497a0;margin:0}
+.destination-count{font-size:10px;font-weight:700;color:#b56c8b;background:#fff0f6;border-radius:20px;padding:7px 11px;white-space:nowrap}
+.destination-groups{display:grid;gap:20px}
+.destination-region{background:rgba(255,255,255,.56);border:1px solid var(--line);border-radius:16px;padding:16px}
+.destination-region-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.destination-region-title h3{font-size:13px;margin:0;color:#685562}
+.destination-region-title span{font-size:9px;color:#b1a3ac}
+.destination-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.destination-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:0;border:1px solid #f1e5eb;background:#fff;border-radius:12px;padding:13px;transition:transform .18s,border-color .18s,box-shadow .18s;color:inherit}
+.destination-card:hover{transform:translateY(-2px);border-color:#e6b4c9;box-shadow:0 7px 18px rgba(160,91,124,.08)}
+.destination-card-top{width:100%;display:flex;align-items:center;justify-content:space-between;gap:5px}
+.destination-country{font-size:9px;color:#a99aa4}
+.destination-code{font-size:9px;font-weight:800;letter-spacing:.5px;color:#bc7897;background:#fff0f6;border-radius:6px;padding:4px 6px}
+.destination-city{font-size:14px;color:#594853;margin:9px 0 5px}
+.destination-price{font-size:20px;line-height:1.2;font-weight:800;letter-spacing:-.5px;color:#9f5d7b;margin:4px 0}
+.destination-airline{font-size:9px;color:#81717c;line-height:1.45;min-height:26px}
+.destination-dates{font-size:9px;color:#9e8e98;margin-top:6px}
+.destination-updated{font-size:8px;color:#b4a6af;margin-top:7px;line-height:1.4}
+.destination-no-fare{font-size:10px;color:#b4a6af;padding:10px 0 4px}
+@media(max-width:1100px){.destination-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.destination-region{padding:12px}.destination-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.destination-card{padding:11px}.destination-price{font-size:18px}.destination-city{font-size:13px}}
