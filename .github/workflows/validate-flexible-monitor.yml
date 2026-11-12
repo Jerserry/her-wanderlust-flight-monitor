@@ -1,0 +1,67 @@
+name: Validate Flexible Flight Monitor
+
+on:
+  push:
+    branches:
+      - feature/flexible-date-monitoring
+    paths:
+      - "monitor.py"
+      - "config/flexible_dates.json"
+      - "docs/index.html"
+      - "docs/app.js"
+      - "docs/styles.css"
+      - "README.md"
+      - ".github/workflows/validate-flexible-monitor.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Check Python syntax
+        run: python -m py_compile monitor.py
+      - name: Check dashboard JavaScript syntax
+        run: node --check docs/app.js
+      - name: Check dashboard flexible-date elements
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          html = Path("docs/index.html").read_text(encoding="utf-8")
+          js = Path("docs/app.js").read_text(encoding="utf-8")
+          assert 'id="flexibleSummary"' in html
+          assert "function renderFlexibleSummary()" in js
+          assert "价格趋势" not in html
+          print("Dashboard checks passed.")
+          PY
+      - name: Check flexible date generation and rotation
+        run: |
+          python - <<'PY'
+          from datetime import date
+          import monitor
+
+          pairs = monitor.flexible_candidates(date(2026, 11, 12))
+          assert pairs, "No flexible date candidates were generated"
+          assert all(5 <= item["trip_duration_days"] <= 14 for item in pairs)
+          assert all(item["return_date"] > item["departure_date"] for item in pairs)
+          assert all(
+              (date.fromisoformat(item["return_date"]) - date.fromisoformat(item["departure_date"])).days
+              == item["trip_duration_days"]
+              for item in pairs
+          )
+          cursor = {}
+          first, _ = monitor.choose_candidates({"destination": "BKK"}, pairs, cursor)
+          second, _ = monitor.choose_candidates({"destination": "BKK"}, pairs, cursor)
+          assert len(first) == 2 and len(second) == 2
+          assert first != second, "Rotation did not advance to the next date pairs"
+          assert cursor["BKK"] == 4
+          print(f"Validation passed: {len(pairs)} date combinations; rotation works.")
+          PY

@@ -63,3 +63,41 @@
 .radar-progress span{background:linear-gradient(90deg,#edb4cc,#d985aa)}
 .radar-source{padding-top:10px;border-top:1px solid #f7edf2;line-height:1.5}
 @media(max-width:720px){.radar-grid{grid-template-columns:1fr;gap:12px}.radar-card{padding:16px}.radar-route{font-size:18px}.radar-card .big-price{font-size:28px}.radar-meta-cell{padding:9px 10px}}
+
+.flexible-summary-panel{padding:22px 22px 16px;margin-bottom:28px}.flexible-summary-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.flexible-summary-head h2{font-size:17px;margin:0 0 5px}.flexible-summary-head p{font-size:11px;margin:0}.flexible-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 12px}.flexible-metric{background:#fff9fc;border:1px solid var(--line);border-radius:12px;padding:13px}.flexible-metric span,.flexible-metric small{display:block;color:#a596a0;font-size:9px}.flexible-metric b{display:block;color:#5c4b56;font-size:15px;margin:7px 0 3px}.flexible-metric small{font-size:9px}.table-sub{display:block;color:#aa9da6;font-size:9px;margin-top:3px}@media(max-width:760px){.flexible-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.flexible-summary-head{align-items:flex-start;flex-direction:column}}
+
+/* Flight Details console styles */
+.details-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 16px}
+.details-summary-metric{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--shadow)}
+.details-summary-metric span,.details-summary-metric small{display:block;color:#a596a0;font-size:9px}
+.details-summary-metric b{display:block;color:#5b4a56;font-size:23px;letter-spacing:-.5px;margin:8px 0 3px}
+.details-filter-panel{padding:18px 20px;margin-bottom:16px}
+.details-filter-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.details-filter-title h3{font-size:13px;margin:0 0 4px}
+.details-filter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.details-filter-grid label{display:flex;flex-direction:column;gap:7px;color:#958892;font-size:10px;font-weight:700}
+.details-filter-grid .search-input{width:100%;min-width:0}
+.details-table-panel .panel-head{padding:17px 20px}
+.details-source-tag{background:#eef8f1;color:#578a6d;border-radius:20px;padding:7px 10px;font-size:9px;font-weight:800}
+.details-table{white-space:normal;min-width:980px}
+.details-table th{background:#f8f4f6;color:#958892;font-size:9px;letter-spacing:.3px;padding:13px 14px}
+.details-table td{padding:13px 14px;font-size:10px;vertical-align:middle}
+.flight-detail-row{cursor:pointer;transition:background .15s}
+.flight-detail-row:hover,.flight-detail-row.expanded{background:#fff9fc}
+.detail-route b{display:block;font-size:11px;color:#554650}
+.detail-route small,.detail-cell-sub{display:block;font-size:9px;color:#a99ba5;margin-top:5px}
+.detail-price{color:#a85f7e;font-size:13px}
+.detail-state{display:inline-block;border-radius:6px;padding:6px 8px;font-size:9px;font-weight:800;white-space:nowrap}
+.detail-state.good{background:#eaf7f0;color:#47866a}
+.detail-state.over{background:#fff1e7;color:#b98260}
+.detail-state.neutral{background:#f1eff8;color:#8a7eb3}
+.detail-stop.direct{background:#eaf7f0;color:#47866a;border-radius:6px;padding:5px 7px;font-size:9px;font-weight:800}
+.detail-expand{border:1px solid #f0e3ea;background:#fff;border-radius:7px;color:#b56c8b;width:27px;height:27px;font-weight:800}
+.detail-expanded-row td{background:#fff9fc;padding:10px 14px 15px}
+.detail-expanded-content{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.detail-expanded-content>div{background:white;border:1px solid #f2e7ed;border-radius:9px;padding:10px}
+.detail-expanded-content span{display:block;font-size:9px;color:#a596a0;margin-bottom:5px}
+.detail-expanded-content b{display:block;font-size:10px;color:#675460;overflow-wrap:anywhere}
+.details-disclaimer{margin:12px 2px;line-height:1.6}
+@media(max-width:950px){.details-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.details-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-expanded-content{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.details-filter-grid{grid-template-columns:1fr}.details-summary-metric{padding:13px}.details-summary-metric b{font-size:20px}.details-filter-panel{padding:15px}.details-summary{gap:8px}.detail-expanded-content{grid-template-columns:1fr}}
