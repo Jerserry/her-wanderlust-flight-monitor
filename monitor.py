@@ -311,7 +311,7 @@ def main():
             old.get("destination"), "round_trip",
             old.get("departure_date"), old.get("return_date")
         )
-        if old.get("destination") in active_destinations and key not in fresh_pair_keys:
+        if old.get("destination") in active_destinations and key in attempted_pairs and key not in fresh_pair_keys:
             stale = dict(old)
             stale["is_stale"] = True
             stale["stale_reason"] = "本次该日期组合搜索失败，以下为上次成功结果"
