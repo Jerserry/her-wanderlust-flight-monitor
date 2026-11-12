@@ -6,8 +6,8 @@
   "departure_date": null,
   "return_date": null,
   "errors": [],
-  "monitor_status": "awaiting_new_routes",
-  "searches_per_day": 16,
+  "monitor_status": "awaiting_first_scan",
+  "searches_per_day": 48,
   "price_drop_alert_percent": 5,
   "date_mode": "flexible",
   "flexible_settings": {
@@ -21,7 +21,7 @@
       14
     ],
     "departure_step_days": 7,
-    "search_pairs_per_destination_per_run": 2
+    "search_pairs_per_destination_per_run": 1
   },
   "flexible_cursor": {}
 }
