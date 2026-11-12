@@ -4,7 +4,12 @@
   "minimum_trip_days": 5,
   "maximum_trip_days": 14,
   "departure_step_days": 7,
-  "trip_duration_options_days": [5, 7, 10, 14],
+  "trip_duration_options_days": [
+    5,
+    7,
+    10,
+    14
+  ],
   "search_pairs_per_destination_per_run": 1,
   "rotate_candidates": true,
   "search_trip_type": "round_trip",
@@ -12,6 +17,6 @@
   "notes": {
     "window_days": "Rolling window starting from the current date.",
     "trip_duration_options_days": "Representative durations within the selected 5–14 day range. Can be expanded after API usage is measured.",
-    "search_pairs_per_destination_per_run": "Limits each scheduled run to two date combinations per destination to control search API usage."
+    "search_pairs_per_destination_per_run": "Limits each scheduled run to one date combination per destination to control search API usage."
   }
 }
