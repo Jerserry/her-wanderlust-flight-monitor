@@ -38,24 +38,32 @@
     <article class="stat-card"><div class="stat-top"><span>达到预算</span><span class="stat-icon green">✓</span></div><strong id="statBudget">—</strong><small>Within target budget</small></article>
     <article class="stat-card"><div class="stat-top"><span>历史记录</span><span class="stat-icon lilac">▥</span></div><strong id="statChecks">—</strong><small>Price observations</small></article>
   </div>
-  <div class="section-heading"><div><h2>价格趋势</h2><p>Price movement across your tracked routes</p></div><div class="range-switch"><button class="range-btn active" data-range="7">7D</button><button class="range-btn" data-range="30">30D</button><button class="range-btn" data-range="90">90D</button><button class="range-btn" data-range="all">全部</button></div></div>
-  <article class="panel chart-panel"><div class="chart-legend" id="chartLegend"></div><div class="chart-wrap"><svg id="priceChart" viewBox="0 0 900 260" preserveAspectRatio="none" role="img" aria-label="机票价格趋势图"></svg></div><div class="chart-foot"><span>价格以 MYR 计算</span><span>价格来自 Google Flights via SerpApi</span></div></article>
+  <article class="panel flexible-summary-panel">
+    <div class="flexible-summary-head"><div><div class="eyebrow">FLEXIBLE DATE MONITORING</div><h2>灵活日期监控</h2><p class="muted">自动轮换未来日期组合，寻找适合出发的来回机票。</p></div><span class="soft-tag">✦ 5–14 DAYS</span></div>
+    <div class="flexible-summary-grid" id="flexibleSummary">
+      <div class="flexible-metric"><span>监控日期范围</span><b>未来 180 天</b></div>
+      <div class="flexible-metric"><span>旅行天数</span><b>5–14 天</b></div>
+      <div class="flexible-metric"><span>每次每航线</span><b>2 组日期</b></div>
+      <div class="flexible-metric"><span>数据来源</span><b>Google Flights</b></div>
+    </div>
+    <p class="tiny muted">每次执行会轮换日期组合；页面展示最近一次成功搜索的报价。未搜索到的日期不代表没有航班。</p>
+  </article>
   <div class="two-col">
     <section><div class="section-heading compact"><div><h2>正在追踪的航线</h2><p>Your watchlist</p></div><button class="text-button" data-goto="routes">查看全部 →</button></div><div class="route-list" id="overviewRoutes"></div></section>
     <section><div class="section-heading compact"><div><h2>最近价格记录</h2><p>Latest price checks</p></div><button class="text-button" data-goto="history">查看历史 →</button></div><div class="activity-list" id="recentActivity"></div></section>
   </div>
 </section>
 <section class="page-view" id="view-airlines">
- <div class="page-title"><div><div class="eyebrow">AIRLINE PRICE DIRECTORY</div><h1>航空公司 & 票价比较</h1><p class="muted">每家航空公司分别显示最低单程与来回参考价。</p></div><span class="soft-tag">✦ Airline watch</span></div>
- <div class="notice"><b>单程 vs 来回怎么比较？</b><p>系统会使用相同出发日期分别查询单程和来回。来回预算沿用航线管理中的目标预算；单程价格先作为独立参考，不直接套用来回预算。系统不会预先限定航空公司名单；会收集 Google Flights 本次搜索实际返回的航空公司及航班组合。若某家航空公司没有出现在结果中，不代表该航线没有该航空公司航班。</p></div>
+ <div class="page-title"><div><div class="eyebrow">AIRLINE PRICE DIRECTORY</div><h1>航空公司 & 票价比较</h1><p class="muted">按实际搜索结果显示各航空公司的来回参考价。</p></div><span class="soft-tag">✦ Airline watch</span></div>
+ <div class="notice"><b>航空公司数据说明</b><p>系统不会预先限定航空公司名单，会整理 Google Flights 实际返回的来回航班及航空公司组合。搜索结果会随日期、航线和供应情况变化；未显示某家航空公司不代表该航空公司没有运营该航线。</p></div>
  <div class="panel table-panel"><div class="panel-head"><div><h3>航空公司目录</h3><span class="muted small" id="airlineCount">当前结果中有价格的航空公司</span></div></div><div class="airline-directory" id="airlineDirectory"></div></div>
- <div class="section-heading" style="margin-top:24px"><div><h2>单程 vs 来回</h2><p>One-way vs Round-trip · 同一航线及航空公司比较</p></div></div>
- <div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th>航空公司</th><th>航线</th><th>单程最低价</th><th>来回最低价</th><th>来回预算</th><th>价格差</th></tr></thead><tbody id="fareCompareTable"></tbody></table></div></div>
+ <div class="section-heading" style="margin-top:24px"><div><h2>来回票价明细</h2><p>Round-trip fares by airline and travel dates</p></div></div>
+ <div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th>航空公司</th><th>航线</th><th>旅行日期</th><th>来回参考价</th><th>目标预算</th><th>状态</th></tr></thead><tbody id="fareCompareTable"></tbody></table></div></div>
 </section>
 <section class="page-view" id="view-routes">
  <div class="page-title"><div><div class="eyebrow">YOUR WATCHLIST</div><h1>航线管理</h1><p class="muted">管理你想持续追踪的目的地与目标预算。</p></div><span class="soft-tag">✦ Route manager</span></div>
  <div class="notice"><b>如何新增真正的自动监控航线？</b><p>目前航线由 GitHub 的 <code>config/routes.json</code> 控制。修改该文件并提交后，系统会按排程追踪新航线。此网页不会把 API 密钥暴露在浏览器，也不会假装本地新增的航线已开始监控。</p><a href="https://github.com/Jerserry/her-wanderlust-flight-monitor/blob/main/config/routes.json" target="_blank" rel="noopener">打开 GitHub 航线设置 ↗</a></div>
- <div class="panel table-panel"><div class="panel-head"><div><h3>Tracked routes</h3><span id="routeCount" class="muted small"></span></div><input id="routeSearch" class="search-input" placeholder="搜索目的地 / 机场代码…" aria-label="搜索航线"></div><div class="table-scroll"><table><thead><tr><th>航线</th><th>旅行日期</th><th>当前价格</th><th>目标预算</th><th>状态</th><th>最后检查</th></tr></thead><tbody id="routesTable"></tbody></table></div></div>
+ <div class="panel table-panel"><div class="panel-head"><div><h3>Tracked routes</h3><span id="routeCount" class="muted small"></span></div><input id="routeSearch" class="search-input" placeholder="搜索目的地 / 机场代码…" aria-label="搜索航线"></div><div class="table-scroll"><table><thead><tr><th>航线</th><th>旅行日期（出发–回程）</th><th>当前价格</th><th>目标预算</th><th>状态</th><th>最后检查</th></tr></thead><tbody id="routesTable"></tbody></table></div></div>
 </section>
 <section class="page-view" id="view-radar">
  <div class="page-title"><div><div class="eyebrow">FIND YOUR NEXT GETAWAY</div><h1>机票价格排行榜</h1><p class="muted">来回与单程分开排名，按当前搜索价格由低至高排列；过期数据会排在后面。</p></div><span class="soft-tag">✦ Deal radar</span></div>
@@ -72,7 +80,7 @@
 </section>
 <section class="page-view" id="view-settings">
  <div class="page-title"><div><div class="eyebrow">A FEW LITTLE DETAILS</div><h1>设置</h1><p class="muted">网站与监控系统信息。</p></div><span class="soft-tag">✦ Preferences</span></div>
- <div class="settings-grid"><article class="panel settings-card"><h3>网站偏好</h3><div class="setting-row"><div><b>显示货币</b><small>Dashboard display currency</small></div><strong>MYR · RM</strong></div><div class="setting-row"><div><b>默认出发机场</b><small>Default departure airport</small></div><strong>KUL</strong></div><div class="setting-row"><div><b>时区</b><small>Dashboard timezone</small></div><strong>Asia / Kuala Lumpur</strong></div></article><article class="panel settings-card"><h3>监控系统</h3><div class="setting-row"><div><b>价格数据来源</b><small>Flight data provider</small></div><strong>SerpApi</strong></div><div class="setting-row"><div><b>自动检查</b><small>GitHub Actions schedule</small></div><strong>每日 00:00 / 06:00 / 12:00 / 18:00</strong></div><div class="setting-row"><div><b>数据保存</b><small>Price history storage</small></div><strong>GitHub JSON</strong></div><a class="github-link" href="https://github.com/Jerserry/her-wanderlust-flight-monitor" target="_blank" rel="noopener">查看 GitHub Repository ↗</a></article></div>
+ <div class="settings-grid"><article class="panel settings-card"><h3>网站偏好</h3><div class="setting-row"><div><b>显示货币</b><small>Dashboard display currency</small></div><strong>MYR · RM</strong></div><div class="setting-row"><div><b>默认出发机场</b><small>Default departure airport</small></div><strong>KUL</strong></div><div class="setting-row"><div><b>时区</b><small>Dashboard timezone</small></div><strong>Asia / Kuala Lumpur</strong></div></article><article class="panel settings-card"><h3>监控系统</h3><div class="setting-row"><div><b>价格数据来源</b><small>Flight data provider</small></div><strong>SerpApi</strong></div><div class="setting-row"><div><b>日期模式</b><small>Flexible date window</small></div><strong>未来 180 天 · 5–14 天旅行</strong></div><div class="setting-row"><div><b>每次搜索</b><small>Rotating date pairs</small></div><strong>每航线 2 组日期</strong></div><div class="setting-row"><div><b>自动检查</b><small>GitHub Actions schedule</small></div><strong>每日 00:00 / 06:00 / 12:00 / 18:00</strong></div><div class="setting-row"><div><b>数据保存</b><small>Price history storage</small></div><strong>GitHub JSON</strong></div><a class="github-link" href="https://github.com/Jerserry/her-wanderlust-flight-monitor" target="_blank" rel="noopener">查看 GitHub Repository ↗</a></article></div>
  <div class="notice"><b>重要说明</b><p>机票价格会变动。监控价格是搜索时的参考报价，不是锁定票价或保证可订价格。购买前请到航空公司或订票平台确认税费、行李、转机、退改条件及最终付款金额。</p></div>
 </section>
 <footer class="footer">Made for curious hearts & spontaneous getaways. <b>Her Wanderlust Path</b> · <span id="footerYear">2026</span></footer>
