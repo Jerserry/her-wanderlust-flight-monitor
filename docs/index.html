@@ -68,6 +68,15 @@
       </article>
     </div>
   </section>
+  <section class="control-center" aria-label="监控操作中心">
+    <div class="console-section-head"><div><div class="eyebrow">FLIGHT MONITOR CONTROL</div><h2>监控操作中心</h2><p class="muted">手动启动扫描、查看走势摘要，以及追踪通知执行记录。</p></div><span class="soft-tag">✦ CONTROL CENTER</span></div>
+    <div class="control-action-grid">
+      <a class="control-action primary" href="https://github.com/Jerserry/her-wanderlust-flight-monitor/actions/workflows/flight-monitor.yml" target="_blank" rel="noopener"><span class="control-action-icon">↻</span><span><b>立即扫描</b><small>打开 GitHub Actions，手动运行一轮监控</small></span><span class="control-arrow">↗</span></a>
+      <button class="control-action" type="button" data-goto="control-report"><span class="control-action-icon">⌁</span><span><b>走势报告预览</b><small>根据已保存的真实历史价格生成摘要</small></span><span class="control-arrow">↓</span></button>
+      <a class="control-action" href="https://github.com/Jerserry/her-wanderlust-flight-monitor/actions" target="_blank" rel="noopener"><span class="control-action-icon">♧</span><span><b>推送记录</b><small>查看每轮监控与通知步骤的执行记录</small></span><span class="control-arrow">↗</span></a>
+    </div>
+    <article class="panel control-report" id="control-report"><div class="console-panel-head"><div><div class="eyebrow">PRICE MOVEMENT DIGEST</div><h3>走势报告预览</h3></div><span class="console-pulse-tag">SAVED DATA</span></div><div id="controlReportPreview"><div class="empty-state">正在整理价格走势…</div></div><p class="console-note">只比较历史记录中确实存在的同一航线、同一航空公司报价；没有足够历史数据时会明确显示尚未形成趋势。</p></article>
+  </section>
   <section class="destination-dashboard">
     <div class="section-heading destination-heading"><div><h2>目的地票价总览</h2><p>28 destinations · KUL round-trip fares</p></div><span class="destination-count" id="destinationCount">读取目的地…</span></div>
     <div id="destinationGroups" class="destination-groups"><div class="empty-state">正在整理目的地价格…</div></div>
