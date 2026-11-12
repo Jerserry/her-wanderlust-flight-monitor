@@ -48,6 +48,26 @@
     </div>
     <p class="tiny muted">每次执行会轮换日期组合；页面展示最近一次成功搜索的报价。未搜索到的日期不代表没有航班。</p>
   </article>
+  <section class="console-overview" aria-label="机票监控台概览">
+    <div class="console-section-head"><div><div class="eyebrow">MONITORING CONSOLE</div><h2>监控概况</h2><p class="muted">以最近一次保存的真实监控结果为准。</p></div><span class="console-live"><i></i> DATA CONNECTED</span></div>
+    <div class="console-metrics" id="consoleMetrics">
+      <article class="console-metric"><span>最新报价数量</span><b>读取中…</b><small>Saved results</small></article>
+      <article class="console-metric"><span>有效报价</span><b>读取中…</b><small>Non-stale results</small></article>
+      <article class="console-metric"><span>涉及航空公司</span><b>读取中…</b><small>Observed airlines</small></article>
+      <article class="console-metric"><span>数据来源</span><b>读取中…</b><small>Provider</small></article>
+    </div>
+    <div class="console-panels">
+      <article class="panel console-panel">
+        <div class="console-panel-head"><div><div class="eyebrow">SPECIALS · LOWEST FARES</div><h3>特价雷达</h3></div><button class="text-button" data-goto="radar">查看全部 →</button></div>
+        <div id="consoleSpecials" class="console-special-list"><div class="empty-state">正在读取报价…</div></div>
+      </article>
+      <article class="panel console-panel">
+        <div class="console-panel-head"><div><div class="eyebrow">PULSE · LATEST DATA</div><h3>运行脉冲</h3></div><span class="console-pulse-tag">LATEST UPDATE</span></div>
+        <div id="consolePulse" class="console-pulse"><div class="empty-state">正在读取扫描状态…</div></div>
+        <p class="console-note">目前数据文件没有逐轮扫描耗时及渠道成功率字段，因此这里只展示可核实的更新时间与采集结果数量，不虚构运行指标。</p>
+      </article>
+    </div>
+  </section>
   <section class="destination-dashboard">
     <div class="section-heading destination-heading"><div><h2>目的地票价总览</h2><p>28 destinations · KUL round-trip fares</p></div><span class="destination-count" id="destinationCount">读取目的地…</span></div>
     <div id="destinationGroups" class="destination-groups"><div class="empty-state">正在整理目的地价格…</div></div>
