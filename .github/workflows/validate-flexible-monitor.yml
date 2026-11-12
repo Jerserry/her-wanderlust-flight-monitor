@@ -7,6 +7,10 @@ on:
     paths:
       - "monitor.py"
       - "config/flexible_dates.json"
+      - "docs/index.html"
+      - "docs/app.js"
+      - "docs/styles.css"
+      - "README.md"
       - ".github/workflows/validate-flexible-monitor.yml"
   workflow_dispatch:
 
@@ -25,6 +29,19 @@ jobs:
         run: pip install -r requirements.txt
       - name: Check Python syntax
         run: python -m py_compile monitor.py
+      - name: Check dashboard JavaScript syntax
+        run: node --check docs/app.js
+      - name: Check dashboard flexible-date elements
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          html = Path("docs/index.html").read_text(encoding="utf-8")
+          js = Path("docs/app.js").read_text(encoding="utf-8")
+          assert 'id="flexibleSummary"' in html
+          assert "function renderFlexibleSummary()" in js
+          assert "价格趋势" not in html
+          print("Dashboard checks passed.")
+          PY
       - name: Check flexible date generation and rotation
         run: |
           python - <<'PY'
