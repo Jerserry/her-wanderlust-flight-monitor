@@ -5,5 +5,18 @@
   "adults": 1,
   "departure_date": null,
   "return_date": null,
-  "routes": []
+  "routes": [
+    {"destination": "NRT"},
+    {"destination": "KIX"},
+    {"destination": "ICN"},
+    {"destination": "HKG"},
+    {"destination": "TPE"},
+    {"destination": "PVG"},
+    {"destination": "CAN"},
+    {"destination": "LHR"},
+    {"destination": "CDG"},
+    {"destination": "AMS"},
+    {"destination": "JFK"},
+    {"destination": "LAX"}
+  ]
 }
