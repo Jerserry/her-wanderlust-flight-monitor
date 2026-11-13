@@ -2,7 +2,7 @@
   "version": 1,
   "updated_at": "2026-11-13T06:08:03.133454+08:00",
   "source": "当前 Flight Monitor 已保存的 Google Flights via SerpApi 搜索结果",
-  "note": "此目录只收录目前价格数据中实际出现过的航空公司。IATA 代码、所属国家及航空公司类型为整理资料；报价出现不代表该公司经营所有相关航线，联营/转机组合需查看航班明细。",
+  "note": "此目录只收录目前价格数据中实际出现过的航空公司。IATA 代码、所属国家及航空公司类型为整理资料，分类仅作初步参考；报价出现不代表该公司经营所有相关航线，联营/转机组合需查看航班明细。",
   "airlines": [
     {
       "name": "Aeromexico",
@@ -56,7 +56,7 @@
       "name": "Batik Air",
       "iata": "OD",
       "country": "马来西亚",
-      "type": "全服务航空公司"
+      "type": "混合型航空公司"
     },
     {
       "name": "British Airways",
@@ -260,7 +260,7 @@
       "name": "WestJet",
       "iata": "WS",
       "country": "加拿大",
-      "type": "全服务航空公司"
+      "type": "混合型航空公司"
     },
     {
       "name": "XiamenAir",
