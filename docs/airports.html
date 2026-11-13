@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fff8fb">
+<title>Global Airport Database · Her Wanderlust Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<style>
+.airport-wrap{max-width:1400px;margin:0 auto;padding:30px 38px 50px}
+.airport-hero{background:linear-gradient(115deg,#fff0f6,#fffaf7);border:1px solid #f1e2eb;border-radius:20px;padding:26px 28px;margin-bottom:22px}
+.airport-hero h1{font-size:27px;margin:7px 0;color:#57434f}.airport-hero p{color:#927f8a;margin:0;line-height:1.7}
+.airport-tools{display:grid;grid-template-columns:minmax(220px,1fr) 220px auto auto;gap:10px;margin:18px 0}
+.airport-tools input,.airport-tools select{width:100%;border:1px solid #f0dfe8;border-radius:12px;background:#fff;padding:12px 14px;color:#57434f;outline:none}
+.airport-tools input:focus,.airport-tools select:focus{border-color:#d98eae;box-shadow:0 0 0 3px #fff0f6}
+.airport-btn{border:1px solid #edcfdd;border-radius:12px;background:#fff;color:#a96383;padding:10px 15px;font-weight:700}
+.airport-btn.primary{background:#d98eae;color:white;border-color:#d98eae}
+.airport-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}
+.airport-stat{background:#fff;border:1px solid #f2e7ed;border-radius:15px;padding:15px 17px}.airport-stat span{font-size:11px;color:#9a8792}.airport-stat b{display:block;font-size:23px;color:#b65f86;margin-top:5px}
+.airport-table-wrap{background:#fff;border:1px solid #f2e7ed;border-radius:16px;overflow:hidden}
+.airport-table{width:100%;border-collapse:collapse;font-size:12px}.airport-table th{background:#fff7fa;color:#967f8c;text-align:left;padding:13px 14px;font-weight:700;white-space:nowrap}.airport-table td{padding:13px 14px;border-top:1px solid #f6edf1;vertical-align:middle}.airport-table tr:hover td{background:#fffafd}
+.airport-code{display:inline-block;background:#fff0f6;color:#b65f86;border-radius:8px;padding:5px 8px;font-weight:800;letter-spacing:.5px}.city-code{display:inline-block;background:#f2efff;color:#7869ad;border-radius:8px;padding:5px 8px;font-weight:800}.airport-name b{display:block;color:#57434f;font-size:12px}.airport-name small,.airport-sub{display:block;color:#a18e99;font-size:10px;margin-top:4px}
+.airport-count{padding:14px 16px;color:#9a8792;font-size:11px;border-top:1px solid #f2e7ed}
+.airport-note{font-size:11px;color:#9b8993;line-height:1.7;margin-top:15px}.airport-note a{color:#b65f86}
+.empty-airports{text-align:center;padding:38px;color:#a18e99}
+@media(max-width:850px){.airport-wrap{padding:18px 14px 36px}.airport-tools{grid-template-columns:1fr 1fr}.airport-tools input{grid-column:1/-1}.airport-table-wrap{overflow-x:auto}.airport-table{min-width:760px}}
+@media(max-width:520px){.airport-stats{grid-template-columns:1fr 1fr}.airport-stat:last-child{grid-column:1/-1}.airport-hero{padding:20px}.airport-hero h1{font-size:22px}.airport-tools{grid-template-columns:1fr}.airport-tools input{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar">
+<a class="brand" href="./index.html"><span class="brand-mark">✈</span><span><b>HER WANDERLUST</b><small>PATH · FLIGHT RADAR</small></span></a>
+<div class="side-label">WORKSPACE</div>
+<nav class="nav">
+<a class="nav-link" href="./index.html" style="text-decoration:none"><span>◫</span> 总览 Overview</a>
+<a class="nav-link active" href="./airports.html" style="text-decoration:none"><span>◎</span> 全球机场数据库</a>
+</nav>
+<div class="side-label side-label-bottom">PREFERENCES</div>
+<div class="sidebar-bottom"><div class="mini-plane">✈</div><b>Travel more, worry less.</b><p>Search the world, one airport at a time.</p><span class="version">HER WANDERLUST PATH · 2026</span></div>
+</aside>
+<main class="main">
+<header class="topbar"><div class="crumb"><a href="./index.html" style="color:inherit;text-decoration:none">Workspace</a> <span>/</span> <b>Global Airport Database</b></div><div class="top-actions"><span class="currency-pill">WORLDWIDE</span><span class="status-dot"></span><span class="status-text" id="dbStatus">正在连接数据库…</span></div></header>
+<div class="airport-wrap">
+<section class="airport-hero"><div class="eyebrow">GLOBAL COMMERCIAL AIRPORT DATABASE ✦</div><h1>全球机场与城市代码</h1><p>搜索全球定期商业客运机场，按机场 IATA、ICAO、城市、城市代码或国家快速查找。适用于航线查询与机票监控目的地选择。</p></section>
+<div class="airport-stats">
+<div class="airport-stat"><span>商业客运机场</span><b id="airportTotal">—</b></div>
+<div class="airport-stat"><span>覆盖国家 / 地区</span><b id="countryTotal">—</b></div>
+<div class="airport-stat"><span>有城市代码的机场</span><b id="cityCodeTotal">—</b></div>
+</div>
+<div class="airport-tools">
+<input id="airportSearch" type="search" placeholder="搜索城市、机场、IATA / ICAO、城市代码或国家…">
+<select id="countryFilter"><option value="">所有国家 / 地区</option></select>
+<button class="airport-btn" id="clearSearch">清除筛选</button>
+<button class="airport-btn primary" id="exportAirports">导出 CSV</button>
+</div>
+<div class="airport-table-wrap">
+<table class="airport-table">
+<thead><tr><th>机场 IATA</th><th>城市 / 服务城市</th><th>城市代码</th><th>机场名称</th><th>ICAO</th><th>国家</th><th>机场类型</th></tr></thead>
+<tbody id="airportRows"><tr><td colspan="7" class="empty-airports">正在载入全球机场资料…</td></tr></tbody>
+</table>
+<div class="airport-count" id="airportCount">正在载入…</div>
+</div>
+<p class="airport-note">资料来源：<a href="https://airportmiles.com/data" target="_blank" rel="noopener">AirportMiles Global Airport Dataset</a>，基于 OurAirports 与 Wikidata，资料许可为 CC0。数据库只显示有 IATA 代码且标记为有定期客运航班的机场。城市代码只在资料源有提供时显示；不是每个城市都有独立的城市代码。机场时区暂未纳入此数据源。资料更新时间以来源网站为准；机场代码及营运状态在实际订票前仍应向航空公司或 IATA 核实。</p>
+</div>
+</main></div>
+<script>
+const AIRPORT_SOURCES=['https://airportmiles.com/downloads/airports.json','https://raw.githubusercontent.com/tine-current/airport-codes/main/data/airports.json'];
+let airports=[],filtered=[];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function loadAirports(){
+ $('dbStatus').textContent='正在连接数据库…';
+ let lastError;
+ for(const url of AIRPORT_SOURCES){
+  try{
+   const response=await fetch(url,{cache:'no-cache'});
+   if(!response.ok)throw new Error('HTTP '+response.status);
+   const payload=await response.json();
+   const rows=Array.isArray(payload)?payload:payload.airports;
+   if(!Array.isArray(rows)||!rows.length)throw new Error('资料格式不正确');
+   const unique=new Map();
+   rows.filter(a=>a&&/^[A-Z]{3}$/.test(String(a.iata||''))&&String(a.scheduled_flights??'yes').toLowerCase()!=='no').forEach(a=>unique.set(a.iata,a));
+   airports=[...unique.values()].sort((a,b)=>String(a.served_city||a.municipality||'').localeCompare(String(b.served_city||b.municipality||''))||String(a.iata).localeCompare(String(b.iata)));
+   populateCountries();renderAirports();
+   $('dbStatus').textContent='数据库已连接';
+   return;
+  }catch(e){lastError=e}
+ }
+ $('dbStatus').textContent='连接失败';
+ $('airportRows').innerHTML='<tr><td colspan="7" class="empty-airports">暂时无法载入数据库。请检查网络后重新整理页面。<br>'+esc(lastError?.message||'')+'</td></tr>';
+ $('airportCount').textContent='资料载入失败';
+}
+function populateCountries(){
+ const countries=[...new Set(airports.map(a=>a.country).filter(Boolean))].sort();
+ $('countryFilter').innerHTML='<option value="">所有国家 / 地区</option>'+countries.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('');
+ $('airportTotal').textContent=airports.length.toLocaleString();
+ $('countryTotal').textContent=countries.length.toLocaleString();
+ $('cityCodeTotal').textContent=airports.filter(a=>a.city_code).length.toLocaleString();
+}
+function renderAirports(){
+ const q=$('airportSearch').value.trim().toLowerCase(),country=$('countryFilter').value;
+ filtered=airports.filter(a=>{
+  if(country&&a.country!==country)return false;
+  const hay=[a.iata,a.icao,a.name,a.municipality,a.served_city,a.city_code,a.country,a.region].join(' ').toLowerCase();
+  return !q||hay.includes(q);
+ });
+ const rows=filtered.slice(0,250);
+ $('airportRows').innerHTML=rows.length?rows.map(a=>{
+  const city=a.served_city||a.municipality||'—';
+  return '<tr><td><span class="airport-code">'+esc(a.iata)+'</span></td><td><b>'+esc(city)+'</b><small class="airport-sub">'+esc(a.municipality&&a.municipality!==city?a.municipality:'')+'</small></td><td>'+(a.city_code?'<span class="city-code">'+esc(a.city_code)+'</span>':'<span class="airport-sub">—</span>')+'</td><td class="airport-name"><b>'+esc(a.name)+'</b><small>'+esc(a.region||'')+'</small></td><td>'+esc(a.icao||'—')+'</td><td>'+esc(a.country||'—')+'</td><td>'+esc(a.size||'—')+'</td></tr>';
+ }).join(''):'<tr><td colspan="7" class="empty-airports">没有找到符合条件的机场。</td></tr>';
+ $('airportCount').textContent='符合条件：'+filtered.length.toLocaleString()+' 个机场'+(filtered.length>250?' · 当前显示前 250 个，请缩小搜索范围':'');
+}
+function exportCsv(){
+ const fields=['iata','city_code','icao','name','served_city','municipality','country','region','latitude','longitude','elevation_m','size','wikidata'];
+ const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+ const csv='\uFEFF'+[fields.join(','),...filtered.map(a=>fields.map(k=>quote(a[k])).join(','))].join('\r\n');
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='her-wanderlust-global-commercial-airports.csv';a.click();URL.revokeObjectURL(url);
+}
+$('airportSearch').addEventListener('input',renderAirports);
+$('countryFilter').addEventListener('change',renderAirports);
+$('clearSearch').addEventListener('click',()=>{$('airportSearch').value='';$('countryFilter').value='';renderAirports()});
+$('exportAirports').addEventListener('click',exportCsv);
+loadAirports();
+</script>
+</body></html>
