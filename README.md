@@ -12,6 +12,12 @@ GitHub Pages serves the dashboard from `docs/`. It includes:
 - Airline-by-airline round-trip fare comparison
 - Telegram alerts and system status
 
+## Global commercial airport database
+
+The dashboard includes a searchable global airport directory at `docs/airports.html`. It loads airports with IATA codes and scheduled passenger service, and supports search by airport IATA / ICAO, airport name, served city, city code, country and region, plus CSV export. The source dataset is AirportMiles (built from OurAirports and Wikidata), CC0; the page filters out records marked as having no scheduled flights. City codes are shown only where the source provides one. Time zones are not included in this dataset.
+
+Source: https://airportmiles.com/data
+
 ## Configure monitored routes
 
 The default watchlist contains 28 destinations, all departing from KUL: Japan (NRT, KIX), South Korea (ICN), Hong Kong (HKG), Taiwan (TPE), China (PVG, CAN), Europe (LHR, CDG, AMS), the United States (JFK, LAX), Canada (YYZ, YVR, YUL), New Zealand (AKL, CHC, ZQN), Australia (SYD, MEL, BNE, PER), Africa (CPT, JNB, NBO, CAI), and Mexico (MEX, CUN).
