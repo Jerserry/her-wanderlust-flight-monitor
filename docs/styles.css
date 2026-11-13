@@ -274,3 +274,70 @@ body{background:#f1f3f6;color:#344256;font-family:'DM Sans','Noto Sans SC',sans-
 .notice{background:#f7f9fc;border-color:#e5eaf0;color:#68788e}.page-title{background:#f7f9fc;border-color:#e5eaf0}
 @media(max-width:1050px){.control-action-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.console-panels{grid-template-columns:1fr}}
 @media(max-width:720px){.sidebar{background:#f1f3f6}.content{padding:15px 12px 20px}#view-overview>.control-center{padding:14px;border-radius:13px}.control-action-grid{grid-template-columns:1fr}.control-action{min-height:58px}.console-panels{grid-template-columns:1fr}.welcome-row h1{font-size:21px}.topbar{padding:0 12px}}
+
+
+/* Her Wanderlust Path — restore the soft pastel pink dashboard theme */
+:root{
+ --bg:#fff8fb;--paper:#ffffff;--ink:#51424c;--muted:#998895;--line:#f1e2eb;
+ --pink:#e9a3c0;--pink-dark:#c96f98;--rose:#fff0f6;--peach:#fff3ed;
+ --green:#eaf7ef;--green-ink:#47866a;--lilac:#f3efff;--shadow:0 6px 22px rgba(174,105,140,.06)
+}
+body{background:var(--bg);color:var(--ink)}
+.sidebar{background:#fff;border-bottom:1px solid #f1e2eb;box-shadow:0 3px 16px rgba(174,105,140,.035)}
+.brand-mark{background:linear-gradient(145deg,#f8d8e7,#fcebf2);color:#b76689}
+.brand b{color:#51424c}.brand small{color:#b18d9d}
+.nav-link{color:#887985;border-bottom-color:transparent}
+.nav-link span{color:#b18c9e}
+.nav-link:hover,.nav-link.active{background:#fff0f6;color:#b65f86;border-bottom-color:#e9a3c0}
+.nav-link.active span{color:#c96f98}
+.topbar{background:rgba(255,255,255,.88);border-bottom:1px solid #f1e2eb}
+.crumb{color:#a99ca5}.crumb b{color:#665460}
+.currency-pill,.soft-tag{background:#fff0f6;color:#b56c8b}
+.scan-pill{background:#fff6fa;border-color:#f1e2eb;color:#a18e9a}
+.scan-pill b{color:#c96f98}
+.content{max-width:1700px}
+.welcome-row h1{color:#51424c}.welcome-row p{color:#998895}
+.eyebrow{color:#c17e9b}
+.stat-card,.panel,.console-metric,.destination-region,.destination-card,.control-action{border-color:#f1e2eb;box-shadow:var(--shadow)}
+.stat-card strong{color:#51424c}.stat-top,.stat-card small{color:#998895}
+.console-section-head h2,.console-panel-head h3{color:#594853}
+.console-live,.console-pulse-tag{background:#f0faf4;border-color:#dceee4;color:#56866a}
+.console-metric b{color:#604c58}
+.console-special-row>strong{color:#b65f86}
+.console-rank{background:#fff0f6;color:#c96f98}
+.console-panels{grid-template-columns:1.15fr .85fr}
+.control-action-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.control-action{background:#fffafd;border-color:#f1e2eb}
+.control-action.primary{background:#e9a3c0;border-color:#e9a3c0;color:#fff}
+.control-action.primary .control-action-icon{background:rgba(255,255,255,.22);color:#fff}
+.control-action.primary small,.control-action.primary .control-arrow{color:#fff7fb}
+.control-action-icon{background:#fff0f6;color:#b56c8b}
+.control-report{border-top-color:#f1e2eb}
+.report-stats>div{background:#fff8fb}
+.report-lowest b{color:#b65f86}
+.destination-region{background:#fff}
+.destination-count{background:#fff0f6;color:#b56c8b}
+.destination-code{background:#fff0f6;color:#b56c8b}
+.destination-price{color:#b65f86}
+.refresh-button{background:#fff;border-color:#f1dce7;color:#a96383}
+.refresh-button:hover{background:#fff4f8;border-color:#e8bfd0}
+.notice{background:#fff5f9;border-color:#f1e2eb;color:#806d78}
+.page-title{background:linear-gradient(105deg,#fff1f7,#fffaf7);border-color:#f1e2eb}
+.radar-summary{background:linear-gradient(115deg,#fff0f6,#fff9f4);border-color:#f1e2eb}
+.radar-summary b{border-color:#f1dce7;color:#b65f86}
+.radar-card .big-price{color:#b65f86}
+.radar-progress span{background:linear-gradient(90deg,#edb4cc,#d985aa)}
+.flexible-metric{background:#fff9fc;border-color:#f1e2eb}
+.destination-card:hover{border-color:#e6b4c9;box-shadow:0 7px 18px rgba(160,91,124,.08)}
+.details-source-tag{background:#f0faf4;color:#578a6d}
+@media(max-width:1050px){.control-action-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.console-panels{grid-template-columns:1fr}}
+@media(max-width:720px){
+ .sidebar{background:#fff}
+ .content{padding:15px 12px 20px}
+ #view-overview>.control-center{background:#fff;border-color:#f1e2eb}
+ .control-action-grid{grid-template-columns:1fr}
+ .control-action{min-height:58px}
+ .console-panels{grid-template-columns:1fr}
+ .welcome-row h1{font-size:21px}
+ .topbar{padding:0 12px}
+}
