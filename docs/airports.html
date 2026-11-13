@@ -66,7 +66,7 @@
 </div>
 </main></div>
 <script>
-const AIRPORT_SOURCES=['https://airportmiles.com/downloads/airports.json','https://raw.githubusercontent.com/tine-current/airport-codes/main/data/airports.json'];
+const AIRPORT_SOURCES=['./data/airports.json','https://airportmiles.com/downloads/airports.json','https://raw.githubusercontent.com/tine-current/airport-codes/main/data/airports.json'];
 let airports=[],filtered=[];
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
