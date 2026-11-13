@@ -14,7 +14,7 @@ GitHub Pages serves the dashboard from `docs/`. It includes:
 
 ## Global commercial airport database
 
-The dashboard includes a searchable global airport directory at `docs/airports.html`. It loads airports with IATA codes and scheduled passenger service, and supports search by airport IATA / ICAO, airport name, served city, city code, country and region, plus CSV export. The source dataset is AirportMiles (built from OurAirports and Wikidata), CC0; the page filters out records marked as having no scheduled flights. City codes are shown only where the source provides one. Time zones are not included in this dataset.
+The dashboard includes a searchable global airport directory at `docs/airports.html`. It supports search by airport IATA / ICAO, airport name, served city, city code, country and region, plus CSV export. A scheduled GitHub Actions workflow refreshes `docs/data/airports.json` daily from AirportMiles (built from OurAirports and Wikidata), CC0. The page filters out records marked as having no scheduled flights. City codes are shown only where the source provides one. Time zones are not included in this dataset.
 
 Source: https://airportmiles.com/data
 
