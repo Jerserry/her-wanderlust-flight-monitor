@@ -1,0 +1,45 @@
+name: Update Global Airport Database
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 2 * * *" # 10:17 Malaysia time (UTC+8)
+
+permissions:
+  contents: write
+
+jobs:
+  update-airports:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Download current scheduled-passenger airport dataset
+        run: |
+          mkdir -p docs/data
+          curl --fail --location --silent --show-error \
+            https://airportmiles.com/downloads/airports.json \
+            --output docs/data/airports.json
+      - name: Validate dataset
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const payload = JSON.parse(fs.readFileSync('docs/data/airports.json', 'utf8'));
+          if (!Array.isArray(payload.airports) || payload.airports.length < 3000) {
+            throw new Error('Airport dataset is missing or unexpectedly small');
+          }
+          const valid = payload.airports.filter(a => /^[A-Z]{3}$/.test(a.iata || ''));
+          if (valid.length < 3000) throw new Error('Too few valid IATA airport records');
+          console.log(`Validated ${valid.length} IATA airport records`);
+          NODE
+      - name: Commit updated database
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/airports.json
+          if git diff --cached --quiet; then
+            echo "Airport database is already up to date."
+          else
+            git commit -m "Update global commercial airport database"
+            git push
+          fi
