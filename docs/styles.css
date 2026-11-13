@@ -341,3 +341,6 @@ body{background:var(--bg);color:var(--ink)}
  .welcome-row h1{font-size:21px}
  .topbar{padding:0 12px}
 }
+
+/* Airline registry filters and metadata */
+.airline-filters{display:flex;gap:9px;flex-wrap:wrap;padding:0 18px 16px}.airline-filters .search-input{min-width:180px}.airline-meta{display:flex;align-items:center;gap:8px;color:#9b8994;font-size:9px;margin:7px 0}.airline-code{display:inline-block;padding:4px 7px;background:#fff0f6;color:#b56c8b;border-radius:7px;font-weight:800;letter-spacing:.5px}.airline-type{font-size:9px;color:#9c8491;margin-bottom:9px}@media(max-width:720px){.airline-filters{padding:0 14px 14px}.airline-filters .search-input{width:100%;min-width:0}}
