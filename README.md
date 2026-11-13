@@ -12,6 +12,10 @@ GitHub Pages serves the dashboard from `docs/`. It includes:
 - Airline-by-airline round-trip fare comparison
 - Telegram alerts and system status
 
+## Airline directory
+
+The Airlines view loads `docs/data/airlines.json`, a starter directory of 45 airlines that have appeared in saved Google Flights via SerpApi fare results. It supports search by airline name / IATA code / country and filters by country and airline type. The directory is based on observed search results, not a complete list of all airlines operating from KUL; airline type labels are preliminary reference classifications. Live fare counts and lowest saved round-trip fares are calculated from `docs/data/prices.json`.
+
 ## Global commercial airport database
 
 The dashboard includes a searchable global airport directory at `docs/airports.html`. It supports search by airport IATA / ICAO, airport name, served city, city code, country and region, plus CSV export. A scheduled GitHub Actions workflow refreshes `docs/data/airports.json` daily from AirportMiles (built from OurAirports and Wikidata), CC0. The page filters out records marked as having no scheduled flights. City codes are shown only where the source provides one. Time zones are not included in this dataset.
