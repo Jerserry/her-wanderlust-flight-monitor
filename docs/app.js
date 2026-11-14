@@ -5,6 +5,7 @@ document.querySelectorAll('.nav-link').forEach(x=>x.classList.toggle('active',x.
 {code:'ICN',name:'首尔',country:'韩国',region:'亚洲'},{code:'HKG',name:'香港',country:'香港',region:'亚洲'},
 {code:'TPE',name:'台北',country:'台湾',region:'亚洲'},{code:'PVG',name:'上海',country:'中国',region:'亚洲'},{code:'CAN',name:'广州',country:'中国',region:'亚洲'},
 {code:'LHR',name:'伦敦',country:'英国',region:'欧洲'},{code:'CDG',name:'巴黎',country:'法国',region:'欧洲'},{code:'AMS',name:'阿姆斯特丹',country:'荷兰',region:'欧洲'},
+{code:'WAW',name:'华沙',country:'波兰',region:'欧洲'},{code:'MAD',name:'马德里',country:'西班牙',region:'欧洲'},{code:'BCN',name:'巴塞罗那',country:'西班牙',region:'欧洲'},{code:'MXP',name:'米兰',country:'意大利',region:'欧洲'},{code:'ZRH',name:'苏黎世',country:'瑞士',region:'欧洲'},{code:'GVA',name:'日内瓦',country:'瑞士',region:'欧洲'},
 {code:'JFK',name:'纽约',country:'美国',region:'北美洲'},{code:'LAX',name:'洛杉矶',country:'美国',region:'北美洲'},
 {code:'YYZ',name:'多伦多',country:'加拿大',region:'北美洲'},{code:'YVR',name:'温哥华',country:'加拿大',region:'北美洲'},{code:'YUL',name:'蒙特利尔',country:'加拿大',region:'北美洲'},
 {code:'MEX',name:'墨西哥城',country:'墨西哥',region:'北美洲'},{code:'CUN',name:'坎昆',country:'墨西哥',region:'北美洲'},
