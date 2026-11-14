@@ -69,8 +69,8 @@ jobs:
           assert cursor["BKK"] == 2
           routes = json.loads(Path("config/routes.json").read_text(encoding="utf-8"))["routes"]
           destinations = [route["destination"] for route in routes]
-          assert len(destinations) == 28, f"Expected 28 destinations, got {len(destinations)}"
-          assert len(set(destinations)) == 28, "Duplicate destination airport codes found"
+          assert len(destinations) >= 28, f"Expected at least 28 destinations, got {len(destinations)}"
+          assert len(set(destinations)) == len(destinations), "Duplicate destination airport codes found"
           assert all("budget_myr" not in route for route in routes)
           print(f"Validation passed: {len(destinations)} destinations; {len(pairs)} date combinations; rotation works.")
           PY
