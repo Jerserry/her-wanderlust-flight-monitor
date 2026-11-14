@@ -17,6 +17,16 @@ PRICE_DROP_ALERT_PERCENT = float(CONFIG.get("price_drop_alert_percent", 5))
 TIMEZONE = ZoneInfo(FLEX_CONFIG.get("timezone", "Asia/Kuala_Lumpur"))
 
 
+def safe_error(error):
+    """Redact API credentials before writing request errors to Actions logs or data."""
+    message = str(error)
+    for secret_name in ("SERPAPI_API_KEY", "TELEGRAM_BOT_TOKEN"):
+        secret = os.getenv(secret_name)
+        if secret:
+            message = message.replace(secret, "[REDACTED]")
+    return message
+
+
 def telegram(message):
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
@@ -35,7 +45,7 @@ def telegram(message):
             raise RuntimeError(payload.get("description", "Telegram API returned ok=false"))
         return True
     except (requests.RequestException, ValueError, RuntimeError) as error:
-        print(f"WARNING Telegram notification failed: {error}")
+        print(f"WARNING Telegram notification failed: {safe_error(error)}")
         return False
 
 
@@ -301,8 +311,8 @@ def main():
                         f"{item['airline']}: RM{item['price']:.2f}"
                     )
             except (requests.RequestException, RuntimeError, ValueError, KeyError) as error:
-                errors.append(f"{destination} {departure_date} to {return_date}: {error}")
-                print(f"ERROR {destination} {departure_date} to {return_date}: {error}")
+                errors.append(f"{destination} {departure_date} to {return_date}: {safe_error(error)}")
+                print(f"ERROR {destination} {departure_date} to {return_date}: {safe_error(error)}")
 
     # Keep the last successful fare for each exact date pair if that pair fails this run.
     fresh_pair_keys = {
@@ -339,10 +349,32 @@ def main():
             "search_pairs_per_destination_per_run": int(FLEX_CONFIG.get("search_pairs_per_destination_per_run", 2)),
         },
         "flexible_cursor": cursors,
-        "searches_per_day": (
+        "schedule": {
+            "frequency": "weekly",
+            "days": ["Tuesday", "Wednesday", "Friday", "Saturday"],
+            "time": "18:00",
+            "timezone": "Asia/Kuala_Lumpur",
+            "cron_utc": "0 10 * * 2,3,5,6",
+        },
+        "runs_per_week": 4,
+        "searches_per_run": (
+            len(active_destinations)
+            * max(1, int(FLEX_CONFIG.get("search_pairs_per_destination_per_run", 2)))
+        ),
+        "searches_per_week": (
             len(active_destinations)
             * max(1, int(FLEX_CONFIG.get("search_pairs_per_destination_per_run", 2)))
             * 4
+        ),
+        "searches_per_month_estimate": round(
+            len(active_destinations)
+            * max(1, int(FLEX_CONFIG.get("search_pairs_per_destination_per_run", 2)))
+            * 4 * 365.25 / 12 / 7
+        ),
+        "searches_per_day": round(
+            len(active_destinations)
+            * max(1, int(FLEX_CONFIG.get("search_pairs_per_destination_per_run", 2)))
+            * 4 / 7, 2
         ),
         "price_drop_alert_percent": PRICE_DROP_ALERT_PERCENT,
         "results": sorted(
