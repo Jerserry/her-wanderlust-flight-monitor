@@ -89,6 +89,24 @@
     },
     {
       "destination": "CUN"
+    },
+    {
+      "destination": "WAW"
+    },
+    {
+      "destination": "MAD"
+    },
+    {
+      "destination": "BCN"
+    },
+    {
+      "destination": "MXP"
+    },
+    {
+      "destination": "ZRH"
+    },
+    {
+      "destination": "GVA"
     }
   ]
 }
