@@ -1,0 +1,77 @@
+name: Upscrape Manual Flight Search
+on:
+  workflow_dispatch:
+    inputs:
+      destination:
+        description: "Select one of the 34 configured destinations"
+        required: true
+        type: choice
+        options:
+          - NRT
+          - KIX
+          - ICN
+          - HKG
+          - TPE
+          - PVG
+          - CAN
+          - LHR
+          - CDG
+          - AMS
+          - JFK
+          - LAX
+          - YYZ
+          - YVR
+          - YUL
+          - AKL
+          - CHC
+          - ZQN
+          - SYD
+          - MEL
+          - BNE
+          - PER
+          - CPT
+          - JNB
+          - NBO
+          - CAI
+          - MEX
+          - CUN
+          - WAW
+          - MAD
+          - BCN
+          - MXP
+          - ZRH
+          - GVA
+      departure_date:
+        description: "One-way departure date (YYYY-MM-DD)"
+        required: true
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: hwp-upscrape-manual
+  cancel-in-progress: false
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Run one Upscrape search (maximum 5 credits)
+        env:
+          UPSCRAPE_API_KEY: ${{ secrets.UPSCRAPE_API_KEY }}
+          DESTINATION: ${{ inputs.destination }}
+          DEPARTURE_DATE: ${{ inputs.departure_date }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: python upscrape_monitor.py
+      - name: Save Upscrape validation result
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/upscrape_latest.json
+          git diff --cached --quiet || (git commit -m "Save manual Upscrape flight result" && git push)
