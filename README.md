@@ -24,7 +24,7 @@ Source: https://airportmiles.com/data
 
 ## Configure monitored routes
 
-The default watchlist contains 28 destinations, all departing from KUL: Japan (NRT, KIX), South Korea (ICN), Hong Kong (HKG), Taiwan (TPE), China (PVG, CAN), Europe (LHR, CDG, AMS), the United States (JFK, LAX), Canada (YYZ, YVR, YUL), New Zealand (AKL, CHC, ZQN), Australia (SYD, MEL, BNE, PER), Africa (CPT, JNB, NBO, CAI), and Mexico (MEX, CUN).
+The current watchlist contains 34 destinations, all departing from KUL: Japan (NRT, KIX), South Korea (ICN), Hong Kong (HKG), Taiwan (TPE), China (PVG, CAN), Europe (LHR, CDG, AMS), the United States (JFK, LAX), Canada (YYZ, YVR, YUL), New Zealand (AKL, CHC, ZQN), Australia (SYD, MEL, BNE, PER), Africa (CPT, JNB, NBO, CAI), and Mexico (MEX, CUN).
 
 Edit `config/routes.json`:
 
@@ -49,17 +49,19 @@ Edit `config/routes.json`:
 - price_drop_alert_percent controls the Telegram alert threshold for a fall versus the previous successful scan (default 5%).
 ## Schedule and API usage
 
-The GitHub Actions workflow runs four times daily at Malaysia time:
-- 00:00
-- 06:00
-- 12:00
-- 18:00
+SerpApi runs automatically four times per week at 18:00 Malaysia time:
+- Tuesday
+- Wednesday
+- Friday
+- Saturday
 
-GitHub Actions schedules are expressed in UTC. The corresponding cron is `0 22,4,10,16 * * *`.
+GitHub Actions schedules are expressed in UTC. The corresponding cron is `0 10 * * 2,3,5,6`.
 
-Each destination uses one round-trip date-pair search per run. The monitor now covers 28 destinations, so four scheduled runs daily mean approximately 112 searches per day or 3,360 searches per 30-day month, excluding manual runs and retries. Routes do not require a budget; the monitor records and compares fares. Telegram alerts are sent for a price drop of at least 5% versus the previous successful scan. Confirm that your SerpApi plan covers this increased usage before leaving the schedule enabled.
+Each of the 34 destinations uses one round-trip date-pair search per run. This is approximately 34 searches per run, 136 searches per week, or about 590 searches per average 30-day month, excluding retries or any separately initiated runs. The rolling flexible-date cursor rotates the selected date pairs over time. The current configuration uses one representative round-trip date pair per destination per run.
 
-You can also start a manual run from Actions → Daily Flight Monitor → Run workflow. Scheduled runs can start a little later than the exact minute because GitHub Actions scheduling is best-effort.
+Telegram alerts remain enabled when `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are configured. Alerts are sent when a fare first reaches its configured budget, drops by at least 5% versus the previous successful scan, or sets a new historical low for that exact date pair and airline. Telegram delivery failures do not discard collected prices.
+
+The scheduled SerpApi workflow is schedule-only; it does not expose a manual Run workflow trigger. GitHub Actions scheduling is best-effort, so a run may start later than the exact minute. Monitor SerpApi account usage and confirm the plan's monthly quota before relying on the schedule.
 
 ## GitHub Actions secrets
 
