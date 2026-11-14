@@ -7,106 +7,181 @@
   "return_date": null,
   "routes": [
     {
-      "destination": "NRT"
+      "destination": "NRT",
+      "budget_myr": 1200,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
     },
     {
-      "destination": "KIX"
+      "destination": "KIX",
+      "budget_myr": 1100,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
     },
     {
-      "destination": "ICN"
+      "destination": "ICN",
+      "budget_myr": 800,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
     },
     {
-      "destination": "HKG"
+      "destination": "HKG",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
     },
     {
-      "destination": "TPE"
+      "destination": "TPE",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
     },
     {
-      "destination": "PVG"
+      "destination": "PVG",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
     },
     {
-      "destination": "CAN"
+      "destination": "CAN",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
     },
     {
-      "destination": "LHR"
+      "destination": "LHR",
+      "budget_myr": 2000,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "CDG"
+      "destination": "CDG",
+      "budget_myr": 1800,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "AMS"
+      "destination": "AMS",
+      "budget_myr": 2000,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "JFK"
+      "destination": "JFK",
+      "budget_myr": 3000,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "LAX"
+      "destination": "LAX",
+      "budget_myr": 2300,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "YYZ"
+      "destination": "YYZ",
+      "budget_myr": 2800,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "YVR"
+      "destination": "YVR",
+      "budget_myr": 3000,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "YUL"
+      "destination": "YUL",
+      "budget_myr": 3000,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "AKL"
+      "destination": "AKL",
+      "budget_myr": 3200,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "CHC"
+      "destination": "CHC",
+      "budget_myr": 3500,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "ZQN"
+      "destination": "ZQN",
+      "budget_myr": 3000,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "SYD"
+      "destination": "SYD",
+      "budget_myr": 1800,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "MEL"
+      "destination": "MEL",
+      "budget_myr": 2000,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "BNE"
+      "destination": "BNE",
+      "budget_myr": 2300,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "PER"
+      "destination": "PER",
+      "budget_myr": 800,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "CPT"
+      "destination": "CPT",
+      "budget_myr": 2000,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "JNB"
+      "destination": "JNB",
+      "budget_myr": 1600,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "NBO"
+      "destination": "NBO",
+      "budget_myr": 1900,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "CAI"
+      "destination": "CAI",
+      "budget_myr": 1700,
+      "baggage_rule": "must_include_checked_baggage"
     },
     {
-      "destination": "MEX"
+      "destination": "MEX",
+      "budget_myr": 4000,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "CUN"
+      "destination": "CUN",
+      "budget_myr": 4000,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "WAW"
+      "destination": "WAW",
+      "budget_myr": 1800,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "MAD"
+      "destination": "MAD",
+      "budget_myr": 1800,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "BCN"
+      "destination": "BCN",
+      "budget_myr": 2000,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "MXP"
+      "destination": "MXP",
+      "budget_myr": 1500,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "ZRH"
+      "destination": "ZRH",
+      "budget_myr": 1800,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     },
     {
-      "destination": "GVA"
+      "destination": "GVA",
+      "budget_myr": 1600,
+      "baggage_rule": "confirm_before_baggage_qualified_comparison"
     }
-  ]
+  ],
+  "budget_specification": {
+    "name": "Final 34-route KUL round-trip budget list",
+    "currency": "MYR",
+    "trip_type": "round_trip",
+    "origin": "KUL",
+    "baggage_policy_note": "Asia may show fares without checked baggage but must disclose baggage inclusion. Africa, New Zealand and Australia must include checked baggage. Europe and Americas baggage qualification remains unconfirmed; do not label these fares as baggage-qualified until confirmed."
+  }
 }
