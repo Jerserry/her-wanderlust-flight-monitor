@@ -67,10 +67,24 @@ jobs:
           assert len(first) == 1 and len(second) == 1
           assert first != second, "Rotation did not advance to the next date pairs"
           assert cursor["BKK"] == 2
-          routes = json.loads(Path("config/routes.json").read_text(encoding="utf-8"))["routes"]
+
+          route_config = json.loads(Path("config/routes.json").read_text(encoding="utf-8"))
+          routes = route_config["routes"]
           destinations = [route["destination"] for route in routes]
-          assert len(destinations) >= 28, f"Expected at least 28 destinations, got {len(destinations)}"
+          assert len(destinations) == 34, f"Expected exactly 34 budget destinations, got {len(destinations)}"
           assert len(set(destinations)) == len(destinations), "Duplicate destination airport codes found"
-          assert all("budget_myr" not in route for route in routes)
-          print(f"Validation passed: {len(destinations)} destinations; {len(pairs)} date combinations; rotation works.")
+          assert all(
+              isinstance(route.get("budget_myr"), (int, float)) and route["budget_myr"] > 0
+              for route in routes
+          ), "Every destination must have a positive MYR round-trip budget"
+          allowed_baggage_rules = {
+              "may_exclude_checked_baggage_disclose",
+              "must_include_checked_baggage",
+          }
+          assert all(
+              route.get("baggage_rule") in allowed_baggage_rules for route in routes
+          ), "Every destination must have a valid checked-baggage rule"
+          assert route_config.get("origin") == "KUL", "Budget routes must depart from KUL"
+          assert route_config.get("currency") == "MYR", "Budget routes must use MYR"
+          print(f"Validation passed: {len(destinations)} budget destinations; {len(pairs)} date combinations; rotation works.")
           PY
