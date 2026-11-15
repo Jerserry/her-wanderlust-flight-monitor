@@ -99,6 +99,28 @@ def choose_candidates(route, candidates, cursors):
     return selected, cursor
 
 
+def baggage_budget_eligibility(route, baggage):
+    """Evaluate baggage policy separately from the raw fare-vs-budget comparison."""
+    rule = route.get("baggage_rule", "unknown")
+    checked = baggage.get("checked_baggage_included")
+    carry_on = baggage.get("carry_on_included")
+    verified = baggage.get("baggage_status") == "verified"
+
+    if not verified or not isinstance(checked, bool) or not isinstance(carry_on, bool):
+        return None, False, "baggage_unverified"
+
+    if rule == "must_include_checked_baggage":
+        compliant = checked is True
+    elif rule == "may_exclude_checked_baggage_disclose":
+        compliant = True
+    else:
+        return None, False, "baggage_policy_unknown"
+
+    if not compliant:
+        return False, False, "baggage_policy_noncompliant"
+    return True, True, "eligible"
+
+
 def search_fares(route, api_key, now, departure_date, return_date):
     destination = route["destination"].upper()
     origin = CONFIG.get("origin", "KUL").upper()
@@ -154,6 +176,24 @@ def search_fares(route, api_key, now, departure_date, return_date):
         last = segments[-1] if segments else {}
         airline, _ = airline_identity(itinerary)
         price = round(float(itinerary["price"]), 2)
+        baggage = {
+            "checked_baggage_included": None,
+            "carry_on_included": None,
+            "baggage_status": "unverified",
+        }
+        baggage_compliant, baggage_verified, _ = baggage_budget_eligibility(route, baggage)
+        price_within_budget = (price <= budget) if budget is not None else None
+        budget_eligible = bool(price_within_budget is True and baggage_verified and baggage_compliant is True)
+        if budget is None:
+            budget_status = "no_budget_configured"
+        elif price_within_budget is not True:
+            budget_status = "above_budget"
+        elif not baggage_verified:
+            budget_status = "baggage_unverified"
+        elif baggage_compliant is not True:
+            budget_status = "baggage_policy_noncompliant"
+        else:
+            budget_status = "eligible"
         results.append({
             "origin": origin,
             "destination": destination,
@@ -164,7 +204,11 @@ def search_fares(route, api_key, now, departure_date, return_date):
             "price": price,
             "currency": currency,
             "budget": budget,
-            "below_budget": (price <= budget) if budget is not None else None,
+            "below_budget": price_within_budget,
+            "price_within_budget": price_within_budget,
+            "baggage_policy_compliant": baggage_compliant,
+            "budget_eligible": budget_eligible,
+            "budget_status": budget_status,
             "baggage_rule": route.get("baggage_rule", "unknown"),
             "checked_baggage_included": None,
             "checked_baggage_weight_kg": None,
@@ -284,17 +328,15 @@ def main():
                     results.append(item)
 
                     crossed_budget = (
-                        item["budget"] is not None
-                        and item["below_budget"]
-                        and (previous_current is None or not previous_current.get("below_budget", False))
+                        item["budget_eligible"]
+                        and (previous_current is None or not previous_current.get("budget_eligible", False))
                     )
                     significant_drop = (
                         old_price is not None and old_price > 0
                         and item["price_change_pct"] <= -PRICE_DROP_ALERT_PERCENT
                     )
                     new_low_in_budget = (
-                        item["budget"] is not None
-                        and item["below_budget"]
+                        item["budget_eligible"]
                         and item["is_new_historical_low"]
                     )
                     if crossed_budget or significant_drop or new_low_in_budget:
@@ -312,6 +354,7 @@ def main():
                             f"航空公司：{item['airline']}\n"
                             f"来回参考价：RM{item['price']:.2f}\n"
                             f"{('目标预算：RM' + format(item['budget'], '.2f') + chr(10)) if item['budget'] is not None else ''}"
+                            f"行李状态：{item['baggage_status']}（正式预算资格：{item['budget_status']}）\n"
                             f"提醒原因：{'；'.join(dict.fromkeys(reasons))}\n"
                             "请核实最终价格、行李与可订状态。"
                         )
