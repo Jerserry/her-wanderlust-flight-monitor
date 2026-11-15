@@ -345,3 +345,16 @@ body{background:var(--bg);color:var(--ink)}
 /* Airline registry filters and metadata */
 .airline-filters{display:flex;gap:9px;flex-wrap:wrap;padding:0 18px 16px}.airline-filters .search-input{min-width:180px}.airline-meta{display:flex;align-items:center;gap:8px;color:#9b8994;font-size:9px;margin:7px 0}.airline-code{display:inline-block;padding:4px 7px;background:#fff0f6;color:#b56c8b;border-radius:7px;font-weight:800;letter-spacing:.5px}.airline-type{font-size:9px;color:#9c8491;margin-bottom:9px}@media(max-width:720px){.airline-filters{padding:0 14px 14px}.airline-filters .search-input{width:100%;min-width:0}}
 \n/* Pink destination route directory */\n.route-directory-panel{margin:18px 0}.route-directory-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:4px 0 8px}.route-directory-card{border:1px solid #f1e1e9;background:linear-gradient(145deg,#fff,#fff8fb);border-radius:14px;padding:14px;min-width:0}.route-directory-top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:12px}.route-directory-code{font-size:12px;font-weight:800;letter-spacing:.5px;color:#bd7895;background:#fff0f6;border:1px solid #f4dce8;padding:5px 8px;border-radius:8px}.route-directory-origin{font-size:9px;color:#b3a0ab}.route-directory-city{display:block;font-size:13px;color:#5d4c57;margin-bottom:3px}.route-directory-country{font-size:10px;color:#a894a0}.route-directory-price{display:flex;align-items:center;justify-content:space-between;margin:12px 0 8px;padding-top:10px;border-top:1px solid #f5e8ef}.route-directory-price span{font-size:9px;color:#a894a0}.route-directory-price strong{font-size:13px;color:#b86789}.route-directory-meta{font-size:9px;color:#a894a0;line-height:1.5}@media(max-width:1050px){.route-directory-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:720px){.route-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.route-directory-card{padding:11px}.route-directory-city{font-size:12px}.route-directory-price strong{font-size:12px}}@media(max-width:380px){.route-directory-grid{grid-template-columns:1fr}}\n
+/* Baggage verification and budget eligibility */
+.baggage-panel{margin-top:12px;padding:12px 14px;border:1px solid #f1e5eb;border-radius:11px;background:#fffafd}
+.baggage-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.baggage-panel-head>b{font-size:11px;color:#665560}
+.baggage-chip{display:inline-flex;align-items:center;border-radius:20px;padding:4px 8px;font-size:9px;font-weight:700}
+.baggage-chip.verified{background:#edf8f1;color:#548d70}
+.baggage-chip.unverified{background:#fff3eb;color:#ad805f}
+.baggage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.baggage-grid>div{padding:9px 10px;border-radius:8px;background:#fff}
+.baggage-grid span{display:block;color:#a99ca5;font-size:9px;margin-bottom:4px}
+.baggage-grid b{display:block;color:#665560;font-size:11px}
+.baggage-panel>small{display:block;margin-top:9px;color:#a497a0;font-size:9px;line-height:1.5;white-space:normal}
+@media(max-width:720px){.baggage-grid{grid-template-columns:1fr 1fr}}
