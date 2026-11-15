@@ -51,11 +51,11 @@ def main():
 
     TARGET.parent.mkdir(parents=True, exist_ok=True)
     TARGET.write_text(
-        json.dumps(public_config, ensure_ascii=False, indent=2) + "\\n",
+        json.dumps(public_config, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     print(f"Generated {TARGET.relative_to(ROOT)} with {len(normalized_routes)} routes.")
 
 
-if ____ == "__main__":
+if __name__ == "__main__":
     main()
