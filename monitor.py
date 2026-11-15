@@ -112,7 +112,9 @@ def baggage_budget_eligibility(route, baggage):
     if rule == "must_include_checked_baggage":
         compliant = checked is True
     elif rule == "may_exclude_checked_baggage_disclose":
-        compliant = True
+        notes = str(baggage.get("baggage_notes") or "").lower()
+        exclusion_disclosed = any(term in notes for term in ("checked baggage excluded", "checked baggage not included", "no checked baggage", "托运行李不包含", "不含托运行李"))
+        compliant = checked is True or exclusion_disclosed
     else:
         return None, False, "baggage_policy_unknown"
 
