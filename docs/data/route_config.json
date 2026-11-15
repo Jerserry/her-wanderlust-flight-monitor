@@ -6,7 +6,7 @@
   "adults": 1,
   "trip_type": "round_trip",
   "budget_specification": {
-    "name": "Final 34-route KUL round-trip budget list",
+    "name": "Final 44-route KUL round-trip budget list",
     "currency": "MYR",
     "trip_type": "round_trip",
     "origin": "KUL",
@@ -182,6 +182,56 @@
       "destination": "GVA",
       "budget_myr": 1600,
       "baggage_rule": "must_include_checked_baggage"
+    },
+    {
+      "destination": "DPS",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "CGK",
+      "budget_myr": 500,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "SUB",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "BKK",
+      "budget_myr": 500,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "HKT",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "CNX",
+      "budget_myr": 700,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "MNL",
+      "budget_myr": 700,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "HAN",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "SGN",
+      "budget_myr": 500,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "DAD",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
     }
   ],
   "budgets_by_destination": {
@@ -218,6 +268,16 @@
     "BCN": 2000,
     "MXP": 1500,
     "ZRH": 1800,
-    "GVA": 1600
+    "GVA": 1600,
+    "DPS": 600,
+    "CGK": 500,
+    "SUB": 600,
+    "BKK": 500,
+    "HKT": 600,
+    "CNX": 700,
+    "MNL": 700,
+    "HAN": 600,
+    "SGN": 500,
+    "DAD": 600
   }
 }
