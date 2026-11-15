@@ -116,10 +116,10 @@ def baggage_budget_eligibility(route, baggage):
         exclusion_disclosed = any(term in notes for term in ("checked baggage excluded", "checked baggage not included", "no checked baggage", "托运行李不包含", "不含托运行李"))
         compliant = checked is True or exclusion_disclosed
     else:
-        return None, False, "baggage_policy_unknown"
+        return None, True, "baggage_policy_unknown"
 
     if not compliant:
-        return False, False, "baggage_policy_noncompliant"
+        return False, True, "baggage_policy_noncompliant"
     return True, True, "eligible"
 
 
@@ -183,17 +183,15 @@ def search_fares(route, api_key, now, departure_date, return_date):
             "carry_on_included": None,
             "baggage_status": "unverified",
         }
-        baggage_compliant, baggage_verified, _ = baggage_budget_eligibility(route, baggage)
+        baggage_compliant, baggage_verified, baggage_result_status = baggage_budget_eligibility(route, baggage)
         price_within_budget = (price <= budget) if budget is not None else None
         budget_eligible = bool(price_within_budget is True and baggage_verified and baggage_compliant is True)
         if budget is None:
             budget_status = "no_budget_configured"
         elif price_within_budget is not True:
             budget_status = "above_budget"
-        elif not baggage_verified:
-            budget_status = "baggage_unverified"
-        elif baggage_compliant is not True:
-            budget_status = "baggage_policy_noncompliant"
+        elif baggage_result_status != "eligible":
+            budget_status = baggage_result_status
         else:
             budget_status = "eligible"
         results.append({
