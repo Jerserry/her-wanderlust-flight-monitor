@@ -60,6 +60,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - name: Generate website route budget config
+        run: python sync_route_config.py
       - name: Run one Upscrape search (maximum 5 credits)
         env:
           UPSCRAPE_API_KEY: ${{ secrets.UPSCRAPE_API_KEY }}
@@ -73,5 +75,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/data/upscrape_latest.json
+          git add docs/data/upscrape_latest.json docs/data/route_config.json
           git diff --cached --quiet || (git commit -m "Save manual Upscrape flight result" && git push)
