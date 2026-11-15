@@ -91,7 +91,7 @@
  <div class="panel route-directory-panel"><div class="panel-head"><div><h3>目的地航线目录</h3><span id="routeCount" class="muted small"></span></div><input id="routeSearch" class="search-input" placeholder="搜索城市 / 国家 / 机场代码…" aria-label="搜索航线"></div><div id="routeDirectory" class="route-directory-grid"></div></div><div class="panel table-panel"><div class="panel-head"><div><h3>最新来回报价明细</h3><span class="muted small">仅展示最近一次保存的搜索结果</span></div></div><div class="table-scroll"><table><thead><tr><th>航线</th><th>旅行日期（出发–回程）</th><th>当前价格</th><th>预算（未设置）</th><th>状态</th><th>最后检查</th></tr></thead><tbody id="routesTable"></tbody></table></div></div>
 </section>
 <section class="page-view" id="view-details">
- <div class="page-title"><div><div class="eyebrow">FLIGHT DETAILS · KUL DEPARTURES</div><h1>航班明细</h1><p class="muted">筛选、排序并展开查看已监控的机票报价。报价来源为 Google Flights via SerpApi。</p></div><button class="refresh-button" id="exportFlightDetails" type="button">↓ 导出 CSV</button></div>
+ <div class="page-title"><div><div class="eyebrow">FLIGHT DETAILS · KUL DEPARTURES</div><h1>航班明细</h1><p class="muted">筛选、排序并展开查看已监控报价；同时显示 SerpApi 来回票价与 Upscrape 单程记录。</p></div><button class="refresh-button" id="exportFlightDetails" type="button">↓ 导出 CSV</button></div>
  <div class="details-summary" id="detailsSummary"></div>
  <div class="panel details-filter-panel">
   <div class="details-filter-title"><div><h3>筛选条件</h3><span class="muted small">Filter and refine tracked fares</span></div><button class="text-button" id="resetFlightFilters" type="button">重置筛选 ↺</button></div>
@@ -108,7 +108,7 @@
  <div class="panel table-panel details-table-panel"><div class="panel-head"><div><h3>监控航班报价</h3><span class="muted small" id="detailsCount">读取报价中…</span></div><span class="details-source-tag">MYR · KUL</span></div>
  <div class="table-scroll"><table class="details-table"><thead><tr><th>航线 / 航空公司</th><th>出发 – 回程</th><th>航程</th><th>飞行时长</th><th>价格</th><th>价格状态</th><th>更新时间</th><th></th></tr></thead><tbody id="flightDetailsTable"></tbody></table></div>
  </div>
- <p class="tiny muted details-disclaimer">价格为最近一次监控时的参考报价，可能已变化。此页面展示系统已保存的搜索结果；没有列出的日期或航空公司不代表没有航班。购买前请再次确认最终票价、行李及预订条件。</p>
+ <p class="tiny muted details-disclaimer">价格为最近一次监控时的参考报价，可能已变化。此页面展示系统已保存的搜索结果；没有列出的日期或航空公司不代表没有航班。行李资料会标示托运行李与手提行李的包含状态及重量；未核实项目不会视为已包含。购买前请再次确认最终票价、行李及预订条件。</p>
 </section>
 <section class="page-view" id="view-radar">
  <div class="page-title"><div><div class="eyebrow">FIND YOUR NEXT GETAWAY</div><h1>机票价格排行榜</h1><p class="muted">来回与单程分开排名，按当前搜索价格由低至高排列；过期数据会排在后面。</p></div><span class="soft-tag">✦ Deal radar</span></div>
