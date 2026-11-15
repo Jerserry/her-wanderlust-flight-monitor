@@ -114,7 +114,13 @@ def main():
             "budget_comparison": "not_comparable_one_way",
             "baggage_rule": baggage_rule,
             "checked_baggage_included": None,
-            "baggage_status": "unverified_not_returned_by_source",
+            "checked_baggage_weight_kg": None,
+            "carry_on_included": None,
+            "carry_on_weight_kg": None,
+            "baggage_status": "unverified",
+            "baggage_source": None,
+            "baggage_checked_at": None,
+            "baggage_notes": "Trip.com via Upscrape response did not provide independently verifiable checked-baggage or carry-on details.",
             "airline_codes": offer.get("airline_codes", []),
             "flight_numbers": offer.get("flight_numbers", []),
             "stops": offer.get("stops"),
@@ -149,7 +155,7 @@ def main():
         "returned": len(normalized),
         "budget_round_trip_myr": budget,
         "baggage_rule": baggage_rule,
-        "note": "One-way Trip.com observation only. It is not a round-trip fare and must not be compared with the round-trip budget. Checked-baggage inclusion is unverified.",
+        "note": "One-way Trip.com observation only. It is not a round-trip fare and must not be compared with the round-trip budget. Checked-baggage and carry-on inclusion are unverified.",
         "offers": normalized,
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
