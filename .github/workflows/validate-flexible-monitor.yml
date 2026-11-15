@@ -71,7 +71,7 @@ jobs:
           route_config = json.loads(Path("config/routes.json").read_text(encoding="utf-8"))
           routes = route_config["routes"]
           destinations = [route["destination"] for route in routes]
-          assert len(destinations) == 34, f"Expected exactly 34 budget destinations, got {len(destinations)}"
+          assert len(destinations) == 44, f"Expected exactly 44 budget destinations, got {len(destinations)}"
           assert len(set(destinations)) == len(destinations), "Duplicate destination airport codes found"
           assert all(
               isinstance(route.get("budget_myr"), (int, float)) and route["budget_myr"] > 0
