@@ -175,10 +175,60 @@
       "destination": "GVA",
       "budget_myr": 1600,
       "baggage_rule": "must_include_checked_baggage"
+    },
+    {
+      "destination": "DPS",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "CGK",
+      "budget_myr": 500,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "SUB",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "BKK",
+      "budget_myr": 500,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "HKT",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "CNX",
+      "budget_myr": 700,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "MNL",
+      "budget_myr": 700,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "HAN",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "SGN",
+      "budget_myr": 500,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
+    },
+    {
+      "destination": "DAD",
+      "budget_myr": 600,
+      "baggage_rule": "may_exclude_checked_baggage_disclose"
     }
   ],
   "budget_specification": {
-    "name": "Final 34-route KUL round-trip budget list",
+    "name": "Final 44-route KUL round-trip budget list",
     "currency": "MYR",
     "trip_type": "round_trip",
     "origin": "KUL",
