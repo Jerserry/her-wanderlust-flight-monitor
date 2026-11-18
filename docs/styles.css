@@ -358,3 +358,10 @@ body{background:var(--bg);color:var(--ink)}
 .baggage-grid b{display:block;color:#665560;font-size:11px}
 .baggage-panel>small{display:block;margin-top:9px;color:#a497a0;font-size:9px;line-height:1.5;white-space:normal}
 @media(max-width:720px){.baggage-grid{grid-template-columns:1fr 1fr}}
+
+
+/* Compact, safe monitor error disclosure */
+.monitor-error-details{margin-top:10px;padding-top:9px;border-top:1px solid #f0dce6;color:#806d78;font-size:12px}
+.monitor-error-details summary{cursor:pointer;font-weight:700;color:#a96383;list-style-position:inside}
+.monitor-error-details ul{margin:8px 0 0;padding-left:20px;max-height:180px;overflow:auto}
+.monitor-error-details li{margin:4px 0;overflow-wrap:anywhere;line-height:1.5}
