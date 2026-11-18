@@ -59,6 +59,12 @@ class SerpApiResilienceTests(unittest.TestCase):
         self.assertEqual(get.call_count, 2)
         sleep.assert_called_once_with(0)
 
+    def test_rate_limit_resume_cursor_skips_the_pair_that_triggered_429(self):
+        self.assertEqual(monitor.cursor_after_rate_limit(4, 0, 20), 5)
+        self.assertEqual(monitor.cursor_after_rate_limit(4, 1, 20), 6)
+        self.assertEqual(monitor.cursor_after_rate_limit(19, 0, 20), 0)
+        self.assertEqual(monitor.cursor_after_rate_limit(4, 0, 0), 0)
+
     def test_safe_error_hides_request_url_and_credentials(self):
         error = requests.HTTPError(
             "429 Client Error for url: https://serpapi.com/search.json?api_key=secret-token"
