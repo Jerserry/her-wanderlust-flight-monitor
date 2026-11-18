@@ -5,14 +5,28 @@ on:
     branches:
       - main
       - feature/flexible-date-monitoring
+      - fix/429-stability-and-dashboard
     paths:
       - "monitor.py"
       - "config/flexible_dates.json"
       - "config/routes.json"
+      - "config/api_limits.json"
+      - "tests/**"
       - "docs/index.html"
       - "docs/app.js"
       - "docs/styles.css"
       - "README.md"
+      - ".github/workflows/validate-flexible-monitor.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "monitor.py"
+      - "config/**"
+      - "tests/**"
+      - "docs/index.html"
+      - "docs/app.js"
+      - "docs/styles.css"
       - ".github/workflows/validate-flexible-monitor.yml"
   workflow_dispatch:
 
@@ -31,6 +45,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Check Python syntax
         run: python -m py_compile monitor.py
+      - name: Run offline monitor resilience tests
+        run: python -m unittest discover -s tests -v
       - name: Check dashboard JavaScript syntax
         run: node --check docs/app.js
       - name: Check dashboard flexible-date elements

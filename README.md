@@ -24,7 +24,7 @@ Source: https://airportmiles.com/data
 
 ## Configure monitored routes
 
-The current watchlist contains 34 destinations, all departing from KUL: Japan (NRT, KIX), South Korea (ICN), Hong Kong (HKG), Taiwan (TPE), China (PVG, CAN), Europe (LHR, CDG, AMS), the United States (JFK, LAX), Canada (YYZ, YVR, YUL), New Zealand (AKL, CHC, ZQN), Australia (SYD, MEL, BNE, PER), Africa (CPT, JNB, NBO, CAI), and Mexico (MEX, CUN).
+The current watchlist contains 44 destinations, all departing from KUL: Japan (NRT, KIX), South Korea (ICN), Hong Kong (HKG), Taiwan (TPE), China (PVG, CAN), Europe (LHR, CDG, AMS), the United States (JFK, LAX), Canada (YYZ, YVR, YUL), New Zealand (AKL, CHC, ZQN), Australia (SYD, MEL, BNE, PER), Africa (CPT, JNB, NBO, CAI), and Mexico (MEX, CUN).
 
 Edit `config/routes.json`:
 
@@ -57,13 +57,18 @@ SerpApi runs automatically four times per week at 18:00 Malaysia time:
 
 GitHub Actions schedules are expressed in UTC. The corresponding cron is `0 10 * * 2,3,5,6`.
 
-Each of the 34 destinations uses one round-trip date-pair search per run. This is approximately 34 searches per run, 136 searches per week, or about 590 searches per average 30-day month, excluding retries or any separately initiated runs. The rolling flexible-date cursor rotates the selected date pairs over time. The current configuration uses one representative round-trip date pair per destination per run.
+Each of the 44 destinations uses one round-trip date-pair search per run. This is approximately 44 searches per run, 176 searches per week, or about 765 searches per average 30-day month, excluding the single bounded retry after HTTP 429 or any separately initiated runs. Requests are sequential and paced using config/api_limits.json. A repeated HTTP 429 stops the remaining destinations in that run rather than continuing to consume requests. The rolling flexible-date cursor rotates the selected date pairs over time. The current configuration uses one representative round-trip date pair per destination per run.
 
 Telegram alerts remain enabled when `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are configured. Alerts are sent when a fare first reaches its configured budget, drops by at least 5% versus the previous successful scan, or sets a new historical low for that exact date pair and airline. Telegram delivery failures do not discard collected prices.
 
 The scheduled SerpApi workflow is schedule-only; it does not expose a manual Run workflow trigger. GitHub Actions scheduling is best-effort, so a run may start later than the exact minute. Monitor SerpApi account usage and confirm the plan's monthly quota before relying on the schedule.
 
-## GitHub Actions secrets
+## API rate-limit protection
+
+The SerpApi client uses a configurable minimum interval between request starts, respects a valid `Retry-After` header, and performs at most one bounded retry for HTTP 429. If the retry is still rate-limited, or the requested wait exceeds the configured safe wait window, the current scan stops. Unsearched routes retain their last successful observations and are marked stale; the monitor does not clear historical prices. The dashboard shows a concise status summary and expandable affected-route list rather than dumping request URLs.
+
+These safeguards reduce burst traffic and prevent retry storms. They cannot increase the SerpApi account quota or guarantee that a request will be accepted when the account has exhausted its plan allowance. Check the SerpApi account dashboard if 429 responses continue.
+
 
 In Repository → Settings → Secrets and variables → Actions, configure:
 1. `SERPAPI_API_KEY` — required for fare searches.

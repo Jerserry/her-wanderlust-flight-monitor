@@ -1,6 +1,9 @@
 import json
 import os
-from datetime import date, datetime, timedelta
+import re
+import time
+from datetime import date, datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -15,16 +18,63 @@ SERPAPI_URL = "https://serpapi.com/search.json"
 HISTORY_LIMIT = 6000
 PRICE_DROP_ALERT_PERCENT = float(CONFIG.get("price_drop_alert_percent", 5))
 TIMEZONE = ZoneInfo(FLEX_CONFIG.get("timezone", "Asia/Kuala_Lumpur"))
+API_LIMITS_PATH = ROOT / "config/api_limits.json"
+API_LIMITS = json.loads(API_LIMITS_PATH.read_text(encoding="utf-8")) if API_LIMITS_PATH.exists() else {}
+REQUEST_INTERVAL_SECONDS = max(0.0, float(API_LIMITS.get("minimum_request_interval_seconds", 2)))
+MAX_429_RETRIES = max(0, int(API_LIMITS.get("max_429_retries", 1)))
+FALLBACK_RETRY_AFTER_SECONDS = max(1, int(API_LIMITS.get("fallback_retry_after_seconds", 60)))
+MAX_RETRY_AFTER_SECONDS = max(0, int(API_LIMITS.get("max_retry_after_seconds", 90)))
+LAST_REQUEST_STARTED = None
+
+
+class SerpApiRateLimitError(RuntimeError):
+    """Raised after a bounded 429 retry; callers should stop the current scan."""
+
+    def __init__(self, retry_after_seconds):
+        self.retry_after_seconds = retry_after_seconds
+        super().__init__("SerpApi rate limit reached (HTTP 429)")
 
 
 def safe_error(error):
-    """Redact API credentials before writing request errors to Actions logs or data."""
-    message = str(error)
-    for secret_name in ("SERPAPI_API_KEY", "TELEGRAM_BOT_TOKEN"):
+    """Return concise, credential-safe errors without request URLs or query strings."""
+    response = getattr(error, "response", None)
+    if response is not None and getattr(response, "status_code", None):
+        message = f"HTTP {response.status_code} {getattr(response, 'reason', '')}".strip()
+    else:
+        message = str(error)
+    for secret_name in ("SERPAPI_API_KEY", "TELEGRAM_BOT_TOKEN", "UPSCRAPE_API_KEY"):
         secret = os.getenv(secret_name)
         if secret:
             message = message.replace(secret, "[REDACTED]")
-    return message
+    message = re.sub(r"https?://\S+", "[request URL hidden]", message)
+    return message[:240]
+
+
+def retry_after_seconds(response):
+    raw = getattr(response, "headers", {}).get("Retry-After")
+    if raw:
+        try:
+            return max(0, int(float(raw)))
+        except (TypeError, ValueError):
+            try:
+                retry_at = parsedate_to_datetime(raw)
+                if retry_at.tzinfo is None:
+                    retry_at = retry_at.replace(tzinfo=timezone.utc)
+                return max(0, int((retry_at - datetime.now(timezone.utc)).total_seconds()))
+            except (TypeError, ValueError, OverflowError):
+                pass
+    return FALLBACK_RETRY_AFTER_SECONDS
+
+
+def pace_serpapi_request():
+    """Space requests to avoid burst limits; never parallelize SerpApi calls."""
+    global LAST_REQUEST_STARTED
+    now = time.monotonic()
+    if LAST_REQUEST_STARTED is not None:
+        wait = REQUEST_INTERVAL_SECONDS - (now - LAST_REQUEST_STARTED)
+        if wait > 0:
+            time.sleep(wait)
+    LAST_REQUEST_STARTED = time.monotonic()
 
 
 def telegram(message):
@@ -151,8 +201,20 @@ def search_fares(route, api_key, now, departure_date, return_date):
         "api_key": api_key,
     }
 
-    response = requests.get(SERPAPI_URL, params=params, timeout=60)
-    response.raise_for_status()
+    response = None
+    for attempt in range(MAX_429_RETRIES + 1):
+        pace_serpapi_request()
+        response = requests.get(SERPAPI_URL, params=params, timeout=60)
+        if response.status_code != 429:
+            response.raise_for_status()
+            break
+
+        wait_seconds = retry_after_seconds(response)
+        if attempt >= MAX_429_RETRIES or wait_seconds > MAX_RETRY_AFTER_SECONDS:
+            raise SerpApiRateLimitError(wait_seconds)
+        print(f"SerpApi returned HTTP 429; waiting {wait_seconds}s before one bounded retry.")
+        time.sleep(wait_seconds)
+
     payload = response.json()
     if payload.get("error"):
         raise RuntimeError(payload["error"])
@@ -265,6 +327,7 @@ def main():
     }
     successful_pairs = set()
     attempted_pairs = set()
+    rate_limited = False
 
     for route in CONFIG.get("routes", []):
         destination = str(route.get("destination", "")).upper()
@@ -362,11 +425,26 @@ def main():
                         f"{destination} | {departure_date} to {return_date} | "
                         f"{item['airline']}: RM{item['price']:.2f}"
                     )
+            except SerpApiRateLimitError as error:
+                wait_label = (
+                    f"建议等待 {error.retry_after_seconds} 秒后再检查"
+                    if error.retry_after_seconds else "请检查 SerpApi 账户额度与限流状态"
+                )
+                errors.append(
+                    f"{destination} {departure_date}–{return_date}: SerpApi 限流（HTTP 429）；"
+                    f"本轮已停止后续请求，{wait_label}。"
+                )
+                print(f"RATE LIMITED {destination}: HTTP 429; stopping this run to protect API quota.")
+                cursors[destination] = starting_cursor
+                rate_limited = True
+                break
             except (requests.RequestException, RuntimeError, ValueError, KeyError) as error:
-                errors.append(f"{destination} {departure_date} to {return_date}: {safe_error(error)}")
+                errors.append(f"{destination} {departure_date}–{return_date}: {safe_error(error)}")
                 print(f"ERROR {destination} {departure_date} to {return_date}: {safe_error(error)}")
+        if rate_limited:
+            break
 
-    # Keep the last successful fare for each exact date pair if that pair fails this run.
+    # Keep old successful fares when a date pair fails or a 429 stops the remaining scan.
     fresh_pair_keys = {
         (item.get("destination"), item.get("trip_type", "round_trip"),
          item.get("departure_date"), item.get("return_date"))
@@ -380,15 +458,28 @@ def main():
             old.get("destination"), "round_trip",
             old.get("departure_date"), old.get("return_date")
         )
-        if old.get("destination") in active_destinations and key in attempted_pairs and key not in fresh_pair_keys:
+        should_preserve = (
+            key not in fresh_pair_keys
+            and (key in attempted_pairs or rate_limited)
+            and old.get("destination") in active_destinations
+        )
+        if should_preserve:
             stale = dict(old)
             stale["is_stale"] = True
-            stale["stale_reason"] = "本次该日期组合搜索失败，以下为上次成功结果"
+            stale["stale_reason"] = (
+                "本轮因 SerpApi 限流停止，保留上次成功报价"
+                if rate_limited and key not in attempted_pairs
+                else "本次该日期组合搜索失败，以下为上次成功结果"
+            )
             results.append(stale)
 
     state["history"] = history[-HISTORY_LIMIT:]
+    has_fresh_results = any(not item.get("is_stale") for item in results)
+    previous_success_time = state.get("last_successful_at") or state.get("updated_at")
     state.update({
-        "updated_at": now,
+        "last_attempted_at": now,
+        "last_successful_at": now if has_fresh_results else previous_success_time,
+        "updated_at": now if has_fresh_results else (state.get("updated_at") or previous_success_time),
         "currency": CONFIG.get("currency", "MYR"),
         "origin": CONFIG.get("origin", "KUL"),
         "date_mode": "flexible",
@@ -437,6 +528,8 @@ def main():
             )
         ),
         "errors": errors,
+        "rate_limited": rate_limited,
+        "failed_route_count": len(errors),
         "monitor_status": (
             "partial" if errors and any(not item.get("is_stale") for item in results)
             else ("error" if errors else "success")
