@@ -1,4 +1,8 @@
+import json
+import tempfile
 import unittest
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from unittest.mock import patch
 
 import requests
@@ -64,6 +68,45 @@ class SerpApiResilienceTests(unittest.TestCase):
         self.assertEqual(monitor.cursor_after_rate_limit(4, 1, 20), 6)
         self.assertEqual(monitor.cursor_after_rate_limit(19, 0, 20), 0)
         self.assertEqual(monitor.cursor_after_rate_limit(4, 0, 0), 0)
+
+    def test_persisted_cooldown_survives_restart_and_expires(self):
+        now = datetime(2026, 11, 19, 0, 0, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "serpapi_cooldown.json"
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", path):
+                saved = monitor.save_serpapi_cooldown(
+                    300, destination="NRT", departure_date="2026-12-01",
+                    return_date="2026-12-08", now=now
+                )
+                self.assertEqual(saved["cooldown_seconds"], 300)
+                loaded, remaining = monitor.read_serpapi_cooldown(
+                    now=now + timedelta(seconds=120)
+                )
+                self.assertEqual(loaded["destination"], "NRT")
+                self.assertEqual(remaining, 180)
+                _, expired_remaining = monitor.read_serpapi_cooldown(
+                    now=now + timedelta(seconds=301)
+                )
+                self.assertEqual(expired_remaining, 0)
+
+    def test_short_or_zero_retry_after_uses_minimum_persistent_cooldown(self):
+        now = datetime(2026, 11, 19, 0, 0, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "serpapi_cooldown.json"
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", path):
+                saved = monitor.save_serpapi_cooldown(0, now=now)
+                self.assertGreaterEqual(
+                    saved["cooldown_seconds"],
+                    monitor.API_LIMITS["minimum_429_cooldown_seconds"]
+                )
+
+    def test_corrupt_cooldown_state_fails_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "serpapi_cooldown.json"
+            path.write_text("{invalid json", encoding="utf-8")
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", path):
+                with self.assertRaisesRegex(RuntimeError, "refusing API requests"):
+                    monitor.read_serpapi_cooldown()
 
     def test_safe_error_hides_request_url_and_credentials(self):
         error = requests.HTTPError(
