@@ -46,7 +46,7 @@ def safe_error(error):
         secret = os.getenv(secret_name)
         if secret:
             message = message.replace(secret, "[REDACTED]")
-    message = re.sub(r"https?://\\S+", "[request URL hidden]", message)
+    message = re.sub(r"https?://\S+", "[request URL hidden]", message)
     return message[:240]
 
 
