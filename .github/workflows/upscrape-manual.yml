@@ -47,8 +47,9 @@ on:
         type: string
 permissions:
   contents: write
+# Shared with the SerpApi workflow to prevent overlapping API/data-writer runs.
 concurrency:
-  group: hwp-upscrape-manual
+  group: hwp-flight-api-global
   cancel-in-progress: false
 jobs:
   search:
