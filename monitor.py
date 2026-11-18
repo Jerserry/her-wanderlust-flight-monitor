@@ -1,4 +1,5 @@
 import json
+import math
 import os
 import re
 import time
@@ -19,6 +20,7 @@ HISTORY_LIMIT = 6000
 PRICE_DROP_ALERT_PERCENT = float(CONFIG.get("price_drop_alert_percent", 5))
 TIMEZONE = ZoneInfo(FLEX_CONFIG.get("timezone", "Asia/Kuala_Lumpur"))
 API_LIMITS_PATH = ROOT / "config/api_limits.json"
+SERPAPI_COOLDOWN_PATH = ROOT / ".github/state/serpapi_cooldown.json"
 API_LIMITS = json.loads(API_LIMITS_PATH.read_text(encoding="utf-8")) if API_LIMITS_PATH.exists() else {}
 REQUEST_INTERVAL_SECONDS = max(0.0, float(API_LIMITS.get("minimum_request_interval_seconds", 2)))
 MAX_429_RETRIES = max(0, int(API_LIMITS.get("max_429_retries", 1)))
@@ -64,6 +66,60 @@ def retry_after_seconds(response):
             except (TypeError, ValueError, OverflowError):
                 pass
     return FALLBACK_RETRY_AFTER_SECONDS
+
+
+def read_serpapi_cooldown(now=None):
+    """Read persisted cooldown state; malformed state fails closed."""
+    if not SERPAPI_COOLDOWN_PATH.exists():
+        return None, 0
+    try:
+        state = json.loads(SERPAPI_COOLDOWN_PATH.read_text(encoding="utf-8"))
+        if not isinstance(state, dict) or state.get("schema_version") != 1:
+            raise ValueError("Unsupported cooldown state schema")
+        raw_until = state.get("cooldown_until")
+        if not raw_until:
+            return state, 0
+        until = datetime.fromisoformat(raw_until)
+        if until.tzinfo is None:
+            until = until.replace(tzinfo=timezone.utc)
+        current = now or datetime.now(timezone.utc)
+        if current.tzinfo is None:
+            current = current.replace(tzinfo=timezone.utc)
+        remaining = max(0, math.ceil((until - current).total_seconds()))
+        return state, remaining
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
+        raise RuntimeError(
+            "SerpApi cooldown state is unreadable; refusing API requests until it is repaired."
+        ) from error
+
+
+def save_serpapi_cooldown(
+    retry_after, destination=None, departure_date=None, return_date=None, now=None
+):
+    """Persist a conservative cooldown after HTTP 429."""
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    minimum = max(1, int(API_LIMITS.get("minimum_429_cooldown_seconds", FALLBACK_RETRY_AFTER_SECONDS)))
+    duration = max(minimum, int(retry_after or 0))
+    until = current + timedelta(seconds=duration)
+    state = {
+        "schema_version": 1,
+        "provider": "SerpApi",
+        "last_429_at": current.astimezone(timezone.utc).isoformat(),
+        "cooldown_until": until.astimezone(timezone.utc).isoformat(),
+        "retry_after_seconds": int(retry_after or 0),
+        "cooldown_seconds": duration,
+        "destination": destination,
+        "departure_date": departure_date,
+        "return_date": return_date,
+        "reason": "HTTP 429",
+    }
+    SERPAPI_COOLDOWN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    temporary = SERPAPI_COOLDOWN_PATH.with_suffix(".tmp")
+    temporary.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(SERPAPI_COOLDOWN_PATH)
+    return state
 
 
 def pace_serpapi_request():
@@ -322,6 +378,9 @@ def main():
     if not isinstance(cursors, dict):
         cursors = {}
 
+    cooldown_state, cooldown_remaining = read_serpapi_cooldown()
+    cooldown_active = cooldown_remaining > 0
+
     now_dt = datetime.now(TIMEZONE)
     now = now_dt.isoformat()
     today = now_dt.date()
@@ -334,9 +393,15 @@ def main():
     }
     successful_pairs = set()
     attempted_pairs = set()
-    rate_limited = False
+    rate_limited = cooldown_active
+    if cooldown_active:
+        cooldown_until = cooldown_state.get("cooldown_until")
+        errors.append(
+            f"SerpApi 冷却中，直到 {cooldown_until}；本轮未发送任何 API 请求。"
+        )
+        print(f"COOLDOWN ACTIVE until {cooldown_until}; no SerpApi request was sent.")
 
-    for route in CONFIG.get("routes", []):
+    for route in ([] if cooldown_active else CONFIG.get("routes", [])):
         destination = str(route.get("destination", "")).upper()
         if not destination:
             continue
@@ -442,6 +507,13 @@ def main():
                     f"本轮已停止后续请求，{wait_label}。"
                 )
                 print(f"RATE LIMITED {destination}: HTTP 429; stopping this run to protect API quota.")
+                cooldown = save_serpapi_cooldown(
+                    error.retry_after_seconds,
+                    destination=destination,
+                    departure_date=departure_date,
+                    return_date=return_date,
+                )
+                errors[-1] += f"；冷却至 {cooldown['cooldown_until']}。"
                 cursors[destination] = cursor_after_rate_limit(
                     starting_cursor, pair_index, len(candidates)
                 )
