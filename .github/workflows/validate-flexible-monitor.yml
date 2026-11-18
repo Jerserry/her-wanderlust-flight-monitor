@@ -6,6 +6,7 @@ on:
       - main
       - feature/flexible-date-monitoring
       - fix/429-stability-and-dashboard
+      - fix/serpapi-global-rate-limit
     paths:
       - "monitor.py"
       - "config/flexible_dates.json"
