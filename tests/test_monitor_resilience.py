@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
+from email.utils import format_datetime
 from pathlib import Path
 from unittest.mock import patch
 
@@ -151,6 +152,44 @@ class SerpApiResilienceTests(unittest.TestCase):
         self.assertEqual(caught.exception.retry_after_seconds, 120)
         self.assertEqual(get.call_count, 1)
         sleep.assert_not_called()
+
+    def test_retry_after_http_date_and_invalid_header_fallback(self):
+        future = datetime.now(timezone.utc) + timedelta(seconds=120)
+        response = FakeResponse(
+            429, headers={"Retry-After": format_datetime(future, usegmt=True)}
+        )
+        seconds = monitor.retry_after_seconds(response)
+        self.assertGreaterEqual(seconds, 110)
+        self.assertLessEqual(seconds, 120)
+        invalid = FakeResponse(429, headers={"Retry-After": "not-a-date"})
+        self.assertEqual(
+            monitor.retry_after_seconds(invalid),
+            monitor.FALLBACK_RETRY_AFTER_SECONDS
+        )
+
+    def test_main_persists_cooldown_after_final_429(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            cooldown_path = root / "serpapi_cooldown.json"
+            data_path = root / "prices.json"
+            config = {"routes": [{"destination": "NRT"}], "origin": "KUL", "currency": "MYR"}
+            flex = {
+                "mode": "flexible", "window_days": 30, "departure_step_days": 7,
+                "trip_duration_options_days": [7], "minimum_trip_days": 7,
+                "maximum_trip_days": 7, "search_pairs_per_destination_per_run": 1
+            }
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", cooldown_path), \
+                 patch.object(monitor, "DATA", data_path), \
+                 patch.object(monitor, "CONFIG", config), \
+                 patch.object(monitor, "FLEX_CONFIG", flex), \
+                 patch.dict("os.environ", {"SERPAPI_API_KEY": "offline-test-key"}), \
+                 patch("monitor.search_fares", side_effect=monitor.SerpApiRateLimitError(300)):
+                with self.assertRaises(SystemExit):
+                    monitor.main()
+                saved_state, remaining = monitor.read_serpapi_cooldown()
+                self.assertEqual(saved_state["reason"], "HTTP 429")
+                self.assertEqual(saved_state["destination"], "NRT")
+                self.assertGreater(remaining, 0)
 
     def test_corrupt_cooldown_state_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
