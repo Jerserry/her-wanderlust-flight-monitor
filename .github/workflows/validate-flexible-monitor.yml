@@ -85,6 +85,10 @@ jobs:
           assert first != second, "Rotation did not advance to the next date pairs"
           assert cursor["BKK"] == 2
 
+          cooldown_state = json.loads(Path(".github/state/serpapi_cooldown.json").read_text(encoding="utf-8"))
+          assert cooldown_state.get("schema_version") == 1
+          assert cooldown_state.get("provider") == "SerpApi"
+
           route_config = json.loads(Path("config/routes.json").read_text(encoding="utf-8"))
           routes = route_config["routes"]
           destinations = [route["destination"] for route in routes]
