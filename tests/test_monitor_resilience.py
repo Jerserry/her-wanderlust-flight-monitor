@@ -136,7 +136,7 @@ class SerpApiResilienceTests(unittest.TestCase):
                 saved = json.loads(data_path.read_text(encoding="utf-8"))
                 self.assertEqual(len(saved["results"]), 1)
                 self.assertTrue(saved["results"][0]["is_stale"])
-                self.assertIn("冷却", saved["results"][0]["stale_reason"])
+                self.assertIn("限流", saved["results"][0]["stale_reason"])
 
     @patch("monitor.pace_serpapi_request")
     @patch("monitor.time.sleep")
