@@ -6,8 +6,9 @@ on:
     - cron: "0 10 * * 2,3,5,6"
 permissions:
   contents: write
+# Shared with the manual Upscrape workflow to prevent overlapping API/data-writer runs.
 concurrency:
-  group: her-wanderlust-flight-monitor
+  group: hwp-flight-api-global
   cancel-in-progress: false
 jobs:
   monitor:
