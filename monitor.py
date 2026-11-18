@@ -149,6 +149,13 @@ def choose_candidates(route, candidates, cursors):
     return selected, cursor
 
 
+def cursor_after_rate_limit(starting_cursor, attempted_pair_index, candidate_count):
+    """Resume after the date pair that triggered 429 instead of repeating it."""
+    if candidate_count <= 0:
+        return 0
+    return (int(starting_cursor) + int(attempted_pair_index) + 1) % candidate_count
+
+
 def baggage_budget_eligibility(route, baggage):
     """Evaluate baggage policy separately from the raw fare-vs-budget comparison."""
     rule = route.get("baggage_rule", "unknown")
@@ -335,7 +342,7 @@ def main():
             continue
         selected, starting_cursor = choose_candidates(route, candidates, cursors)
         print(f"{destination}: checking {len(selected)} date pairs from candidate #{starting_cursor + 1}.")
-        for pair in selected:
+        for pair_index, pair in enumerate(selected):
             departure_date = pair["departure_date"]
             return_date = pair["return_date"]
             pair_key = (destination, "round_trip", departure_date, return_date)
@@ -435,7 +442,9 @@ def main():
                     f"本轮已停止后续请求，{wait_label}。"
                 )
                 print(f"RATE LIMITED {destination}: HTTP 429; stopping this run to protect API quota.")
-                cursors[destination] = starting_cursor
+                cursors[destination] = cursor_after_rate_limit(
+                    starting_cursor, pair_index, len(candidates)
+                )
                 rate_limited = True
                 break
             except (requests.RequestException, RuntimeError, ValueError, KeyError) as error:
