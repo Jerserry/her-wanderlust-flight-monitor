@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "provider": "SerpApi",
+  "last_429_at": null,
+  "cooldown_until": null,
+  "retry_after_seconds": null,
+  "cooldown_seconds": null,
+  "destination": null,
+  "departure_date": null,
+  "return_date": null,
+  "reason": null
+}
