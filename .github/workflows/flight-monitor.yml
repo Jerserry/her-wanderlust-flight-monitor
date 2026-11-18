@@ -6,7 +6,8 @@ on:
     - cron: "0 10 * * 2,3,5,6"
 permissions:
   contents: write
-# Shared with the manual Upscrape workflow to prevent overlapping API/data-writer runs.
+# Shared with the manual Upscrape workflow to serialize active API/data-writer runs.
+# GitHub keeps only one pending run per group; this is not a durable FIFO queue.
 concurrency:
   group: hwp-flight-api-global
   cancel-in-progress: false
