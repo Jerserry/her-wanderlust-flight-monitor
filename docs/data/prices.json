@@ -43,12 +43,13 @@
       "departure_time": "2026-11-26 14:35",
       "arrival_time": "2026-11-27 19:10",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 6718.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -91,12 +92,13 @@
       "departure_time": "2026-11-26 22:35",
       "arrival_time": "2026-11-28 00:05",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 7173.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -139,12 +141,13 @@
       "departure_time": "2026-11-26 09:20",
       "arrival_time": "2026-11-27 09:40",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 7195.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -187,12 +190,13 @@
       "departure_time": "2026-11-26 11:05",
       "arrival_time": "2026-11-27 09:40",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 7195.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -234,12 +238,13 @@
       "departure_time": "2026-11-26 13:35",
       "arrival_time": "2026-11-27 13:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 7296.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -281,12 +286,13 @@
       "departure_time": "2026-11-26 18:30",
       "arrival_time": "2026-11-27 13:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 8391.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -327,12 +333,13 @@
       "departure_time": "2026-11-26 08:30",
       "arrival_time": "2026-11-27 00:01",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 15869.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -375,12 +382,13 @@
       "departure_time": "2026-11-26 09:50",
       "arrival_time": "2026-11-27 05:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 17856.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -423,12 +431,13 @@
       "departure_time": "2026-12-03 20:45",
       "arrival_time": "2026-12-04 13:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2772.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -470,12 +479,13 @@
       "departure_time": "2026-12-03 10:15",
       "arrival_time": "2026-12-03 20:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2849.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -517,12 +527,13 @@
       "departure_time": "2026-12-03 18:25",
       "arrival_time": "2026-12-04 07:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3117.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -564,12 +575,13 @@
       "departure_time": "2026-12-03 09:30",
       "arrival_time": "2026-12-03 18:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3260.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -611,12 +623,13 @@
       "departure_time": "2026-12-03 09:30",
       "arrival_time": "2026-12-03 18:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3539.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -657,12 +670,13 @@
       "departure_time": "2026-12-03 23:50",
       "arrival_time": "2026-12-04 06:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5429.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -703,12 +717,13 @@
       "departure_time": "2026-12-03 20:15",
       "arrival_time": "2026-12-04 00:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1239.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -750,12 +765,13 @@
       "departure_time": "2026-12-03 13:35",
       "arrival_time": "2026-12-04 01:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1437.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -797,12 +813,13 @@
       "departure_time": "2026-12-03 13:45",
       "arrival_time": "2026-12-04 10:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1668.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -843,12 +860,13 @@
       "departure_time": "2026-12-03 09:25",
       "arrival_time": "2026-12-03 13:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1870.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -889,12 +907,13 @@
       "departure_time": "2026-12-03 01:15",
       "arrival_time": "2026-12-03 05:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2064.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -936,12 +955,13 @@
       "departure_time": "2026-12-03 13:45",
       "arrival_time": "2026-12-05 07:10",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2555.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -984,12 +1004,13 @@
       "departure_time": "2026-12-03 02:30",
       "arrival_time": "2026-12-03 13:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2738.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1031,12 +1052,13 @@
       "departure_time": "2026-12-03 18:25",
       "arrival_time": "2026-12-04 08:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2795.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1078,12 +1100,13 @@
       "departure_time": "2026-12-03 19:55",
       "arrival_time": "2026-12-04 13:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2796.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1125,12 +1148,13 @@
       "departure_time": "2026-12-03 09:30",
       "arrival_time": "2026-12-03 18:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3033.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1171,12 +1195,13 @@
       "departure_time": "2026-12-03 23:45",
       "arrival_time": "2026-12-04 06:40",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3533.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1218,12 +1243,13 @@
       "departure_time": "2026-12-03 23:50",
       "arrival_time": "2026-12-04 08:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5532.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1267,12 +1293,13 @@
       "departure_time": "2026-11-26 15:25",
       "arrival_time": "2026-11-27 14:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 6748.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1315,12 +1342,13 @@
       "departure_time": "2026-11-26 21:50",
       "arrival_time": "2026-11-27 15:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 8135.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1363,12 +1391,13 @@
       "departure_time": "2026-11-26 19:25",
       "arrival_time": "2026-11-27 15:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 8678.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1410,12 +1439,13 @@
       "departure_time": "2026-11-26 17:05",
       "arrival_time": "2026-11-27 10:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 8866.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1457,12 +1487,13 @@
       "departure_time": "2026-11-26 17:50",
       "arrival_time": "2026-11-28 12:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 9110.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1504,12 +1535,13 @@
       "departure_time": "2026-11-26 18:20",
       "arrival_time": "2026-11-27 17:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 11808.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1550,12 +1582,13 @@
       "departure_time": "2026-12-03 07:15",
       "arrival_time": "2026-12-03 11:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1041.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1597,12 +1630,13 @@
       "departure_time": "2026-12-03 17:00",
       "arrival_time": "2026-12-04 15:45",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1537.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1644,12 +1678,13 @@
       "departure_time": "2026-12-03 13:05",
       "arrival_time": "2026-12-03 19:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1875.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1690,12 +1725,13 @@
       "departure_time": "2026-12-03 19:50",
       "arrival_time": "2026-12-03 23:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1899.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1736,12 +1772,13 @@
       "departure_time": "2026-12-03 02:55",
       "arrival_time": "2026-12-03 07:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2284.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1783,12 +1820,13 @@
       "departure_time": "2026-12-03 15:45",
       "arrival_time": "2026-12-04 22:45",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1466.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1830,12 +1868,13 @@
       "departure_time": "2026-12-03 13:35",
       "arrival_time": "2026-12-04 09:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1479.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1877,12 +1916,13 @@
       "departure_time": "2026-12-03 00:20",
       "arrival_time": "2026-12-03 16:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1547.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1924,12 +1964,13 @@
       "departure_time": "2026-12-03 07:05",
       "arrival_time": "2026-12-03 17:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1561.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -1970,12 +2011,13 @@
       "departure_time": "2026-12-03 22:40",
       "arrival_time": "2026-12-04 06:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1881.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2016,12 +2058,13 @@
       "departure_time": "2026-12-03 22:00",
       "arrival_time": "2026-12-04 05:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1984.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2063,12 +2106,13 @@
       "departure_time": "2026-12-03 02:30",
       "arrival_time": "2026-12-03 12:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1988.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2109,12 +2153,13 @@
       "departure_time": "2026-12-03 13:25",
       "arrival_time": "2026-12-03 20:55",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2885.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2155,12 +2200,13 @@
       "departure_time": "2026-12-03 23:55",
       "arrival_time": "2026-12-04 07:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5327.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2202,12 +2248,13 @@
       "departure_time": "2026-12-03 10:10",
       "arrival_time": "2026-12-03 22:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4066.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2249,12 +2296,13 @@
       "departure_time": "2026-12-03 19:55",
       "arrival_time": "2026-12-04 08:10",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4091.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2297,12 +2345,13 @@
       "departure_time": "2026-12-03 02:30",
       "arrival_time": "2026-12-03 15:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4136.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2344,12 +2393,13 @@
       "departure_time": "2026-12-03 18:25",
       "arrival_time": "2026-12-04 08:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4187.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2391,12 +2441,13 @@
       "departure_time": "2026-12-03 14:15",
       "arrival_time": "2026-12-04 10:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4700.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2438,12 +2489,13 @@
       "departure_time": "2026-12-03 09:30",
       "arrival_time": "2026-12-04 09:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5866.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2485,12 +2537,13 @@
       "departure_time": "2026-12-03 02:55",
       "arrival_time": "2026-12-03 12:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5876.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2533,12 +2586,13 @@
       "departure_time": "2026-12-03 19:50",
       "arrival_time": "2026-12-04 05:45",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 6286.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2580,12 +2634,13 @@
       "departure_time": "2026-12-03 23:55",
       "arrival_time": "2026-12-04 10:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 7295.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2628,12 +2683,13 @@
       "departure_time": "2026-12-03 12:45",
       "arrival_time": "2026-12-03 22:45",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 9774.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2675,12 +2731,13 @@
       "departure_time": "2026-12-03 22:00",
       "arrival_time": "2026-12-04 10:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1858.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2721,12 +2778,13 @@
       "departure_time": "2026-12-03 02:15",
       "arrival_time": "2026-12-03 09:45",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1990.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2768,12 +2826,13 @@
       "departure_time": "2026-12-03 13:35",
       "arrival_time": "2026-12-04 08:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2727.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2815,12 +2874,13 @@
       "departure_time": "2026-12-03 02:55",
       "arrival_time": "2026-12-03 13:10",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2815.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2862,12 +2922,13 @@
       "departure_time": "2026-12-03 20:10",
       "arrival_time": "2026-12-04 06:55",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3267.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2910,12 +2971,13 @@
       "departure_time": "2026-12-03 20:25",
       "arrival_time": "2026-12-04 12:10",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3774.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -2957,12 +3019,13 @@
       "departure_time": "2026-12-03 08:15",
       "arrival_time": "2026-12-03 17:40",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5198.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3003,12 +3066,13 @@
       "departure_time": "2026-12-03 22:40",
       "arrival_time": "2026-12-04 05:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 12364.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3050,12 +3114,13 @@
       "departure_time": "2026-12-03 17:05",
       "arrival_time": "2026-12-03 19:05",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3817.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3097,12 +3162,13 @@
       "departure_time": "2026-12-03 15:25",
       "arrival_time": "2026-12-03 19:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4215.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3144,12 +3210,13 @@
       "departure_time": "2026-12-03 14:15",
       "arrival_time": "2026-12-03 17:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4351.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3192,12 +3259,13 @@
       "departure_time": "2026-12-03 08:05",
       "arrival_time": "2026-12-03 10:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4357.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3239,12 +3307,13 @@
       "departure_time": "2026-12-03 14:35",
       "arrival_time": "2026-12-03 19:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4695.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3286,12 +3355,13 @@
       "departure_time": "2026-12-03 13:35",
       "arrival_time": "2026-12-03 16:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4893.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3333,12 +3403,13 @@
       "departure_time": "2026-12-03 18:30",
       "arrival_time": "2026-12-03 19:55",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 7535.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3380,12 +3451,13 @@
       "departure_time": "2026-12-03 09:30",
       "arrival_time": "2026-12-04 06:40",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2674.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3428,12 +3500,13 @@
       "departure_time": "2026-12-03 02:30",
       "arrival_time": "2026-12-03 12:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2991.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3476,12 +3549,13 @@
       "departure_time": "2026-12-03 17:35",
       "arrival_time": "2026-12-04 06:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3159.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3523,12 +3597,13 @@
       "departure_time": "2026-12-03 18:25",
       "arrival_time": "2026-12-04 07:10",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3167.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3569,12 +3644,13 @@
       "departure_time": "2026-12-03 23:15",
       "arrival_time": "2026-12-04 05:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3959.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3616,12 +3692,13 @@
       "departure_time": "2026-12-03 09:30",
       "arrival_time": "2026-12-03 18:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4192.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3664,12 +3741,13 @@
       "departure_time": "2026-12-03 23:55",
       "arrival_time": "2026-12-04 07:45",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4264.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3710,12 +3788,13 @@
       "departure_time": "2026-12-03 09:15",
       "arrival_time": "2026-12-03 15:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5885.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3757,12 +3836,13 @@
       "departure_time": "2026-12-03 23:50",
       "arrival_time": "2026-12-04 07:40",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5903.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3804,12 +3884,13 @@
       "departure_time": "2026-12-03 19:15",
       "arrival_time": "2026-12-04 07:10",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1781.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3850,12 +3931,13 @@
       "departure_time": "2026-12-03 01:10",
       "arrival_time": "2026-12-03 09:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2550.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3898,12 +3980,13 @@
       "departure_time": "2026-12-03 19:30",
       "arrival_time": "2026-12-04 09:45",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2866.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3945,12 +4028,13 @@
       "departure_time": "2026-12-03 02:55",
       "arrival_time": "2026-12-03 13:10",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3121.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -3991,12 +4075,13 @@
       "departure_time": "2026-12-03 09:30",
       "arrival_time": "2026-12-03 17:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 3726.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4037,12 +4122,13 @@
       "departure_time": "2026-12-03 22:50",
       "arrival_time": "2026-12-04 06:40",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4077.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4083,12 +4169,13 @@
       "departure_time": "2026-12-03 08:05",
       "arrival_time": "2026-12-03 15:55",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4639.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4129,12 +4216,13 @@
       "departure_time": "2026-12-03 17:55",
       "arrival_time": "2026-12-03 23:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1190.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4175,12 +4263,13 @@
       "departure_time": "2026-12-03 18:55",
       "arrival_time": "2026-12-04 00:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1491.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4222,12 +4311,13 @@
       "departure_time": "2026-12-03 17:30",
       "arrival_time": "2026-12-04 03:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1509.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4268,12 +4358,13 @@
       "departure_time": "2026-12-03 19:35",
       "arrival_time": "2026-12-04 01:05",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1850.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4315,12 +4406,13 @@
       "departure_time": "2026-12-03 02:55",
       "arrival_time": "2026-12-03 11:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2204.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4362,12 +4454,13 @@
       "departure_time": "2026-12-03 14:40",
       "arrival_time": "2026-12-03 22:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2456.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4408,12 +4501,13 @@
       "departure_time": "2026-12-03 09:20",
       "arrival_time": "2026-12-03 14:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 947.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4454,12 +4548,13 @@
       "departure_time": "2026-12-03 09:55",
       "arrival_time": "2026-12-03 14:55",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1183.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4500,12 +4595,13 @@
       "departure_time": "2026-12-03 17:05",
       "arrival_time": "2026-12-03 22:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1338.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4547,12 +4643,13 @@
       "departure_time": "2026-12-03 17:50",
       "arrival_time": "2026-12-04 00:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1376.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4593,12 +4690,13 @@
       "departure_time": "2026-12-03 15:25",
       "arrival_time": "2026-12-03 20:05",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1470.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4639,12 +4737,13 @@
       "departure_time": "2026-12-03 09:20",
       "arrival_time": "2026-12-03 14:10",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 1876.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4685,12 +4784,13 @@
       "departure_time": "2026-12-03 14:35",
       "arrival_time": "2026-12-03 19:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 2913.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4732,12 +4832,13 @@
       "departure_time": "2026-11-26 02:00",
       "arrival_time": "2026-11-26 14:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5662.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4780,12 +4881,13 @@
       "departure_time": "2026-11-26 02:30",
       "arrival_time": "2026-11-26 14:25",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5662.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4827,12 +4929,13 @@
       "departure_time": "2026-11-26 10:15",
       "arrival_time": "2026-11-27 07:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5876.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4877,12 +4980,13 @@
       "departure_time": "2026-11-26 09:30",
       "arrival_time": "2026-11-26 20:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 6506.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4925,12 +5029,13 @@
       "departure_time": "2026-11-26 08:05",
       "arrival_time": "2026-11-26 17:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 6683.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -4972,12 +5077,13 @@
       "departure_time": "2026-11-26 15:25",
       "arrival_time": "2026-11-26 19:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4569.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5020,12 +5126,13 @@
       "departure_time": "2026-11-26 09:20",
       "arrival_time": "2026-11-26 19:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 4825.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5067,12 +5174,13 @@
       "departure_time": "2026-11-26 14:35",
       "arrival_time": "2026-11-26 19:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5024.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5115,12 +5223,13 @@
       "departure_time": "2026-11-26 09:30",
       "arrival_time": "2026-11-26 11:45",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5639.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5162,12 +5271,13 @@
       "departure_time": "2026-11-26 17:50",
       "arrival_time": "2026-11-26 21:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5821.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5210,12 +5320,13 @@
       "departure_time": "2026-11-26 02:55",
       "arrival_time": "2026-11-26 07:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5906.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5257,12 +5368,13 @@
       "departure_time": "2026-11-26 08:05",
       "arrival_time": "2026-11-26 14:40",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5928.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5305,12 +5417,13 @@
       "departure_time": "2026-11-26 09:10",
       "arrival_time": "2026-11-26 12:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 7856.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5353,12 +5466,13 @@
       "departure_time": "2026-11-26 08:05",
       "arrival_time": "2026-11-26 11:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 10817.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5400,12 +5514,13 @@
       "departure_time": "2026-11-26 15:25",
       "arrival_time": "2026-11-27 20:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5350.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5448,12 +5563,13 @@
       "departure_time": "2026-11-26 09:20",
       "arrival_time": "2026-11-26 20:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5628.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5495,12 +5611,13 @@
       "departure_time": "2026-11-26 02:00",
       "arrival_time": "2026-11-26 15:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5637.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5543,12 +5660,13 @@
       "departure_time": "2026-11-26 02:30",
       "arrival_time": "2026-11-26 15:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 5637.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5590,12 +5708,13 @@
       "departure_time": "2026-11-26 02:55",
       "arrival_time": "2026-11-26 12:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 6485.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5639,12 +5758,13 @@
       "departure_time": "2026-11-26 08:05",
       "arrival_time": "2026-11-26 20:50",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 6662.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5686,12 +5806,13 @@
       "departure_time": "2026-11-26 10:15",
       "arrival_time": "2026-11-27 09:05",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 6785.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5733,12 +5854,13 @@
       "departure_time": "2026-11-26 13:35",
       "arrival_time": "2026-11-26 21:15",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 10772.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5780,12 +5902,13 @@
       "departure_time": "2026-11-26 23:55",
       "arrival_time": "2026-11-27 09:20",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 11399.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5829,12 +5952,13 @@
       "departure_time": "2026-11-26 08:05",
       "arrival_time": "2026-11-26 18:45",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 21089.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5878,12 +6002,13 @@
       "departure_time": "2026-11-26 17:20",
       "arrival_time": "2026-11-27 14:35",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 8995.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5927,12 +6052,13 @@
       "departure_time": "2026-11-26 15:25",
       "arrival_time": "2026-11-27 13:30",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 9272.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     },
     {
       "origin": "KUL",
@@ -5976,46 +6102,22 @@
       "departure_time": "2026-11-26 17:05",
       "arrival_time": "2026-11-27 14:00",
       "booking_options_available": false,
-      "is_stale": false,
+      "is_stale": true,
       "previous_price": null,
       "price_change": null,
       "price_change_pct": null,
       "historical_low": 10736.0,
-      "is_new_historical_low": true
+      "is_new_historical_low": true,
+      "stale_reason": "本轮因 SerpApi 限流停止，保留上次成功报价"
     }
   ],
   "origin": "KUL",
   "departure_date": null,
   "return_date": null,
   "errors": [
-    "SYD 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=SYD&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "MEL 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=MEL&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "BNE 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=BNE&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "PER 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=PER&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "CPT 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=CPT&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "JNB 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=JNB&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "NBO 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=NBO&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "CAI 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=CAI&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "MEX 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=MEX&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "CUN 2026-11-26 to 2026-12-10: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=CUN&outbound_date=2026-11-26&return_date=2026-12-10&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "WAW 2026-11-19 to 2026-11-26: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=WAW&outbound_date=2026-11-19&return_date=2026-11-26&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "MAD 2026-11-19 to 2026-11-26: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=MAD&outbound_date=2026-11-19&return_date=2026-11-26&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "BCN 2026-11-19 to 2026-11-26: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=BCN&outbound_date=2026-11-19&return_date=2026-11-26&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "MXP 2026-11-19 to 2026-11-26: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=MXP&outbound_date=2026-11-19&return_date=2026-11-26&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "ZRH 2026-11-19 to 2026-11-26: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=ZRH&outbound_date=2026-11-19&return_date=2026-11-26&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "GVA 2026-11-19 to 2026-11-26: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=GVA&outbound_date=2026-11-19&return_date=2026-11-26&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "DPS 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=DPS&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "CGK 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=CGK&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "SUB 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=SUB&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "BKK 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=BKK&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "HKT 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=HKT&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "CNX 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=CNX&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "MNL 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=MNL&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "HAN 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=HAN&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "SGN 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=SGN&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]",
-    "DAD 2026-11-19 to 2026-11-24: 429 Client Error: Too Many Requests for url: https://serpapi.com/search.json?engine=google_flights&departure_id=KUL&arrival_id=DAD&outbound_date=2026-11-19&return_date=2026-11-24&type=1&adults=1&travel_class=1&currency=MYR&hl=en&gl=my&sort_by=2&api_key=[REDACTED]"
+    "NRT 2026-12-04–2026-12-11: SerpApi 限流（HTTP 429）；本轮已停止后续请求，建议等待 60 秒后再检查。"
   ],
-  "monitor_status": "partial",
+  "monitor_status": "error",
   "searches_per_day": 25.14,
   "price_drop_alert_percent": 5.0,
   "date_mode": "flexible",
@@ -60175,5 +60277,9 @@
   "runs_per_week": 4,
   "searches_per_run": 44,
   "searches_per_week": 176,
-  "searches_per_month_estimate": 765
+  "searches_per_month_estimate": 765,
+  "last_attempted_at": "2026-11-19T02:28:25.168508+08:00",
+  "last_successful_at": "2026-11-18T02:50:00.818692+08:00",
+  "rate_limited": true,
+  "failed_route_count": 1
 }
