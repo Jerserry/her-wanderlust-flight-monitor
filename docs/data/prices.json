@@ -6115,7 +6115,7 @@
   "departure_date": null,
   "return_date": null,
   "errors": [
-    "NRT 2026-12-04–2026-12-11: SerpApi 限流（HTTP 429）；本轮已停止后续请求，建议等待 60 秒后再检查。"
+    "NRT 2026-12-06–2026-12-13: SerpApi 限流（HTTP 429）；本轮已停止后续请求，建议等待 60 秒后再检查。"
   ],
   "monitor_status": "error",
   "searches_per_day": 25.14,
@@ -60278,7 +60278,7 @@
   "searches_per_run": 44,
   "searches_per_week": 176,
   "searches_per_month_estimate": 765,
-  "last_attempted_at": "2026-11-19T02:28:25.168508+08:00",
+  "last_attempted_at": "2026-11-21T02:04:10.808471+08:00",
   "last_successful_at": "2026-11-18T02:50:00.818692+08:00",
   "rate_limited": true,
   "failed_route_count": 1
