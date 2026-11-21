@@ -465,3 +465,32 @@ class DurableTaskPersistenceTests(unittest.TestCase):
              patch("task_ledger.requests.put", return_value=FakeResponse(409, {})):
             with self.assertRaisesRegex(RuntimeError, "conflict"):
                 task_ledger.begin_task("Upscrape", {"destination": "NRT"})
+
+
+    def test_manual_reconciliation_marks_orphaned_tasks_without_provider_calls(self):
+        import base64
+        from unittest.mock import patch
+        import task_ledger
+        from uuid import uuid4
+
+        task = {
+            "task_id": str(uuid4()), "provider": "SerpApi",
+            "workflow": "Offline Test", "status": "running",
+            "created_at": "2026-11-21T10:00:00+08:00",
+            "updated_at": "2026-11-21T10:00:00+08:00",
+            "attempt": 1, "parameters": {"destinations": ["NRT"]},
+            "reservation_id": None, "external_job_id": None, "last_error": None,
+        }
+        ledger = {"schema_version": 1, "tasks": [task]}
+        remote = {"content": base64.b64encode(json.dumps(ledger).encode()).decode(),
+                  "sha": "ledger-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token", "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch",
+        }), patch("task_ledger.requests.get", return_value=FakeResponse(200, remote)), \
+             patch("task_ledger.requests.put", return_value=FakeResponse(200, {})) as put:
+            reviewed = task_ledger.reconcile_orphaned_tasks()
+        self.assertEqual(reviewed, [task["task_id"]])
+        saved = json.loads(base64.b64decode(put.call_args.kwargs["json"]["content"]))
+        self.assertEqual(saved["tasks"][0]["status"], "needs_manual_review")
+        self.assertIn("manual review", saved["tasks"][0]["last_error"])
