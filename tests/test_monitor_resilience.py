@@ -132,7 +132,9 @@ class SerpApiResilienceTests(unittest.TestCase):
                      patch.object(monitor, "CONFIG", config), \
                      patch.object(monitor, "FLEX_CONFIG", flex), \
                      patch.dict("os.environ", {"SERPAPI_API_KEY": "offline-test-key"}), \
-                     patch("monitor.search_fares") as search:
+                     patch("monitor.search_fares") as search, \
+                     patch("monitor.task_ledger.begin_task", return_value="offline-task"), \
+                     patch("monitor.task_ledger.update_task"):
                     with self.assertRaises(SystemExit):
                         monitor.main()
                     search.assert_not_called()
@@ -187,7 +189,7 @@ class SerpApiResilienceTests(unittest.TestCase):
                  patch.object(monitor, "FLEX_CONFIG", flex), \
                  patch.dict("os.environ", {"SERPAPI_API_KEY": "offline-test-key"}), \
                  patch("monitor.search_fares", side_effect=monitor.SerpApiRateLimitError(300)), \\
-                 patch("monitor.task_ledger.begin_task", return_value="offline-task"), \\
+                 patch("monitor.task_ledger.begin_task", return_value="offline-task"), \
                  patch("monitor.task_ledger.update_task"):
                 with self.assertRaises(SystemExit):
                     monitor.main()
