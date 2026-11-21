@@ -8,6 +8,11 @@ on:
 permissions:
   contents: write
 
+# Serialize all repository workflows that may touch shared state.
+concurrency:
+  group: hwp-flight-api-global
+  cancel-in-progress: false
+
 jobs:
   update-airports:
     runs-on: ubuntu-latest
