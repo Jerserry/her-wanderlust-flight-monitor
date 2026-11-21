@@ -9,6 +9,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import requests
+import task_ledger
 
 ROOT = Path(__file__).parent
 CONFIG = json.loads((ROOT / "config/routes.json").read_text(encoding="utf-8"))
@@ -452,6 +453,17 @@ def main():
     if FLEX_CONFIG.get("mode") != "flexible":
         raise SystemExit("Flexible date mode is not enabled in config/flexible_dates.json.")
 
+    run_reservation_id = f"{os.getenv('GITHUB_RUN_ID', 'local')}-{os.getenv('GITHUB_RUN_ATTEMPT', '1')}"
+    task_id = task_ledger.begin_task(
+        "SerpApi",
+        {
+            "mode": "flexible",
+            "origin": CONFIG.get("origin", "KUL"),
+            "destinations": [str(route.get("destination", "")).upper() for route in CONFIG.get("routes", [])],
+        },
+        reservation_id=run_reservation_id,
+    )
+
     state = json.loads(DATA.read_text(encoding="utf-8")) if DATA.exists() else {
         "history": [], "results": [], "currency": CONFIG.get("currency", "MYR")
     }
@@ -703,6 +715,11 @@ def main():
     temporary = DATA.with_suffix(DATA.suffix + ".tmp")
     temporary.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     temporary.replace(DATA)
+    task_ledger.update_task(
+        task_id,
+        "needs_manual_review" if errors else "completed",
+        last_error="; ".join(errors) if errors else None,
+    )
     if errors and not any(not item.get("is_stale") for item in results):
         raise SystemExit("All flexible-date checks failed. Previous results were preserved and marked stale; see logs.")
 
