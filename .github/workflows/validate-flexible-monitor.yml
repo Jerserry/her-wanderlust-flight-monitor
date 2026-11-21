@@ -34,6 +34,11 @@ on:
 permissions:
   contents: read
 
+# Serialize all repository workflows that may touch shared state.
+concurrency:
+  group: hwp-flight-api-global
+  cancel-in-progress: false
+
 jobs:
   validate:
     runs-on: ubuntu-latest
