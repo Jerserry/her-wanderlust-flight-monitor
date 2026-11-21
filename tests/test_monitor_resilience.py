@@ -285,6 +285,7 @@ class SerpApiResilienceTests(unittest.TestCase):
             self.assertTrue(monitor.reserve_weekly_retry_quota())
         put.assert_not_called()
 
+    # Regression: a stale prior-week ledger must reset before checking the quota ceiling.
     def test_weekly_retry_quota_resets_on_new_malaysia_week(self):
         import base64
         old_monday = "2000-01-03"
