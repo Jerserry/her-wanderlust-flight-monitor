@@ -258,8 +258,6 @@ def reserve_weekly_retry_quota():
         raise RuntimeError("Shared retry quota credentials are unavailable; refusing retry.")
 
     import base64
-    import calendar
-    from datetime import date
     from urllib.parse import quote
 
     quota_path = ".github/state/weekly_retry_quota.json"
@@ -291,7 +289,7 @@ def reserve_weekly_retry_quota():
         raise RuntimeError("Shared retry quota ledger schema is invalid; refusing retry.")
 
     if state.get("week_start") != week_key:
-        state = {"schema_version": 1, "limit": 3, "week_start": week_key, "reservations": []}
+        state = {"schema_version": 1, "limit": WEEKLY_SHARED_RETRY_LIMIT, "week_start": week_key, "reservations": []}
 
     reservations = state["reservations"]
     if any(isinstance(item, dict) and item.get("id") == reservation_id for item in reservations):
