@@ -9,6 +9,7 @@ on:
       - fix/serpapi-global-rate-limit
     paths:
       - "monitor.py"
+      - "upscrape_monitor.py"
       - "task_ledger.py"
       - ".github/state/workflow_tasks.json"
       - "config/flexible_dates.json"
@@ -57,7 +58,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Check Python syntax
-        run: python -m py_compile monitor.py task_ledger.py
+        run: python -m py_compile monitor.py upscrape_monitor.py task_ledger.py
       - name: Run offline monitor resilience tests
         run: python -m unittest discover -s tests -v
       - name: Check dashboard JavaScript syntax
