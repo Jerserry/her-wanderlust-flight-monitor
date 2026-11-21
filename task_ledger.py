@@ -2,6 +2,7 @@
 import base64
 import json
 import os
+import sys
 from copy import deepcopy
 from datetime import datetime, timezone
 from urllib.parse import quote
@@ -211,3 +212,27 @@ def update_task(task_id, new_status, *, last_error=None, external_job_id=None):
     _write_remote_ledger(url, headers, branch, state, sha,
                          f"Update task {task_id} to {new_status}")
     return changed
+
+
+def reconcile_orphaned_tasks():
+    """Manual-only operation: mark leftover running tasks for review, never resume."""
+    url, headers, branch = _github_context()
+    state, sha = _read_remote_ledger(url, headers, branch)
+    now = datetime.now(timezone.utc).isoformat()
+    reviewed = mark_orphaned_running_tasks_for_review(state, updated_at=now)
+    if reviewed != state:
+        _write_remote_ledger(
+            url, headers, branch, reviewed, sha,
+            "Mark orphaned workflow tasks for manual review",
+        )
+    return [
+        task["task_id"] for task in reviewed["tasks"]
+        if task["status"] == "needs_manual_review"
+    ]
+
+
+if __name__ == "__main__":
+    if sys.argv[1:] != ["reconcile"]:
+        raise SystemExit("Usage: python task_ledger.py reconcile")
+    task_ids = reconcile_orphaned_tasks()
+    print(f"Manual review required for {len(task_ids)} task(s). No provider API was called.")
