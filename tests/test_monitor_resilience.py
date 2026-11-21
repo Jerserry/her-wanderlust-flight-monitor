@@ -225,6 +225,49 @@ class SerpApiResilienceTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "refusing API requests"):
                     monitor.read_serpapi_cooldown()
 
+    def test_weekly_retry_quota_reserves_before_retry(self):
+        import base64
+        existing = {
+            "schema_version": 1, "limit": 3,
+            "week_start": (datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())).isoformat(),
+            "reservations": [{"id": "old-1"}, {"id": "old-2"}]
+        }
+        encoded = base64.b64encode(json.dumps(existing).encode()).decode()
+        remote = {"content": encoded, "sha": "existing-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token",
+            "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch",
+            "GITHUB_RUN_ID": "run-3",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_WORKFLOW": "offline-test"
+        }), patch("monitor.requests.get", return_value=FakeResponse(200, remote)) as get, \
+             patch("monitor.requests.put", return_value=FakeResponse(200, {})) as put:
+            self.assertTrue(monitor.reserve_weekly_retry_quota())
+        get.assert_called_once()
+        put.assert_called_once()
+        body = put.call_args.kwargs["json"]
+        saved = json.loads(base64.b64decode(body["content"]).decode())
+        self.assertEqual(len(saved["reservations"]), 3)
+        self.assertEqual(saved["reservations"][-1]["id"], "run-3-1")
+
+    def test_weekly_retry_quota_stops_when_three_reservations_exist(self):
+        existing = {
+            "schema_version": 1, "limit": 3,
+            "week_start": (datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())).isoformat(),
+            "reservations": [{"id": "old-1"}, {"id": "old-2"}, {"id": "old-3"}]
+        }
+        import base64
+        remote = {"content": base64.b64encode(json.dumps(existing).encode()).decode(), "sha": "existing-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token",
+            "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch",
+        }), patch("monitor.requests.get", return_value=FakeResponse(200, remote)), \
+             patch("monitor.requests.put") as put:
+            self.assertFalse(monitor.reserve_weekly_retry_quota())
+        put.assert_not_called()
+
     def test_safe_error_hides_request_url_and_credentials(self):
         error = requests.HTTPError(
             "429 Client Error for url: https://serpapi.com/search.json?api_key=secret-token"
