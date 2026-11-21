@@ -22,6 +22,9 @@ TIMEZONE = ZoneInfo(FLEX_CONFIG.get("timezone", "Asia/Kuala_Lumpur"))
 API_LIMITS_PATH = ROOT / "config/api_limits.json"
 SERPAPI_COOLDOWN_PATH = ROOT / ".github/state/serpapi_cooldown.json"
 API_LIMITS = json.loads(API_LIMITS_PATH.read_text(encoding="utf-8")) if API_LIMITS_PATH.exists() else {}
+RETRY_QUOTA_CONFIG_PATH = ROOT / "config/retry_quota.json"
+RETRY_QUOTA_CONFIG = json.loads(RETRY_QUOTA_CONFIG_PATH.read_text(encoding="utf-8")) if RETRY_QUOTA_CONFIG_PATH.exists() else {}
+WEEKLY_SHARED_RETRY_LIMIT = int(RETRY_QUOTA_CONFIG.get("weekly_shared_retry_limit", 3))
 REQUEST_INTERVAL_SECONDS = max(0.0, float(API_LIMITS.get("minimum_request_interval_seconds", 2)))
 MAX_429_RETRIES = max(0, int(API_LIMITS.get("max_429_retries", 1)))
 FALLBACK_RETRY_AFTER_SECONDS = max(1, int(API_LIMITS.get("fallback_retry_after_seconds", 60)))
@@ -273,7 +276,7 @@ def reserve_weekly_retry_quota():
 
     response = requests.get(api_url, headers=headers, params={"ref": branch}, timeout=20)
     if response.status_code == 404:
-        state, sha = {"schema_version": 1, "limit": 3, "week_start": week_key, "reservations": []}, None
+        state, sha = {"schema_version": 1, "limit": WEEKLY_SHARED_RETRY_LIMIT, "week_start": week_key, "reservations": []}, None
     else:
         response.raise_for_status()
         remote = response.json()
@@ -284,7 +287,7 @@ def reserve_weekly_retry_quota():
             raise RuntimeError("Shared retry quota ledger is invalid; refusing retry.") from error
 
     if (not isinstance(state, dict) or state.get("schema_version") != 1
-            or state.get("limit") != 3 or not isinstance(state.get("reservations"), list)):
+            or state.get("limit") != WEEKLY_SHARED_RETRY_LIMIT or not isinstance(state.get("reservations"), list)):
         raise RuntimeError("Shared retry quota ledger schema is invalid; refusing retry.")
 
     if state.get("week_start") != week_key:
@@ -293,7 +296,7 @@ def reserve_weekly_retry_quota():
     reservations = state["reservations"]
     if any(isinstance(item, dict) and item.get("id") == reservation_id for item in reservations):
         return True
-    if len(reservations) >= 3:
+    if len(reservations) >= WEEKLY_SHARED_RETRY_LIMIT:
         print("Weekly shared retry quota exhausted; stopping without another SerpApi request.")
         return False
 
