@@ -268,6 +268,44 @@ class SerpApiResilienceTests(unittest.TestCase):
             self.assertFalse(monitor.reserve_weekly_retry_quota())
         put.assert_not_called()
 
+    def test_weekly_retry_quota_is_idempotent_for_same_workflow_attempt(self):
+        import base64
+        monday = datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())
+        existing = {
+            "schema_version": 1, "limit": 3, "week_start": monday.isoformat(),
+            "reservations": [{"id": "same-run-1"}]
+        }
+        remote = {"content": base64.b64encode(json.dumps(existing).encode()).decode(), "sha": "existing-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token", "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch", "GITHUB_RUN_ID": "same-run",
+            "GITHUB_RUN_ATTEMPT": "1"
+        }), patch("monitor.requests.get", return_value=FakeResponse(200, remote)), \
+             patch("monitor.requests.put") as put:
+            self.assertTrue(monitor.reserve_weekly_retry_quota())
+        put.assert_not_called()
+
+    def test_weekly_retry_quota_resets_on_new_malaysia_week(self):
+        import base64
+        yesterday = datetime.now(monitor.TIMEZONE).date() - timedelta(days=1)
+        old_monday = yesterday - timedelta(days=yesterday.weekday())
+        existing = {
+            "schema_version": 1, "limit": 3, "week_start": old_monday.isoformat(),
+            "reservations": [{"id": "old-1"}, {"id": "old-2"}, {"id": "old-3"}]
+        }
+        remote = {"content": base64.b64encode(json.dumps(existing).encode()).decode(), "sha": "existing-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token", "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch", "GITHUB_RUN_ID": "new-week-run",
+            "GITHUB_RUN_ATTEMPT": "1"
+        }), patch("monitor.requests.get", return_value=FakeResponse(200, remote)), \
+             patch("monitor.requests.put", return_value=FakeResponse(200, {})) as put:
+            self.assertTrue(monitor.reserve_weekly_retry_quota())
+        body = put.call_args.kwargs["json"]
+        saved = json.loads(base64.b64decode(body["content"]).decode())
+        self.assertEqual(saved["week_start"], (datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())).isoformat())
+        self.assertEqual(len(saved["reservations"]), 1)
+
     def test_safe_error_hides_request_url_and_credentials(self):
         error = requests.HTTPError(
             "429 Client Error for url: https://serpapi.com/search.json?api_key=secret-token"
