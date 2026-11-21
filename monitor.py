@@ -246,6 +246,76 @@ def baggage_budget_eligibility(route, baggage):
     return True, True, "eligible"
 
 
+def reserve_weekly_retry_quota():
+    """Atomically reserve one shared weekly retry before another SerpApi request."""
+    token = os.getenv("GITHUB_TOKEN")
+    repository = os.getenv("GITHUB_REPOSITORY")
+    branch = os.getenv("GITHUB_REF_NAME")
+    if not token or not repository or not branch:
+        raise RuntimeError("Shared retry quota credentials are unavailable; refusing retry.")
+
+    import base64
+    import calendar
+    from datetime import date
+    from urllib.parse import quote
+
+    quota_path = ".github/state/weekly_retry_quota.json"
+    api_url = f"https://api.github.com/repos/{repository}/contents/{quote(quota_path)}"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    current = datetime.now(TIMEZONE).date()
+    monday = current - timedelta(days=current.weekday())
+    week_key = monday.isoformat()
+    reservation_id = f"{os.getenv('GITHUB_RUN_ID', 'local')}-{os.getenv('GITHUB_RUN_ATTEMPT', '1')}"
+
+    response = requests.get(api_url, headers=headers, params={"ref": branch}, timeout=20)
+    if response.status_code == 404:
+        state, sha = {"schema_version": 1, "limit": 3, "week_start": week_key, "reservations": []}, None
+    else:
+        response.raise_for_status()
+        remote = response.json()
+        try:
+            state = json.loads(base64.b64decode(remote["content"]).decode("utf-8"))
+            sha = remote["sha"]
+        except (KeyError, ValueError, TypeError) as error:
+            raise RuntimeError("Shared retry quota ledger is invalid; refusing retry.") from error
+
+    if (not isinstance(state, dict) or state.get("schema_version") != 1
+            or state.get("limit") != 3 or not isinstance(state.get("reservations"), list)):
+        raise RuntimeError("Shared retry quota ledger schema is invalid; refusing retry.")
+
+    if state.get("week_start") != week_key:
+        state = {"schema_version": 1, "limit": 3, "week_start": week_key, "reservations": []}
+
+    reservations = state["reservations"]
+    if any(isinstance(item, dict) and item.get("id") == reservation_id for item in reservations):
+        return True
+    if len(reservations) >= 3:
+        print("Weekly shared retry quota exhausted; stopping without another SerpApi request.")
+        return False
+
+    reservations.append({
+        "id": reservation_id,
+        "reserved_at": datetime.now(TIMEZONE).isoformat(),
+        "workflow": os.getenv("GITHUB_WORKFLOW", "unknown"),
+    })
+    payload = {
+        "message": f"Reserve shared SerpApi retry quota ({week_key})",
+        "content": base64.b64encode((json.dumps(state, ensure_ascii=False, indent=2) + "\\n").encode("utf-8")).decode("ascii"),
+        "branch": branch,
+    }
+    if sha:
+        payload["sha"] = sha
+    saved = requests.put(api_url, headers=headers, json=payload, timeout=20)
+    if saved.status_code in (409, 422):
+        raise RuntimeError("Shared retry quota reservation conflicted; refusing retry.")
+    saved.raise_for_status()
+    return True
+
+
 def search_fares(route, api_key, now, departure_date, return_date):
     destination = route["destination"].upper()
     origin = CONFIG.get("origin", "KUL").upper()
@@ -285,7 +355,9 @@ def search_fares(route, api_key, now, departure_date, return_date):
         wait_seconds = retry_after_seconds(response)
         if attempt >= MAX_429_RETRIES or wait_seconds > MAX_RETRY_AFTER_SECONDS:
             raise SerpApiRateLimitError(wait_seconds)
-        print(f"SerpApi returned HTTP 429; waiting {wait_seconds}s before one bounded retry.")
+        if not reserve_weekly_retry_quota():
+            raise SerpApiRateLimitError(wait_seconds)
+        print(f"SerpApi returned HTTP 429; waiting {wait_seconds}s after reserving shared weekly quota.")
         time.sleep(wait_seconds)
 
     payload = response.json()
