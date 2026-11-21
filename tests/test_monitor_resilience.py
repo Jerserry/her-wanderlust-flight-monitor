@@ -391,3 +391,73 @@ class DurableTaskLedgerTests(unittest.TestCase):
         invalid["tasks"][0]["created_at"] = "2026-11-21T10:00:00"
         with self.assertRaisesRegex(ValueError, "timezone"):
             validate_task_ledger(invalid)
+
+class DurableTaskPersistenceTests(unittest.TestCase):
+    def test_begin_task_persists_running_before_returning(self):
+        import base64
+        from unittest.mock import patch
+        import task_ledger
+
+        remote = {"content": base64.b64encode(b'{"schema_version":1,"tasks":[]}').decode(),
+                  "sha": "ledger-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token", "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch", "GITHUB_RUN_ID": "offline-123",
+            "GITHUB_RUN_ATTEMPT": "1", "GITHUB_WORKFLOW": "Offline Test",
+        }), patch("task_ledger.requests.get", return_value=FakeResponse(200, remote)), \
+             patch("task_ledger.requests.put", return_value=FakeResponse(200, {})) as put:
+            task_id = task_ledger.begin_task(
+                "SerpApi", {"origin": "KUL", "destinations": ["NRT"]},
+                reservation_id="offline-123-1",
+            )
+        self.assertTrue(task_id)
+        saved = json.loads(base64.b64decode(put.call_args.kwargs["json"]["content"]))
+        self.assertEqual(saved["tasks"][0]["status"], "running")
+        self.assertEqual(saved["tasks"][0]["provider"], "SerpApi")
+        self.assertEqual(saved["tasks"][0]["reservation_id"], "offline-123-1")
+
+    def test_update_task_persists_pending_job_for_manual_review(self):
+        import base64
+        from unittest.mock import patch
+        import task_ledger
+        from uuid import uuid4
+
+        task = {
+            "task_id": str(uuid4()), "provider": "Upscrape",
+            "workflow": "Offline Test", "status": "running",
+            "created_at": "2026-11-21T10:00:00+08:00",
+            "updated_at": "2026-11-21T10:00:00+08:00",
+            "attempt": 1, "parameters": {"destination": "NRT"},
+            "reservation_id": None, "external_job_id": None, "last_error": None,
+        }
+        ledger = {"schema_version": 1, "tasks": [task]}
+        remote = {"content": base64.b64encode(json.dumps(ledger).encode()).decode(),
+                  "sha": "ledger-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token", "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch",
+        }), patch("task_ledger.requests.get", return_value=FakeResponse(200, remote)), \
+             patch("task_ledger.requests.put", return_value=FakeResponse(200, {})) as put:
+            task_ledger.update_task(
+                task["task_id"], "needs_manual_review",
+                last_error="Pending job", external_job_id="job-abc",
+            )
+        saved = json.loads(base64.b64decode(put.call_args.kwargs["json"]["content"]))
+        self.assertEqual(saved["tasks"][0]["status"], "needs_manual_review")
+        self.assertEqual(saved["tasks"][0]["external_job_id"], "job-abc")
+
+    def test_task_ledger_write_conflict_fails_closed(self):
+        import base64
+        from unittest.mock import patch
+        import task_ledger
+
+        remote = {"content": base64.b64encode(b'{"schema_version":1,"tasks":[]}').decode(),
+                  "sha": "ledger-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token", "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch", "GITHUB_RUN_ID": "conflict",
+            "GITHUB_RUN_ATTEMPT": "1",
+        }), patch("task_ledger.requests.get", return_value=FakeResponse(200, remote)), \
+             patch("task_ledger.requests.put", return_value=FakeResponse(409, {})):
+            with self.assertRaisesRegex(RuntimeError, "conflict"):
+                task_ledger.begin_task("Upscrape", {"destination": "NRT"})
