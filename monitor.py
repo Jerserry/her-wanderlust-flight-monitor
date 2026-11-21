@@ -304,7 +304,7 @@ def reserve_weekly_retry_quota():
     })
     payload = {
         "message": f"Reserve shared SerpApi retry quota ({week_key})",
-        "content": base64.b64encode((json.dumps(state, ensure_ascii=False, indent=2) + "\\n").encode("utf-8")).decode("ascii"),
+        "content": base64.b64encode((json.dumps(state, ensure_ascii=False, indent=2) + "\n").encode("utf-8")).decode("ascii"),
         "branch": branch,
     }
     if sha:
