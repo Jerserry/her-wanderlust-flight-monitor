@@ -188,7 +188,7 @@ class SerpApiResilienceTests(unittest.TestCase):
                  patch.object(monitor, "CONFIG", config), \
                  patch.object(monitor, "FLEX_CONFIG", flex), \
                  patch.dict("os.environ", {"SERPAPI_API_KEY": "offline-test-key"}), \
-                 patch("monitor.search_fares", side_effect=monitor.SerpApiRateLimitError(300)), \\
+                 patch("monitor.search_fares", side_effect=monitor.SerpApiRateLimitError(300)), \
                  patch("monitor.task_ledger.begin_task", return_value="offline-task"), \
                  patch("monitor.task_ledger.update_task"):
                 with self.assertRaises(SystemExit):
