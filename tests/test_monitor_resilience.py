@@ -191,6 +191,29 @@ class SerpApiResilienceTests(unittest.TestCase):
                 self.assertEqual(saved_state["destination"], "NRT")
                 self.assertGreater(remaining, 0)
 
+    def test_cooldown_schema_rejects_invalid_timestamp_types(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "serpapi_cooldown.json"
+            path.write_text(json.dumps({
+                "schema_version": 1, "provider": "SerpApi",
+                "last_429_at": 123, "cooldown_until": None
+            }), encoding="utf-8")
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", path):
+                with self.assertRaisesRegex(RuntimeError, "refusing API requests"):
+                    monitor.read_serpapi_cooldown()
+
+    def test_cooldown_schema_requires_timestamp_when_429_is_recorded(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "serpapi_cooldown.json"
+            path.write_text(json.dumps({
+                "schema_version": 1, "provider": "SerpApi",
+                "last_429_at": "2026-11-19T00:00:00+00:00",
+                "cooldown_until": None
+            }), encoding="utf-8")
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", path):
+                with self.assertRaisesRegex(RuntimeError, "refusing API requests"):
+                    monitor.read_serpapi_cooldown()
+
     def test_corrupt_cooldown_state_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "serpapi_cooldown.json"
