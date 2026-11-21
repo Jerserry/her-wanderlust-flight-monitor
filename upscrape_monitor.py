@@ -5,6 +5,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 import requests
+import task_ledger
 
 ROOT = Path(__file__).parent
 CONFIG = json.loads((ROOT / "config/routes.json").read_text(encoding="utf-8"))
@@ -58,6 +59,11 @@ def main():
         },
         "max_credits": MAX_CREDITS,
     }
+    task_id = task_ledger.begin_task(
+        "Upscrape",
+        {"origin": origin, "destination": destination, "departure_date": departure_date,
+         "idempotency_key": idempotency_key},
+    )
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
@@ -72,10 +78,20 @@ def main():
     envelope = response.json()
 
     if envelope.get("state") == "failed" or envelope.get("success") is False:
+        task_ledger.update_task(
+            task_id, "needs_manual_review",
+            last_error="Upscrape returned failed state.",
+            external_job_id=envelope.get("job_id"),
+        )
         fail(f"Upscrape job failed: {json.dumps(envelope.get('error', envelope), ensure_ascii=False)}")
     if envelope.get("state") != "completed" or envelope.get("success") is not True:
-        # Do not submit again: a pending job must be polled by job_id/poll_url.
-        fail("Upscrape did not finish within 30 seconds. It returned a pending job; inspect the job before retrying to avoid a duplicate request.")
+        # Preserve provider job identity and stop: never submit a duplicate job.
+        task_ledger.update_task(
+            task_id, "needs_manual_review",
+            last_error="Upscrape job is pending; manual inspection/polling required.",
+            external_job_id=envelope.get("job_id"),
+        )
+        fail("Upscrape returned a pending job. Its job_id was saved for manual inspection; do not resubmit.")
 
     data = None
     for item in envelope.get("results", []):
@@ -168,6 +184,7 @@ def main():
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    task_ledger.update_task(task_id, "completed", external_job_id=envelope.get("job_id"))
     print(f"Upscrape success: {origin}->{destination} on {departure_date}; {len(normalized)} priced offers; credits charged={result['credits_charged']}.")
     print(f"Saved validation data to {OUTPUT.relative_to(ROOT)}. Dashboard prices.json was not changed.")
 
