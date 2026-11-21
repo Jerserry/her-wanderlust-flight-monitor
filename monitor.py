@@ -74,10 +74,20 @@ def read_serpapi_cooldown(now=None):
         return None, 0
     try:
         state = json.loads(SERPAPI_COOLDOWN_PATH.read_text(encoding="utf-8"))
-        if not isinstance(state, dict) or state.get("schema_version") != 1:
+        required = {
+            "schema_version": 1,
+            "provider": "SerpApi",
+        }
+        if not isinstance(state, dict) or any(state.get(key) != value for key, value in required.items()):
             raise ValueError("Unsupported cooldown state schema")
+        for field in ("last_429_at", "cooldown_until"):
+            value = state.get(field)
+            if value is not None and not isinstance(value, str):
+                raise ValueError(f"Invalid cooldown field: {field}")
         raw_until = state.get("cooldown_until")
-        if not raw_until:
+        if raw_until is None:
+            if state.get("last_429_at") is not None:
+                raise ValueError("Cooldown timestamp missing after recorded 429")
             return state, 0
         until = datetime.fromisoformat(raw_until)
         if until.tzinfo is None:
@@ -617,7 +627,9 @@ def main():
         ),
     })
     DATA.parent.mkdir(parents=True, exist_ok=True)
-    DATA.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary = DATA.with_suffix(DATA.suffix + ".tmp")
+    temporary.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(DATA)
     if errors and not any(not item.get("is_stale") for item in results):
         raise SystemExit("All flexible-date checks failed. Previous results were preserved and marked stale; see logs.")
 
