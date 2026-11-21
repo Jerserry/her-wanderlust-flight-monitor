@@ -77,5 +77,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin "$GITHUB_REF_NAME"
           git add docs/data/upscrape_latest.json docs/data/route_config.json
           git diff --cached --quiet || (git commit -m "Save manual Upscrape flight result" && git push)
