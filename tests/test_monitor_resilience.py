@@ -319,3 +319,75 @@ class SerpApiResilienceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DurableTaskLedgerTests(unittest.TestCase):
+    def setUp(self):
+        from uuid import uuid4
+        self.task = {
+            "task_id": str(uuid4()),
+            "provider": "Upscrape",
+            "workflow": "Upscrape Manual Flight Search",
+            "status": "pending",
+            "created_at": "2026-11-21T10:00:00+08:00",
+            "updated_at": "2026-11-21T10:00:00+08:00",
+            "attempt": 1,
+            "parameters": {"origin": "KUL", "destination": "NRT", "departure_date": "2027-01-10"},
+            "reservation_id": None,
+            "external_job_id": None,
+            "last_error": None,
+        }
+        self.ledger = {"schema_version": 1, "tasks": [self.task]}
+
+    def test_valid_ledger_is_accepted_without_mutating_input(self):
+        from task_ledger import validate_task_ledger
+        validated = validate_task_ledger(self.ledger)
+        self.assertEqual(validated, self.ledger)
+        self.assertIsNot(validated, self.ledger)
+
+    def test_unknown_status_and_duplicate_ids_fail_closed(self):
+        from task_ledger import validate_task_ledger
+        invalid = json.loads(json.dumps(self.ledger))
+        invalid["tasks"][0]["status"] = "auto_retry"
+        with self.assertRaisesRegex(ValueError, "status"):
+            validate_task_ledger(invalid)
+        duplicate = json.loads(json.dumps(self.ledger))
+        duplicate["tasks"].append(dict(duplicate["tasks"][0]))
+        with self.assertRaisesRegex(ValueError, "duplicate"):
+            validate_task_ledger(duplicate)
+
+    def test_running_task_cannot_be_automatically_resumed(self):
+        from task_ledger import mark_orphaned_running_tasks_for_review
+        running = dict(self.task, status="running")
+        ledger = {"schema_version": 1, "tasks": [running]}
+        reviewed = mark_orphaned_running_tasks_for_review(
+            ledger, updated_at="2026-11-21T11:00:00+08:00"
+        )
+        self.assertEqual(reviewed["tasks"][0]["status"], "needs_manual_review")
+        self.assertIn("manual review", reviewed["tasks"][0]["last_error"])
+        self.assertEqual(ledger["tasks"][0]["status"], "running")
+
+    def test_only_explicit_safe_state_transitions_are_allowed(self):
+        from task_ledger import transition_task
+        running = transition_task(
+            self.task, "running", updated_at="2026-11-21T10:01:00+08:00"
+        )
+        completed = transition_task(
+            running, "completed", updated_at="2026-11-21T10:02:00+08:00"
+        )
+        self.assertEqual(completed["status"], "completed")
+        with self.assertRaisesRegex(ValueError, "Invalid task transition"):
+            transition_task(
+                running, "pending", updated_at="2026-11-21T10:03:00+08:00"
+            )
+        with self.assertRaisesRegex(ValueError, "Invalid task transition"):
+            transition_task(
+                completed, "running", updated_at="2026-11-21T10:04:00+08:00"
+            )
+
+    def test_task_timestamps_must_include_timezone(self):
+        from task_ledger import validate_task_ledger
+        invalid = json.loads(json.dumps(self.ledger))
+        invalid["tasks"][0]["created_at"] = "2026-11-21T10:00:00"
+        with self.assertRaisesRegex(ValueError, "timezone"):
+            validate_task_ledger(invalid)
