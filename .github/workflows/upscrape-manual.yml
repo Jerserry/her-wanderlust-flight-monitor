@@ -67,6 +67,7 @@ jobs:
       - name: Run one Upscrape search (maximum 5 credits)
         env:
           UPSCRAPE_API_KEY: ${{ secrets.UPSCRAPE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DESTINATION: ${{ inputs.destination }}
           DEPARTURE_DATE: ${{ inputs.departure_date }}
           GITHUB_RUN_ID: ${{ github.run_id }}
