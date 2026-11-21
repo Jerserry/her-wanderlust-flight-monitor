@@ -1,0 +1,6 @@
+{
+  "weekly_shared_retry_limit": 3,
+  "weekly_timezone": "Asia/Kuala_Lumpur",
+  "reservation_policy": "reserve_before_retry",
+  "notes": "All workflows share this weekly additional-retry ceiling. Reservations are never refunded after interruption."
+}
