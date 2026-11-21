@@ -290,7 +290,7 @@ class SerpApiResilienceTests(unittest.TestCase):
         import base64
         old_monday = "2000-01-03"
         existing = {
-            "schema_version": 1, "limit": 3, "week_start": old_monday.isoformat(),
+            "schema_version": 1, "limit": 3, "week_start": old_monday,
             "reservations": [{"id": "old-1"}, {"id": "old-2"}, {"id": "old-3"}]
         }
         remote = {"content": base64.b64encode(json.dumps(existing).encode()).decode(), "sha": "existing-sha"}
