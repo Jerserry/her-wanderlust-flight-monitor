@@ -2,6 +2,15 @@ name: Review Interrupted Flight Tasks
 
 on:
   workflow_dispatch:
+    inputs:
+      action:
+        description: "List tasks without changes, or mark orphaned running tasks for manual review"
+        required: true
+        type: choice
+        default: list
+        options:
+          - list
+          - reconcile
 
 permissions:
   contents: write
@@ -20,7 +29,13 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - name: Inspect task ledger (read-only)
+        if: inputs.action == 'list'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python task_ledger.py list
       - name: Mark orphaned running tasks for manual review
+        if: inputs.action == 'reconcile'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python task_ledger.py reconcile
