@@ -9,6 +9,8 @@ on:
       - fix/serpapi-global-rate-limit
     paths:
       - "monitor.py"
+      - "task_ledger.py"
+      - ".github/state/workflow_tasks.json"
       - "config/flexible_dates.json"
       - "config/routes.json"
       - "config/api_limits.json"
@@ -55,7 +57,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Check Python syntax
-        run: python -m py_compile monitor.py
+        run: python -m py_compile monitor.py task_ledger.py
       - name: Run offline monitor resilience tests
         run: python -m unittest discover -s tests -v
       - name: Check dashboard JavaScript syntax
@@ -94,6 +96,10 @@ jobs:
           assert len(first) == 1 and len(second) == 1
           assert first != second, "Rotation did not advance to the next date pairs"
           assert cursor["BKK"] == 2
+
+          task_state = json.loads(Path(".github/state/workflow_tasks.json").read_text(encoding="utf-8"))
+          assert task_state.get("schema_version") == 1
+          assert task_state.get("tasks") == []
 
           cooldown_state = json.loads(Path(".github/state/serpapi_cooldown.json").read_text(encoding="utf-8"))
           assert cooldown_state.get("schema_version") == 1
