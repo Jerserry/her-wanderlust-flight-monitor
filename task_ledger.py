@@ -1,26 +1,16 @@
-"""Pure validation and transition rules for durable workflow task records.
-
-This module performs no network or API operations. Runtime integration is added
-in a later implementation stage.
-"""
+"""Durable workflow task ledger with fail-closed GitHub Contents API persistence."""
+import base64
+import json
+import os
 from copy import deepcopy
-from datetime import datetime
-from uuid import UUID
+from datetime import datetime, timezone
+from urllib.parse import quote
+from uuid import NAMESPACE_URL, uuid5
 
-SCHEMA_VERSION = 1
-STATUSES = {"pending", "running", "interrupted", "completed", "needs_manual_review"}
-TERMINAL_STATUSES = {"completed", "needs_manual_review"}
-ALLOWED_TRANSITIONS = {
-    "pending": {"running", "needs_manual_review"},
-    "running": {"completed", "interrupted", "needs_manual_review"},
-    "interrupted": {"needs_manual_review"},
-    "completed": set(),
-    "needs_manual_review": set(),
-}
-REQUIRED_TASK_FIELDS = {
-    "task_id", "provider", "workflow", "status", "created_at", "updated_at",
-    "attempt", "parameters", "reservation_id", "external_job_id", "last_error",
-}
+import requests
+
+LEDGER_PATH = ".github/state/workflow_tasks.json"
+LEDGER_API_TIMEOUT = 20
 
 
 def _timestamp(value, field):
@@ -36,18 +26,23 @@ def _timestamp(value, field):
 
 
 def validate_task_ledger(state):
-    """Validate the complete task ledger; reject unknown schema/status values."""
-    if not isinstance(state, dict) or state.get("schema_version") != SCHEMA_VERSION:
+    if not isinstance(state, dict) or state.get("schema_version") != 1:
         raise ValueError("Unsupported task ledger schema")
     tasks = state.get("tasks")
     if not isinstance(tasks, list):
         raise ValueError("Task ledger tasks must be a list")
     seen = set()
+    required = {"task_id", "provider", "workflow", "status", "created_at",
+                "updated_at", "attempt", "parameters", "reservation_id",
+                "external_job_id", "last_error"}
+    statuses = {"pending", "running", "interrupted", "completed", "needs_manual_review"}
     for task in tasks:
-        if not isinstance(task, dict) or not REQUIRED_TASK_FIELDS.issubset(task):
+        if not isinstance(task, dict) or not required.issubset(task):
             raise ValueError("Task ledger record is missing required fields")
         try:
-            task_id = str(UUID(task["task_id"]))
+            task_id = str(uuid5(NAMESPACE_URL, task["task_id"])) if False else task["task_id"]
+            from uuid import UUID
+            task_id = str(UUID(task_id))
         except (ValueError, TypeError, AttributeError) as error:
             raise ValueError("Task ledger task_id must be a UUID") from error
         if task_id in seen:
@@ -57,7 +52,7 @@ def validate_task_ledger(state):
             raise ValueError("Task ledger provider is unsupported")
         if not isinstance(task.get("workflow"), str) or not task["workflow"]:
             raise ValueError("Task ledger workflow is required")
-        if task.get("status") not in STATUSES:
+        if task.get("status") not in statuses:
             raise ValueError("Task ledger status is unsupported")
         _timestamp(task.get("created_at"), "created_at")
         _timestamp(task.get("updated_at"), "updated_at")
@@ -75,10 +70,16 @@ def validate_task_ledger(state):
 
 def transition_task(task, new_status, *, updated_at, last_error=None,
                     external_job_id=None):
-    """Return a validated copy after one permitted state transition."""
-    if not isinstance(task, dict) or task.get("status") not in STATUSES:
+    allowed = {
+        "pending": {"running", "needs_manual_review"},
+        "running": {"completed", "interrupted", "needs_manual_review"},
+        "interrupted": {"needs_manual_review"},
+        "completed": set(),
+        "needs_manual_review": set(),
+    }
+    if not isinstance(task, dict) or task.get("status") not in allowed:
         raise ValueError("Cannot transition an invalid task")
-    if new_status not in ALLOWED_TRANSITIONS[task["status"]]:
+    if new_status not in allowed[task["status"]]:
         raise ValueError(f"Invalid task transition: {task['status']} -> {new_status}")
     _timestamp(updated_at, "updated_at")
     changed = deepcopy(task)
@@ -94,12 +95,119 @@ def transition_task(task, new_status, *, updated_at, last_error=None,
 
 
 def mark_orphaned_running_tasks_for_review(state, *, updated_at):
-    """Never resume automatically: running tasks found after restart need review."""
     validated = validate_task_ledger(state)
     _timestamp(updated_at, "updated_at")
     for task in validated["tasks"]:
         if task["status"] == "running":
             task["status"] = "needs_manual_review"
             task["updated_at"] = updated_at
-            task["last_error"] = "Previous workflow ended before a completion record was written; manual review required."
+            task["last_error"] = (
+                "Previous workflow ended before a completion record was written; "
+                "manual review required."
+            )
     return validated
+
+
+def _github_context():
+    token = os.getenv("GITHUB_TOKEN")
+    repository = os.getenv("GITHUB_REPOSITORY")
+    branch = os.getenv("GITHUB_REF_NAME")
+    if not token or not repository or not branch:
+        raise RuntimeError("Task ledger credentials unavailable; refusing to start provider work.")
+    url = f"https://api.github.com/repos/{repository}/contents/{quote(LEDGER_PATH)}"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    return url, headers, branch
+
+
+def _read_remote_ledger(url, headers, branch):
+    response = requests.get(
+        url, headers=headers, params={"ref": branch}, timeout=LEDGER_API_TIMEOUT
+    )
+    if response.status_code == 404:
+        return {"schema_version": 1, "tasks": []}, None
+    response.raise_for_status()
+    remote = response.json()
+    try:
+        state = json.loads(base64.b64decode(remote["content"]).decode("utf-8"))
+        sha = remote["sha"]
+    except (KeyError, ValueError, TypeError) as error:
+        raise RuntimeError("Task ledger is unreadable; refusing provider work.") from error
+    try:
+        return validate_task_ledger(state), sha
+    except ValueError as error:
+        raise RuntimeError("Task ledger schema invalid; refusing provider work.") from error
+
+
+def _write_remote_ledger(url, headers, branch, state, sha, message):
+    body = {
+        "message": message,
+        "content": base64.b64encode(
+            (json.dumps(state, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+        ).decode("ascii"),
+        "branch": branch,
+    }
+    if sha:
+        body["sha"] = sha
+    response = requests.put(
+        url, headers=headers, json=body, timeout=LEDGER_API_TIMEOUT
+    )
+    if response.status_code in (409, 422):
+        raise RuntimeError("Task ledger write conflict; refusing provider work.")
+    response.raise_for_status()
+
+
+def begin_task(provider, parameters, *, reservation_id=None):
+    """Persist running status before any provider API call; fail closed on errors."""
+    url, headers, branch = _github_context()
+    run_id = os.getenv("GITHUB_RUN_ID", "local")
+    attempt = os.getenv("GITHUB_RUN_ATTEMPT", "1")
+    workflow = os.getenv("GITHUB_WORKFLOW", "local")
+    task_key = f"{provider}:{run_id}:{attempt}"
+    task_id = str(uuid5(NAMESPACE_URL, task_key))
+    now = datetime.now(timezone.utc).isoformat()
+    state, sha = _read_remote_ledger(url, headers, branch)
+    existing = next((item for item in state["tasks"] if item["task_id"] == task_id), None)
+    if existing:
+        if existing["status"] != "pending":
+            raise RuntimeError(
+                f"Task {task_id} already exists with status {existing['status']}; "
+                "manual review required; refusing duplicate provider work."
+            )
+        task = existing
+        task["status"] = "running"
+        task["updated_at"] = now
+    else:
+        task = {
+            "task_id": task_id, "provider": provider, "workflow": workflow,
+            "status": "running", "created_at": now, "updated_at": now,
+            "attempt": int(attempt), "parameters": deepcopy(parameters),
+            "reservation_id": reservation_id, "external_job_id": None,
+            "last_error": None,
+        }
+        state["tasks"].append(task)
+    validate_task_ledger(state)
+    _write_remote_ledger(url, headers, branch, state, sha,
+                         f"Start {provider} task {task_id}")
+    return task_id
+
+
+def update_task(task_id, new_status, *, last_error=None, external_job_id=None):
+    """Persist a single explicit state transition; never auto-resume."""
+    url, headers, branch = _github_context()
+    state, sha = _read_remote_ledger(url, headers, branch)
+    task = next((item for item in state["tasks"] if item["task_id"] == task_id), None)
+    if task is None:
+        raise RuntimeError("Task record not found; refusing to continue.")
+    changed = transition_task(
+        task, new_status, updated_at=datetime.now(timezone.utc).isoformat(),
+        last_error=last_error, external_job_id=external_job_id,
+    )
+    state["tasks"][state["tasks"].index(task)] = changed
+    validate_task_ledger(state)
+    _write_remote_ledger(url, headers, branch, state, sha,
+                         f"Update task {task_id} to {new_status}")
+    return changed
