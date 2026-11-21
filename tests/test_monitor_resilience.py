@@ -287,8 +287,9 @@ class SerpApiResilienceTests(unittest.TestCase):
 
     def test_weekly_retry_quota_resets_on_new_malaysia_week(self):
         import base64
-        yesterday = datetime.now(monitor.TIMEZONE).date() - timedelta(days=1)
-        old_monday = yesterday - timedelta(days=yesterday.weekday())
+        today = datetime.now(monitor.TIMEZONE).date()
+        current_monday = today - timedelta(days=today.weekday())
+        old_monday = current_monday - timedelta(days=7)
         existing = {
             "schema_version": 1, "limit": 3, "week_start": old_monday.isoformat(),
             "reservations": [{"id": "old-1"}, {"id": "old-2"}, {"id": "old-3"}]
