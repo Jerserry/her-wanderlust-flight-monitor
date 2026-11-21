@@ -214,6 +214,30 @@ def update_task(task_id, new_status, *, last_error=None, external_job_id=None):
     return changed
 
 
+def list_tasks(*, statuses=None):
+    """Read-only task listing. Never contacts either flight-search provider."""
+    url, headers, branch = _github_context()
+    state, _sha = _read_remote_ledger(url, headers, branch)
+    selected = set(statuses) if statuses else None
+    return [
+        {
+            "task_id": task["task_id"],
+            "provider": task["provider"],
+            "workflow": task["workflow"],
+            "status": task["status"],
+            "created_at": task["created_at"],
+            "updated_at": task["updated_at"],
+            "attempt": task["attempt"],
+            "parameters": deepcopy(task["parameters"]),
+            "reservation_id": task["reservation_id"],
+            "external_job_id": task["external_job_id"],
+            "last_error": task["last_error"],
+        }
+        for task in state["tasks"]
+        if selected is None or task["status"] in selected
+    ]
+
+
 def reconcile_orphaned_tasks():
     """Manual-only operation: mark leftover running tasks for review, never resume."""
     url, headers, branch = _github_context()
@@ -232,7 +256,13 @@ def reconcile_orphaned_tasks():
 
 
 if __name__ == "__main__":
-    if sys.argv[1:] != ["reconcile"]:
-        raise SystemExit("Usage: python task_ledger.py reconcile")
-    task_ids = reconcile_orphaned_tasks()
-    print(f"Manual review required for {len(task_ids)} task(s). No provider API was called.")
+    command = sys.argv[1:] or ["list"]
+    if command == ["list"]:
+        records = list_tasks()
+        print(json.dumps(records, ensure_ascii=False, indent=2))
+        print(f"Listed {len(records)} task(s). Read-only; no provider API was called.")
+    elif command == ["reconcile"]:
+        task_ids = reconcile_orphaned_tasks()
+        print(f"Manual review required for {len(task_ids)} task(s). No provider API was called.")
+    else:
+        raise SystemExit("Usage: python task_ledger.py [list|reconcile]")
