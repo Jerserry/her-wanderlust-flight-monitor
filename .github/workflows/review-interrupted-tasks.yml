@@ -1,0 +1,26 @@
+name: Review Interrupted Flight Tasks
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Wait until any active flight workflow exits before inspecting shared task state.
+concurrency:
+  group: hwp-flight-api-global
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Mark orphaned running tasks for manual review
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python task_ledger.py reconcile
