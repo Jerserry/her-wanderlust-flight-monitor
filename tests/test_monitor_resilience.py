@@ -591,3 +591,40 @@ class DurableTaskPersistenceTests(unittest.TestCase):
         self.assertEqual(records[0]["external_job_id"], "job-readonly")
         self.assertEqual(records[0]["status"], "needs_manual_review")
         put.assert_not_called()
+
+
+    def test_task_view_redacts_secrets_and_drops_unknown_fields(self):
+        import task_ledger
+        task = {
+            "task_id": "e2b90f60-51c7-5a0f-b5a2-b0e5b3b5e8c1",
+            "provider": "Upscrape",
+            "workflow": "Manual Test",
+            "status": "needs_manual_review",
+            "created_at": "2026-11-21T10:00:00+08:00",
+            "updated_at": "2026-11-21T10:01:00+08:00",
+            "attempt": 1,
+            "parameters": {
+                "origin": "kul",
+                "destination": "nrt",
+                "departure_date": "2027-01-10",
+                "api_key": "secret-parameter-value",
+                "custom": "must-not-be-exposed",
+            },
+            "reservation_id": "private-reservation-id",
+            "external_job_id": "job-123",
+            "last_error": "request failed: api_key=secret-error-value; Bearer abc.def.ghi https://example.test/path?token=secret-url-value",
+        }
+        view = task_ledger._safe_task_view(task)
+        rendered = json.dumps(view)
+        self.assertEqual(view["parameters"], {
+            "origin": "KUL", "destination": "NRT",
+            "departure_date": "2027-01-10",
+        })
+        self.assertNotIn("reservation_id", view)
+        self.assertNotIn("secret-parameter-value", rendered)
+        self.assertNotIn("must-not-be-exposed", rendered)
+        self.assertNotIn("private-reservation-id", rendered)
+        self.assertNotIn("secret-error-value", rendered)
+        self.assertNotIn("abc.def.ghi", rendered)
+        self.assertNotIn("example.test", rendered)
+        self.assertIn("[REDACTED]", rendered)
