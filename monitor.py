@@ -322,7 +322,12 @@ def reserve_weekly_retry_quota():
     reservations = state["reservations"]
     # An existing reservation means this run has already spent its one retry.
     # Do not return True here: that would let another date pair retry again.
-    if any(isinstance(item, dict) and item.get("id") == reservation_id for item in reservations):
+    if any(
+        isinstance(item, dict)
+        and isinstance(item.get("id"), str)
+        and (item["id"] == reservation_id or item["id"].startswith(reservation_id + "-"))
+        for item in reservations
+    ):
         print("This workflow run has already reserved its single retry; stopping without another SerpApi request.")
         return False
     if len(reservations) >= WEEKLY_SHARED_RETRY_LIMIT:
