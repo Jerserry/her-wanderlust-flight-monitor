@@ -238,6 +238,13 @@ def list_tasks(*, statuses=None):
     ]
 
 
+def get_task(task_id):
+    """Read-only lookup for one task by exact task ID."""
+    url, headers, branch = _github_context()
+    state, _sha = _read_remote_ledger(url, headers, branch)
+    task = next((item for item in state["tasks"] if item["task_id"] == task_id), None)
+    return deepcopy(task) if task else None
+
 def reconcile_orphaned_tasks():
     """Manual-only operation: mark leftover running tasks for review, never resume."""
     url, headers, branch = _github_context()
@@ -264,5 +271,11 @@ if __name__ == "__main__":
     elif command == ["reconcile"]:
         task_ids = reconcile_orphaned_tasks()
         print(f"Manual review required for {len(task_ids)} task(s). No provider API was called.")
+    elif len(command) == 2 and command[0] == "get":
+        task = get_task(command[1])
+        if task is None:
+            raise SystemExit("Task ID not found.")
+        print(json.dumps(task, ensure_ascii=False, indent=2))
+        print("Read-only; no provider API was called.")
     else:
-        raise SystemExit("Usage: python task_ledger.py [list|reconcile]")
+        raise SystemExit("Usage: python task_ledger.py [list|reconcile|get TASK_ID]")
