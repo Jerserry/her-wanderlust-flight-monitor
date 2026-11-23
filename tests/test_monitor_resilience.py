@@ -536,9 +536,10 @@ class DurableTaskPersistenceTests(unittest.TestCase):
         }), patch("task_ledger.requests.get", return_value=FakeResponse(200, remote)), \
              patch("task_ledger.requests.put") as put:
             found = task_ledger.get_task(task["task_id"])
+            missing = task_ledger.get_task(str(uuid4()))
         self.assertEqual(found["external_job_id"], "job-detail")
         self.assertEqual(found["status"], "needs_manual_review")
-        self.assertIsNone(task_ledger.get_task(str(uuid4())))
+        self.assertIsNone(missing)
         put.assert_not_called()
 
     def test_list_tasks_is_read_only_and_returns_task_metadata(self):
