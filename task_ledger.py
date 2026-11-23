@@ -2,6 +2,7 @@
 import base64
 import json
 import os
+import re
 import sys
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -214,36 +215,85 @@ def update_task(task_id, new_status, *, last_error=None, external_job_id=None):
     return changed
 
 
+_SAFE_PARAMETER_FIELDS = {"mode", "origin", "destination", "destinations",
+                           "departure_date", "return_date"}
+_SECRET_VALUE_RE = re.compile(
+    r"(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|password)"
+    r"(\\s*[\\"']?\\s*[:=]\\s*[\\"']?)([^\\s,;\\\"']+)"
+)
+_BEARER_RE = re.compile(r"(?i)\\bBearer\\s+[A-Za-z0-9._~+/-]+=*")
+_URL_RE = re.compile(r"https?://[^\\s]+", re.IGNORECASE)
+
+
+def _safe_task_text(value, limit=500):
+    """Bound and redact untrusted task text before displaying it in logs."""
+    if value is None:
+        return None
+    text = str(value)
+    text = _BEARER_RE.sub("Bearer [REDACTED]", text)
+    text = _URL_RE.sub("[URL REDACTED]", text)
+    text = _SECRET_VALUE_RE.sub(r"\\1\\2[REDACTED]", text)
+    return text[:limit]
+
+
+def _safe_task_parameters(parameters):
+    """Expose only known, non-secret route metadata; discard unknown fields."""
+    if not isinstance(parameters, dict):
+        return {}
+    safe = {}
+    for key in _SAFE_PARAMETER_FIELDS:
+        value = parameters.get(key)
+        if key in {"origin", "destination"}:
+            if isinstance(value, str) and re.fullmatch(r"[A-Za-z]{3}", value):
+                safe[key] = value.upper()
+        elif key == "destinations":
+            if isinstance(value, list):
+                codes = [item.upper() for item in value
+                         if isinstance(item, str) and re.fullmatch(r"[A-Za-z]{3}", item)]
+                if codes:
+                    safe[key] = codes[:50]
+        elif key in {"departure_date", "return_date"}:
+            if isinstance(value, str) and re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", value):
+                safe[key] = value
+        elif key == "mode" and value in {"flexible"}:
+            safe[key] = value
+    return safe
+
+
+def _safe_task_view(task):
+    """Return the deliberately limited, redacted public view of a task."""
+    return {
+        "task_id": task["task_id"],
+        "provider": task["provider"],
+        "workflow": _safe_task_text(task["workflow"], 120),
+        "status": task["status"],
+        "created_at": task["created_at"],
+        "updated_at": task["updated_at"],
+        "attempt": task["attempt"],
+        "parameters": _safe_task_parameters(task["parameters"]),
+        "external_job_id": _safe_task_text(task["external_job_id"], 160),
+        "last_error": _safe_task_text(task["last_error"]),
+    }
+
+
 def list_tasks(*, statuses=None):
-    """Read-only task listing. Never contacts either flight-search provider."""
+    """Read-only, redacted task listing. Never contacts flight-search providers."""
     url, headers, branch = _github_context()
     state, _sha = _read_remote_ledger(url, headers, branch)
     selected = set(statuses) if statuses else None
     return [
-        {
-            "task_id": task["task_id"],
-            "provider": task["provider"],
-            "workflow": task["workflow"],
-            "status": task["status"],
-            "created_at": task["created_at"],
-            "updated_at": task["updated_at"],
-            "attempt": task["attempt"],
-            "parameters": deepcopy(task["parameters"]),
-            "reservation_id": task["reservation_id"],
-            "external_job_id": task["external_job_id"],
-            "last_error": task["last_error"],
-        }
+        _safe_task_view(task)
         for task in state["tasks"]
         if selected is None or task["status"] in selected
     ]
 
 
 def get_task(task_id):
-    """Read-only lookup for one task by exact task ID."""
+    """Read-only, redacted lookup for one task by exact task ID."""
     url, headers, branch = _github_context()
     state, _sha = _read_remote_ledger(url, headers, branch)
     task = next((item for item in state["tasks"] if item["task_id"] == task_id), None)
-    return deepcopy(task) if task else None
+    return _safe_task_view(task) if task else None
 
 def reconcile_orphaned_tasks():
     """Manual-only operation: mark leftover running tasks for review, never resume."""
