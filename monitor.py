@@ -136,9 +136,22 @@ def read_serpapi_cooldown(now=None):
 
 
 def clear_serpapi_cooldown():
-    """Remove the cooldown created by a 429 after a successful retry response."""
+    """Persist an inactive cooldown record after a successful retry response."""
+    state = {
+        "schema_version": 1,
+        "provider": "SerpApi",
+        "last_429_at": None,
+        "cooldown_until": None,
+        "reason": "cleared after successful retry",
+    }
     try:
-        SERPAPI_COOLDOWN_PATH.unlink(missing_ok=True)
+        SERPAPI_COOLDOWN_PATH.parent.mkdir(parents=True, exist_ok=True)
+        temporary = SERPAPI_COOLDOWN_PATH.with_suffix(".tmp")
+        temporary.write_text(
+            json.dumps(state, ensure_ascii=False, indent=2) + "\\n",
+            encoding="utf-8",
+        )
+        temporary.replace(SERPAPI_COOLDOWN_PATH)
     except OSError as error:
         raise RuntimeError(
             "SerpApi cooldown could not be cleared after a successful retry."
