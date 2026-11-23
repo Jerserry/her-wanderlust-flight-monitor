@@ -282,15 +282,15 @@ class SerpApiResilienceTests(unittest.TestCase):
         body = put.call_args.kwargs["json"]
         saved = json.loads(base64.b64decode(body["content"]).decode())
         self.assertEqual(len(saved["reservations"]), 3)
-        self.assertEqual(saved["reservations"][-1]["id"], "run-3-1")
+        self.assertEqual(saved["reservations"][-1]["id"], "run-3")
 
-    def test_quota_reservation_is_scoped_to_date_pair(self):
+    def test_workflow_run_can_reserve_only_one_retry_across_date_pairs(self):
         import base64
         monday = datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())
-        run_id = "pair-scope-run-1"
+        run_id = "one-retry-per-run"
         existing = {
             "schema_version": 1, "limit": 3, "week_start": monday.isoformat(),
-            "reservations": [{"id": f"{run_id}-NRT:2027-01-01:2027-01-08"}]
+            "reservations": [{"id": run_id}]
         }
         remote = {"content": base64.b64encode(json.dumps(existing).encode()).decode(), "sha": "ledger-sha"}
         with patch.dict("os.environ", {
@@ -298,13 +298,11 @@ class SerpApiResilienceTests(unittest.TestCase):
             "GITHUB_REF_NAME": "test-branch", "GITHUB_RUN_ID": run_id,
             "GITHUB_RUN_ATTEMPT": "1"
         }), patch("monitor.requests.get", return_value=FakeResponse(200, remote)) as get, \
-             patch("monitor.requests.put", return_value=FakeResponse(200, {})) as put:
-            self.assertTrue(monitor.reserve_weekly_retry_quota("BKK:2027-02-01:2027-02-08"))
-        saved = json.loads(base64.b64decode(put.call_args.kwargs["json"]["content"]))
-        ids = [item["id"] for item in saved["reservations"]]
-        self.assertEqual(len(ids), 2)
-        self.assertEqual(len(set(ids)), 2)
-        self.assertIn(f"{run_id}-1-BKK:2027-02-01:2027-02-08", ids)
+             patch("monitor.requests.put") as put:
+            # A second date pair in the same run must not get another retry.
+            self.assertFalse(monitor.reserve_weekly_retry_quota())
+        get.assert_called_once()
+        put.assert_not_called()
 
     def test_weekly_retry_quota_stops_when_three_reservations_exist(self):
         existing = {
@@ -323,21 +321,21 @@ class SerpApiResilienceTests(unittest.TestCase):
             self.assertFalse(monitor.reserve_weekly_retry_quota())
         put.assert_not_called()
 
-    def test_weekly_retry_quota_is_idempotent_for_same_workflow_attempt(self):
+    def test_workflow_rerun_attempt_does_not_refund_or_duplicate_reservation(self):
         import base64
         monday = datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())
         existing = {
             "schema_version": 1, "limit": 3, "week_start": monday.isoformat(),
-            "reservations": [{"id": "same-run-1"}]
+            "reservations": [{"id": "same-run"}]
         }
         remote = {"content": base64.b64encode(json.dumps(existing).encode()).decode(), "sha": "existing-sha"}
         with patch.dict("os.environ", {
             "GITHUB_TOKEN": "test-token", "GITHUB_REPOSITORY": "owner/repo",
             "GITHUB_REF_NAME": "test-branch", "GITHUB_RUN_ID": "same-run",
-            "GITHUB_RUN_ATTEMPT": "1"
+            "GITHUB_RUN_ATTEMPT": "2"
         }), patch("monitor.requests.get", return_value=FakeResponse(200, remote)), \
              patch("monitor.requests.put") as put:
-            self.assertTrue(monitor.reserve_weekly_retry_quota())
+            self.assertFalse(monitor.reserve_weekly_retry_quota())
         put.assert_not_called()
 
     # Regression: a stale prior-week ledger must reset before checking the quota ceiling.
