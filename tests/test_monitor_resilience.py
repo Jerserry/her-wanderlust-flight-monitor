@@ -186,6 +186,21 @@ class SerpApiResilienceTests(unittest.TestCase):
     @patch("monitor.pace_serpapi_request")
     @patch("monitor.time.sleep")
     @patch("monitor.requests.get")
+    def test_retry_reservation_error_stops_scan_after_429(self, get, sleep, pace):
+        get.return_value = FakeResponse(429, headers={"Retry-After": "300"})
+        with patch("monitor.save_serpapi_cooldown"), \
+             patch("monitor.reserve_weekly_retry_quota", side_effect=RuntimeError("ledger unavailable")), \
+             self.assertRaises(monitor.SerpApiRateLimitError):
+            monitor.search_fares(
+                {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
+                "2026-12-01", "2026-12-08"
+            )
+        get.assert_called_once()
+        sleep.assert_not_called()
+
+    @patch("monitor.pace_serpapi_request")
+    @patch("monitor.time.sleep")
+    @patch("monitor.requests.get")
     def test_retry_after_at_30_minute_threshold_retries_once(self, get, sleep, pace):
         get.side_effect = [
             FakeResponse(429, headers={"Retry-After": "1800"}),
