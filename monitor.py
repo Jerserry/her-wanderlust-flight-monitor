@@ -64,7 +64,7 @@ def safe_error(error):
     message = re.sub(r"https?://\S+", "[request URL hidden]", message)
     message = re.sub(r"(?i)\bBearer\s+[^\s,;]+", "Bearer [REDACTED]", message)
     message = re.sub(
-        r"(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|bot[_-]?token|authorization|password|secret)(\s*[=:]\s*)['\"]?([^'\"\s,;&]+)",
+        r"(?i)(api[_-]?key|token|authorization|password|secret)(\s*[=:]\s*)['\"]?([^'\"\s,;&]+)",
         r"\1\2[REDACTED]",
         message,
     )
