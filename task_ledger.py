@@ -218,9 +218,8 @@ def update_task(task_id, new_status, *, last_error=None, external_job_id=None):
 _SAFE_PARAMETER_FIELDS = {"mode", "origin", "destination", "destinations",
                            "departure_date", "return_date"}
 _SECRET_VALUE_RE = re.compile(
-    r"(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|password)"
-    r"(\s*[\"']?\s*[:=]\s*[\"']?)([^\s,;\\"']+)"
-    r"(\s*[\"']?\s*[:=]\s*[\"']?)([^\s,;]+)"
+    r"""(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|password)(\s*["']?\s*[:=]\s*["']?)([^\s,;]+)"""
+)
 _BEARER_RE = re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/-]+=*")
 _URL_RE = re.compile(r"https?://[^\s]+", re.IGNORECASE)
 
