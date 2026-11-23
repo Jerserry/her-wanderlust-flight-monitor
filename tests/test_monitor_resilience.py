@@ -153,19 +153,19 @@ class SerpApiResilienceTests(unittest.TestCase):
             cooldown_path = Path(directory) / "serpapi_cooldown.json"
             get.return_value = FakeResponse(429, headers={"Retry-After": "300"})
             sleep.side_effect = KeyboardInterrupt("simulated workflow interruption")
-            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", cooldown_path), \
-                 patch("monitor.reserve_weekly_retry_quota", return_value=True), \
-                 self.assertRaises(KeyboardInterrupt):
-                monitor.search_fares(
-                    {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
-                    "2026-12-01", "2026-12-08"
-                )
-            self.assertTrue(cooldown_path.exists())
-            saved, remaining = monitor.read_serpapi_cooldown()
-            self.assertEqual(saved["destination"], "NRT")
-            self.assertEqual(saved["reason"], "HTTP 429")
-            self.assertGreater(remaining, 0)
-            get.assert_called_once()
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", cooldown_path):
+                with patch("monitor.reserve_weekly_retry_quota", return_value=True), \
+                     self.assertRaises(KeyboardInterrupt):
+                    monitor.search_fares(
+                        {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
+                        "2026-12-01", "2026-12-08"
+                    )
+                self.assertTrue(cooldown_path.exists())
+                saved, remaining = monitor.read_serpapi_cooldown()
+                self.assertEqual(saved["destination"], "NRT")
+                self.assertEqual(saved["reason"], "HTTP 429")
+                self.assertGreater(remaining, 0)
+                get.assert_called_once()
 
     @patch("monitor.pace_serpapi_request")
     @patch("monitor.time.sleep")
