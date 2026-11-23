@@ -41,6 +41,11 @@ class SerpApiRateLimitError(RuntimeError):
         super().__init__("SerpApi rate limit reached (HTTP 429)")
 
 
+class SerpApiCooldownPersistenceError(RuntimeError):
+    """Raised when a 429 cooldown cannot be persisted; the scan must stop."""
+
+
+
 def safe_error(error):
     """Return concise errors while removing URLs, credentials, and common secret fields."""
     response = getattr(error, "response", None)
@@ -390,6 +395,21 @@ def search_fares(route, api_key, now, departure_date, return_date):
             break
 
         wait_seconds = retry_after_seconds(response)
+        # Persist every 429 immediately, before quota checks or any potentially
+        # interruptible wait. A terminated workflow must leave a cooldown for
+        # the next run to observe.
+        try:
+            save_serpapi_cooldown(
+                wait_seconds,
+                destination=destination,
+                departure_date=departure_date,
+                return_date=return_date,
+            )
+        except Exception as error:
+            raise SerpApiCooldownPersistenceError(
+                "Could not persist SerpApi HTTP 429 cooldown; stopping all further requests."
+            ) from error
+
         if attempt >= MAX_429_RETRIES or wait_seconds > MAX_RETRY_AFTER_SECONDS:
             raise SerpApiRateLimitError(wait_seconds)
         if not reserve_weekly_retry_quota():
@@ -627,6 +647,16 @@ def main():
                         f"{destination} | {departure_date} to {return_date} | "
                         f"{item['airline']}: RM{item['price']:.2f}"
                     )
+            except SerpApiCooldownPersistenceError as error:
+                errors.append(
+                    f"{destination} {departure_date}–{return_date}: {safe_error(error)}"
+                )
+                print("COOLDOWN PERSISTENCE FAILED; stopping all remaining SerpApi requests.")
+                cursors[destination] = cursor_after_rate_limit(
+                    starting_cursor, pair_index, len(candidates)
+                )
+                rate_limited = True
+                break
             except SerpApiRateLimitError as error:
                 wait_label = (
                     f"建议等待 {error.retry_after_seconds} 秒后再检查"
