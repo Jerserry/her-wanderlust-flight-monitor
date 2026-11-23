@@ -40,7 +40,8 @@ class SerpApiResilienceTests(unittest.TestCase):
             FakeResponse(429, headers={"Retry-After": "0"}),
             FakeResponse(200, {"best_flights": [], "other_flights": []}, reason="OK"),
         ]
-        with patch("monitor.reserve_weekly_retry_quota", return_value=True), \
+        with patch("monitor.save_serpapi_cooldown"), \
+             patch("monitor.reserve_weekly_retry_quota", return_value=True), \
              self.assertRaisesRegex(RuntimeError, "No priced round-trip"):
             monitor.search_fares(
                 {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
@@ -57,7 +58,8 @@ class SerpApiResilienceTests(unittest.TestCase):
             FakeResponse(429, headers={"Retry-After": "0"}),
             FakeResponse(429, headers={"Retry-After": "0"}),
         ]
-        with patch("monitor.reserve_weekly_retry_quota", return_value=True), \
+        with patch("monitor.save_serpapi_cooldown"), \
+             patch("monitor.reserve_weekly_retry_quota", return_value=True), \
              self.assertRaises(monitor.SerpApiRateLimitError):
             monitor.search_fares(
                 {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
@@ -142,6 +144,44 @@ class SerpApiResilienceTests(unittest.TestCase):
                 self.assertEqual(len(saved["results"]), 1)
                 self.assertTrue(saved["results"][0]["is_stale"])
                 self.assertIn("限流", saved["results"][0]["stale_reason"])
+
+    @patch("monitor.pace_serpapi_request")
+    @patch("monitor.time.sleep")
+    @patch("monitor.requests.get")
+    def test_cooldown_is_persisted_before_interruptible_wait(self, get, sleep, pace):
+        with tempfile.TemporaryDirectory() as directory:
+            cooldown_path = Path(directory) / "serpapi_cooldown.json"
+            get.return_value = FakeResponse(429, headers={"Retry-After": "300"})
+            sleep.side_effect = KeyboardInterrupt("simulated workflow interruption")
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", cooldown_path), \
+                 patch("monitor.reserve_weekly_retry_quota", return_value=True), \
+                 self.assertRaises(KeyboardInterrupt):
+                monitor.search_fares(
+                    {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
+                    "2026-12-01", "2026-12-08"
+                )
+            self.assertTrue(cooldown_path.exists())
+            saved, remaining = monitor.read_serpapi_cooldown()
+            self.assertEqual(saved["destination"], "NRT")
+            self.assertEqual(saved["reason"], "HTTP 429")
+            self.assertGreater(remaining, 0)
+            get.assert_called_once()
+
+    @patch("monitor.pace_serpapi_request")
+    @patch("monitor.time.sleep")
+    @patch("monitor.requests.get")
+    def test_cooldown_persistence_failure_stops_before_retry(self, get, sleep, pace):
+        get.return_value = FakeResponse(429, headers={"Retry-After": "300"})
+        with patch("monitor.save_serpapi_cooldown", side_effect=OSError("disk unavailable")), \
+             patch("monitor.reserve_weekly_retry_quota") as reserve, \
+             self.assertRaises(monitor.SerpApiCooldownPersistenceError):
+            monitor.search_fares(
+                {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
+                "2026-12-01", "2026-12-08"
+            )
+        get.assert_called_once()
+        reserve.assert_not_called()
+        sleep.assert_not_called()
 
     @patch("monitor.pace_serpapi_request")
     @patch("monitor.time.sleep")
