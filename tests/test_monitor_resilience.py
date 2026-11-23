@@ -326,7 +326,7 @@ class SerpApiResilienceTests(unittest.TestCase):
         monday = datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())
         existing = {
             "schema_version": 1, "limit": 3, "week_start": monday.isoformat(),
-            "reservations": [{"id": "same-run"}]
+            "reservations": [{"id": "same-run-1-NRT:2027-01-01:2027-01-08"}]
         }
         remote = {"content": base64.b64encode(json.dumps(existing).encode()).decode(), "sha": "existing-sha"}
         with patch.dict("os.environ", {
