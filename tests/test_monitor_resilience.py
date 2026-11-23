@@ -267,6 +267,28 @@ class SerpApiResilienceTests(unittest.TestCase):
         self.assertEqual(len(saved["reservations"]), 3)
         self.assertEqual(saved["reservations"][-1]["id"], "run-3-1")
 
+    def test_quota_reservation_is_scoped_to_date_pair_and_idempotent(self):
+        import base64
+        monday = datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())
+        run_id = "pair-scope-run-1"
+        existing = {
+            "schema_version": 1, "limit": 3, "week_start": monday.isoformat(),
+            "reservations": [{"id": f"{run_id}-NRT:2027-01-01:2027-01-08"}]
+        }
+        remote = {"content": base64.b64encode(json.dumps(existing).encode()).decode(), "sha": "ledger-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token", "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch", "GITHUB_RUN_ID": run_id,
+            "GITHUB_RUN_ATTEMPT": "1"
+        }), patch("monitor.requests.get", return_value=FakeResponse(200, remote)) as get, \
+             patch("monitor.requests.put", return_value=FakeResponse(200, {})) as put:
+            self.assertTrue(monitor.reserve_weekly_retry_quota("BKK:2027-02-01:2027-02-08"))
+        saved = json.loads(base64.b64decode(put.call_args.kwargs["json"]["content"]))
+        ids = [item["id"] for item in saved["reservations"]]
+        self.assertEqual(len(ids), 2)
+        self.assertEqual(len(set(ids)), 2)
+        self.assertIn(f"{run_id}-1-BKK:2027-02-01:2027-02-08", ids)
+
     def test_weekly_retry_quota_stops_when_three_reservations_exist(self):
         existing = {
             "schema_version": 1, "limit": 3,
