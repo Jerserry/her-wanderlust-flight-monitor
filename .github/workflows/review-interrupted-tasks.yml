@@ -11,6 +11,11 @@ on:
         options:
           - list
           - reconcile
+          - get
+      task_id:
+        description: "Exact task UUID required for read-only lookup"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -34,6 +39,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python task_ledger.py list
+      - name: Look up one task by exact ID (read-only)
+        if: inputs.action == 'get'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          test -n "${{ inputs.task_id }}" || { echo "task_id is required for get"; exit 1; }
+          python task_ledger.py get "${{ inputs.task_id }}"
       - name: Mark orphaned running tasks for manual review
         if: inputs.action == 'reconcile'
         env:
