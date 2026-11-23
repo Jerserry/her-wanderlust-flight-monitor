@@ -496,6 +496,34 @@ class DurableTaskPersistenceTests(unittest.TestCase):
         self.assertIn("manual review", saved["tasks"][0]["last_error"])
 
 
+    def test_get_task_is_read_only_exact_lookup(self):
+        import base64
+        from unittest.mock import patch
+        import task_ledger
+        from uuid import uuid4
+        task = {
+            "task_id": str(uuid4()), "provider": "Upscrape",
+            "workflow": "Manual Test", "status": "needs_manual_review",
+            "created_at": "2026-11-21T10:00:00+08:00",
+            "updated_at": "2026-11-21T10:01:00+08:00",
+            "attempt": 1, "parameters": {"destination": "NRT"},
+            "reservation_id": None, "external_job_id": "job-detail",
+            "last_error": "Pending job",
+        }
+        remote = {"content": base64.b64encode(json.dumps(
+            {"schema_version": 1, "tasks": [task]}
+        ).encode()).decode(), "sha": "ledger-sha"}
+        with patch.dict("os.environ", {
+            "GITHUB_TOKEN": "test-token", "GITHUB_REPOSITORY": "owner/repo",
+            "GITHUB_REF_NAME": "test-branch",
+        }), patch("task_ledger.requests.get", return_value=FakeResponse(200, remote)), \
+             patch("task_ledger.requests.put") as put:
+            found = task_ledger.get_task(task["task_id"])
+        self.assertEqual(found["external_job_id"], "job-detail")
+        self.assertEqual(found["status"], "needs_manual_review")
+        self.assertIsNone(task_ledger.get_task(str(uuid4())))
+        put.assert_not_called()
+
     def test_list_tasks_is_read_only_and_returns_task_metadata(self):
         import base64
         from unittest.mock import patch
