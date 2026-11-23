@@ -296,8 +296,14 @@ def reserve_weekly_retry_quota(reservation_key=None):
     current = datetime.now(TIMEZONE).date()
     monday = current - timedelta(days=current.weekday())
     week_key = monday.isoformat()
-    retry_identity = str(reservation_key or "default")
-    reservation_id = f"{os.getenv('GITHUB_RUN_ID', 'local')}-{os.getenv('GITHUB_RUN_ATTEMPT', '1')}-{retry_identity}"
+    run_attempt_id = "{}-{}".format(
+        os.getenv("GITHUB_RUN_ID", "local"),
+        os.getenv("GITHUB_RUN_ATTEMPT", "1"),
+    )
+    reservation_id = (
+        run_attempt_id if reservation_key is None
+        else "{}-{}".format(run_attempt_id, reservation_key)
+    )
 
     response = requests.get(api_url, headers=headers, params={"ref": branch}, timeout=20)
     if response.status_code == 404:
