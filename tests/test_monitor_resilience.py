@@ -185,7 +185,11 @@ class SerpApiResilienceTests(unittest.TestCase):
                     {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
                     "2026-12-01", "2026-12-08"
                 )
-            self.assertFalse(cooldown_path.exists())
+            self.assertTrue(cooldown_path.exists())
+            cleared_state, remaining = monitor.read_serpapi_cooldown()
+            self.assertIsNone(cleared_state["cooldown_until"])
+            self.assertEqual(remaining, 0)
+            self.assertEqual(cleared_state["reason"], "cleared after successful retry")
             self.assertEqual(get.call_count, 2)
 
     @patch("monitor.pace_serpapi_request")
