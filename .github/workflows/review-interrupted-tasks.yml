@@ -17,17 +17,17 @@ on:
         required: false
         type: string
 
-permissions:
-  contents: write
-
 # Wait until any active flight workflow exits before inspecting shared task state.
 concurrency:
   group: hwp-flight-api-global
   cancel-in-progress: false
 
 jobs:
-  reconcile:
+  inspect:
+    if: inputs.action != 'reconcile'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -43,11 +43,23 @@ jobs:
         if: inputs.action == 'get'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TASK_ID: ${{ inputs.task_id }}
         run: |
-          test -n "${{ inputs.task_id }}" || { echo "task_id is required for get"; exit 1; }
-          python task_ledger.py get "${{ inputs.task_id }}"
+          test -n "$TASK_ID" || { echo "task_id is required for get"; exit 1; }
+          python task_ledger.py get "$TASK_ID"
+
+  reconcile:
+    if: inputs.action == 'reconcile'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
       - name: Mark orphaned running tasks for manual review
-        if: inputs.action == 'reconcile'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python task_ledger.py reconcile
