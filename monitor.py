@@ -135,6 +135,16 @@ def read_serpapi_cooldown(now=None):
         ) from error
 
 
+def clear_serpapi_cooldown():
+    """Remove the cooldown created by a 429 after a successful retry response."""
+    try:
+        SERPAPI_COOLDOWN_PATH.unlink(missing_ok=True)
+    except OSError as error:
+        raise RuntimeError(
+            "SerpApi cooldown could not be cleared after a successful retry."
+        ) from error
+
+
 def save_serpapi_cooldown(
     retry_after, destination=None, departure_date=None, return_date=None, now=None
 ):
@@ -387,6 +397,7 @@ def search_fares(route, api_key, now, departure_date, return_date):
     }
 
     response = None
+    saw_429 = False
     for attempt in range(MAX_429_RETRIES + 1):
         pace_serpapi_request()
         response = requests.get(SERPAPI_URL, params=params, timeout=60)
@@ -394,6 +405,7 @@ def search_fares(route, api_key, now, departure_date, return_date):
             response.raise_for_status()
             break
 
+        saw_429 = True
         wait_seconds = retry_after_seconds(response)
         # Persist every 429 immediately, before quota checks or any potentially
         # interruptible wait. A terminated workflow must leave a cooldown for
@@ -420,6 +432,14 @@ def search_fares(route, api_key, now, departure_date, return_date):
             raise SerpApiRateLimitError(wait_seconds)
         print(f"SerpApi returned HTTP 429; waiting {wait_seconds}s after reserving shared weekly quota.")
         time.sleep(wait_seconds)
+
+    if saw_429:
+        try:
+            clear_serpapi_cooldown()
+        except Exception as error:
+            raise SerpApiCooldownPersistenceError(
+                "Could not clear expired SerpApi cooldown after a successful retry; stopping the scan."
+            ) from error
 
     payload = response.json()
     if payload.get("error"):
