@@ -42,31 +42,54 @@ class SerpApiRateLimitError(RuntimeError):
 
 
 def safe_error(error):
-    """Return concise, credential-safe errors without request URLs or query strings."""
+    """Return concise errors while removing URLs, credentials, and common secret fields."""
     response = getattr(error, "response", None)
     if response is not None and getattr(response, "status_code", None):
         message = f"HTTP {response.status_code} {getattr(response, 'reason', '')}".strip()
     else:
         message = str(error)
-    for secret_name in ("SERPAPI_API_KEY", "TELEGRAM_BOT_TOKEN", "UPSCRAPE_API_KEY"):
+
+    for secret_name in ("SERPAPI_API_KEY", "TELEGRAM_BOT_TOKEN", "UPSCRAPE_API_KEY", "GITHUB_TOKEN"):
         secret = os.getenv(secret_name)
         if secret:
             message = message.replace(secret, "[REDACTED]")
+            try:
+                from urllib.parse import quote
+                encoded_secret = quote(secret, safe="")
+                if encoded_secret != secret:
+                    message = message.replace(encoded_secret, "[REDACTED]")
+            except (TypeError, ValueError):
+                pass
+
     message = re.sub(r"https?://\S+", "[request URL hidden]", message)
+    message = re.sub(r"(?i)\bBearer\s+[^\s,;]+", "Bearer [REDACTED]", message)
+    message = re.sub(
+        r"(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|bot[_-]?token|authorization|password|secret)(\s*[=:]\s*)['\"]?([^'\"\s,;&]+)",
+        r"\1\2[REDACTED]",
+        message,
+    )
     return message[:240]
 
 
 def retry_after_seconds(response):
-    raw = getattr(response, "headers", {}).get("Retry-After")
-    if raw:
+    """Parse Retry-After as seconds or HTTP date, never allowing unsafe numeric input."""
+    headers = getattr(response, "headers", None) or {}
+    raw = headers.get("Retry-After") or headers.get("retry-after")
+    if raw is not None and str(raw).strip():
         try:
-            return max(0, int(float(raw)))
-        except (TypeError, ValueError):
+            seconds = float(str(raw).strip())
+            if not math.isfinite(seconds):
+                raise ValueError("Retry-After must be finite")
+            return max(0, math.ceil(seconds))
+        except (TypeError, ValueError, OverflowError):
             try:
-                retry_at = parsedate_to_datetime(raw)
+                retry_at = parsedate_to_datetime(str(raw).strip())
                 if retry_at.tzinfo is None:
                     retry_at = retry_at.replace(tzinfo=timezone.utc)
-                return max(0, int((retry_at - datetime.now(timezone.utc)).total_seconds()))
+                seconds = (retry_at - datetime.now(timezone.utc)).total_seconds()
+                if not math.isfinite(seconds):
+                    raise ValueError("Retry-After date produced a non-finite duration")
+                return max(0, math.ceil(seconds))
             except (TypeError, ValueError, OverflowError):
                 pass
     return FALLBACK_RETRY_AFTER_SECONDS
@@ -254,9 +277,11 @@ def reserve_weekly_retry_quota():
     """Atomically reserve one shared weekly retry before another SerpApi request."""
     token = os.getenv("GITHUB_TOKEN")
     repository = os.getenv("GITHUB_REPOSITORY")
-    branch = os.getenv("GITHUB_REF_NAME")
-    if not token or not repository or not branch:
+    workflow_branch = os.getenv("GITHUB_REF_NAME")
+    if not token or not repository or not workflow_branch:
         raise RuntimeError("Shared retry quota credentials are unavailable; refusing retry.")
+    # All workflows and branch-triggered runs reserve against one canonical ledger.
+    branch = "main"
 
     import base64
     from urllib.parse import quote
