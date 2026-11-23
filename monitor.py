@@ -148,7 +148,7 @@ def clear_serpapi_cooldown():
         SERPAPI_COOLDOWN_PATH.parent.mkdir(parents=True, exist_ok=True)
         temporary = SERPAPI_COOLDOWN_PATH.with_suffix(".tmp")
         temporary.write_text(
-            json.dumps(state, ensure_ascii=False, indent=2) + "\\n",
+            json.dumps(state, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
         temporary.replace(SERPAPI_COOLDOWN_PATH)
