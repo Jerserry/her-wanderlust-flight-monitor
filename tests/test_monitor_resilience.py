@@ -146,15 +146,32 @@ class SerpApiResilienceTests(unittest.TestCase):
     @patch("monitor.pace_serpapi_request")
     @patch("monitor.time.sleep")
     @patch("monitor.requests.get")
-    def test_long_retry_after_stops_without_sleeping_or_retrying(self, get, sleep, pace):
-        get.return_value = FakeResponse(429, headers={"Retry-After": "120"})
+    def test_retry_after_at_30_minute_threshold_retries_once(self, get, sleep, pace):
+        get.side_effect = [
+            FakeResponse(429, headers={"Retry-After": "1800"}),
+            FakeResponse(200, {"best_flights": [], "other_flights": []}, reason="OK"),
+        ]
+        with patch("monitor.reserve_weekly_retry_quota", return_value=True), \
+             self.assertRaisesRegex(RuntimeError, "No priced round-trip"):
+            monitor.search_fares(
+                {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
+                "2026-12-01", "2026-12-08"
+            )
+        self.assertEqual(get.call_count, 2)
+        sleep.assert_called_once_with(1800)
+
+    @patch("monitor.pace_serpapi_request")
+    @patch("monitor.time.sleep")
+    @patch("monitor.requests.get")
+    def test_retry_after_over_30_minutes_stops_without_sleeping_or_retrying(self, get, sleep, pace):
+        get.return_value = FakeResponse(429, headers={"Retry-After": "1801"})
         with patch("monitor.reserve_weekly_retry_quota", return_value=True), \
              self.assertRaises(monitor.SerpApiRateLimitError) as caught:
             monitor.search_fares(
                 {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
                 "2026-12-01", "2026-12-08"
             )
-        self.assertEqual(caught.exception.retry_after_seconds, 120)
+        self.assertEqual(caught.exception.retry_after_seconds, 1801)
         self.assertEqual(get.call_count, 1)
         sleep.assert_not_called()
 
