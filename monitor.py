@@ -273,8 +273,8 @@ def baggage_budget_eligibility(route, baggage):
     return True, True, "eligible"
 
 
-def reserve_weekly_retry_quota(reservation_key=None):
-    """Atomically reserve one shared weekly retry before another SerpApi request."""
+def reserve_weekly_retry_quota():
+    """Reserve at most one retry per workflow run, shared across the Malaysia week."""
     token = os.getenv("GITHUB_TOKEN")
     repository = os.getenv("GITHUB_REPOSITORY")
     workflow_branch = os.getenv("GITHUB_REF_NAME")
@@ -296,14 +296,9 @@ def reserve_weekly_retry_quota(reservation_key=None):
     current = datetime.now(TIMEZONE).date()
     monday = current - timedelta(days=current.weekday())
     week_key = monday.isoformat()
-    run_attempt_id = "{}-{}".format(
-        os.getenv("GITHUB_RUN_ID", "local"),
-        os.getenv("GITHUB_RUN_ATTEMPT", "1"),
-    )
-    reservation_id = (
-        run_attempt_id if reservation_key is None
-        else "{}-{}".format(run_attempt_id, reservation_key)
-    )
+    # GITHUB_RUN_ID remains stable across rerun attempts. A prior reservation
+    # therefore remains consumed if a workflow is interrupted or manually rerun.
+    reservation_id = os.getenv("GITHUB_RUN_ID", "local")
 
     response = requests.get(api_url, headers=headers, params={"ref": branch}, timeout=20)
     if response.status_code == 404:
@@ -325,8 +320,11 @@ def reserve_weekly_retry_quota(reservation_key=None):
         state = {"schema_version": 1, "limit": WEEKLY_SHARED_RETRY_LIMIT, "week_start": week_key, "reservations": []}
 
     reservations = state["reservations"]
+    # An existing reservation means this run has already spent its one retry.
+    # Do not return True here: that would let another date pair retry again.
     if any(isinstance(item, dict) and item.get("id") == reservation_id for item in reservations):
-        return True
+        print("This workflow run has already reserved its single retry; stopping without another SerpApi request.")
+        return False
     if len(reservations) >= WEEKLY_SHARED_RETRY_LIMIT:
         print("Weekly shared retry quota exhausted; stopping without another SerpApi request.")
         return False
@@ -389,8 +387,7 @@ def search_fares(route, api_key, now, departure_date, return_date):
         wait_seconds = retry_after_seconds(response)
         if attempt >= MAX_429_RETRIES or wait_seconds > MAX_RETRY_AFTER_SECONDS:
             raise SerpApiRateLimitError(wait_seconds)
-        reservation_key = f"{destination}:{departure_date}:{return_date}"
-        if not reserve_weekly_retry_quota(reservation_key=reservation_key):
+        if not reserve_weekly_retry_quota():
             raise SerpApiRateLimitError(wait_seconds)
         print(f"SerpApi returned HTTP 429; waiting {wait_seconds}s after reserving shared weekly quota.")
         time.sleep(wait_seconds)
