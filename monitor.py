@@ -273,7 +273,7 @@ def baggage_budget_eligibility(route, baggage):
     return True, True, "eligible"
 
 
-def reserve_weekly_retry_quota():
+def reserve_weekly_retry_quota(reservation_key=None):
     """Atomically reserve one shared weekly retry before another SerpApi request."""
     token = os.getenv("GITHUB_TOKEN")
     repository = os.getenv("GITHUB_REPOSITORY")
@@ -296,7 +296,8 @@ def reserve_weekly_retry_quota():
     current = datetime.now(TIMEZONE).date()
     monday = current - timedelta(days=current.weekday())
     week_key = monday.isoformat()
-    reservation_id = f"{os.getenv('GITHUB_RUN_ID', 'local')}-{os.getenv('GITHUB_RUN_ATTEMPT', '1')}"
+    retry_identity = str(reservation_key or "default")
+    reservation_id = f"{os.getenv('GITHUB_RUN_ID', 'local')}-{os.getenv('GITHUB_RUN_ATTEMPT', '1')}-{retry_identity}"
 
     response = requests.get(api_url, headers=headers, params={"ref": branch}, timeout=20)
     if response.status_code == 404:
@@ -382,7 +383,8 @@ def search_fares(route, api_key, now, departure_date, return_date):
         wait_seconds = retry_after_seconds(response)
         if attempt >= MAX_429_RETRIES or wait_seconds > MAX_RETRY_AFTER_SECONDS:
             raise SerpApiRateLimitError(wait_seconds)
-        if not reserve_weekly_retry_quota():
+        reservation_key = f"{destination}:{departure_date}:{return_date}"
+        if not reserve_weekly_retry_quota(reservation_key=reservation_key):
             raise SerpApiRateLimitError(wait_seconds)
         print(f"SerpApi returned HTTP 429; waiting {wait_seconds}s after reserving shared weekly quota.")
         time.sleep(wait_seconds)
