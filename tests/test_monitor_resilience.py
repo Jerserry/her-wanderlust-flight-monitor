@@ -267,7 +267,7 @@ class SerpApiResilienceTests(unittest.TestCase):
         self.assertEqual(len(saved["reservations"]), 3)
         self.assertEqual(saved["reservations"][-1]["id"], "run-3-1")
 
-    def test_quota_reservation_is_scoped_to_date_pair_and_idempotent(self):
+    def test_quota_reservation_is_scoped_to_date_pair(self):
         import base64
         monday = datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())
         run_id = "pair-scope-run-1"
