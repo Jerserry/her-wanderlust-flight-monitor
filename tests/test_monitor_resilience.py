@@ -41,6 +41,7 @@ class SerpApiResilienceTests(unittest.TestCase):
             FakeResponse(200, {"best_flights": [], "other_flights": []}, reason="OK"),
         ]
         with patch("monitor.save_serpapi_cooldown"), \
+             patch("monitor.clear_serpapi_cooldown"), \
              patch("monitor.reserve_weekly_retry_quota", return_value=True), \
              self.assertRaisesRegex(RuntimeError, "No priced round-trip"):
             monitor.search_fares(
@@ -170,6 +171,26 @@ class SerpApiResilienceTests(unittest.TestCase):
     @patch("monitor.pace_serpapi_request")
     @patch("monitor.time.sleep")
     @patch("monitor.requests.get")
+    def test_successful_retry_clears_its_temporary_cooldown(self, get, sleep, pace):
+        with tempfile.TemporaryDirectory() as directory:
+            cooldown_path = Path(directory) / "serpapi_cooldown.json"
+            get.side_effect = [
+                FakeResponse(429, headers={"Retry-After": "0"}),
+                FakeResponse(200, {"best_flights": [], "other_flights": []}, reason="OK"),
+            ]
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", cooldown_path), \
+                 patch("monitor.reserve_weekly_retry_quota", return_value=True), \
+                 self.assertRaisesRegex(RuntimeError, "No priced round-trip"):
+                monitor.search_fares(
+                    {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
+                    "2026-12-01", "2026-12-08"
+                )
+            self.assertFalse(cooldown_path.exists())
+            self.assertEqual(get.call_count, 2)
+
+    @patch("monitor.pace_serpapi_request")
+    @patch("monitor.time.sleep")
+    @patch("monitor.requests.get")
     def test_cooldown_persistence_failure_stops_before_retry(self, get, sleep, pace):
         get.return_value = FakeResponse(429, headers={"Retry-After": "300"})
         with patch("monitor.save_serpapi_cooldown", side_effect=OSError("disk unavailable")), \
@@ -207,6 +228,7 @@ class SerpApiResilienceTests(unittest.TestCase):
             FakeResponse(200, {"best_flights": [], "other_flights": []}, reason="OK"),
         ]
         with patch("monitor.save_serpapi_cooldown"), \
+             patch("monitor.clear_serpapi_cooldown"), \
              patch("monitor.reserve_weekly_retry_quota", return_value=True), \
              self.assertRaisesRegex(RuntimeError, "No priced round-trip"):
             monitor.search_fares(
