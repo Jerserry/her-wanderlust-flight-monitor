@@ -158,6 +158,16 @@ class SerpApiResilienceTests(unittest.TestCase):
         self.assertEqual(get.call_count, 1)
         sleep.assert_not_called()
 
+    def test_retry_after_fractional_and_non_finite_values(self):
+        fractional = FakeResponse(429, headers={"Retry-After": "1.1"})
+        self.assertEqual(monitor.retry_after_seconds(fractional), 2)
+        for invalid in ("inf", "-inf", "nan", "1e9999", "not-a-date"):
+            response = FakeResponse(429, headers={"Retry-After": invalid})
+            self.assertEqual(
+                monitor.retry_after_seconds(response),
+                monitor.FALLBACK_RETRY_AFTER_SECONDS,
+            )
+
     def test_retry_after_http_date_and_invalid_header_fallback(self):
         future = datetime.now(timezone.utc) + timedelta(seconds=120)
         response = FakeResponse(
@@ -249,7 +259,9 @@ class SerpApiResilienceTests(unittest.TestCase):
              patch("monitor.requests.put", return_value=FakeResponse(200, {})) as put:
             self.assertTrue(monitor.reserve_weekly_retry_quota())
         get.assert_called_once()
+        self.assertEqual(get.call_args.kwargs["params"]["ref"], "main")
         put.assert_called_once()
+        self.assertEqual(put.call_args.kwargs["json"]["branch"], "main")
         body = put.call_args.kwargs["json"]
         saved = json.loads(base64.b64decode(body["content"]).decode())
         self.assertEqual(len(saved["reservations"]), 3)
@@ -310,15 +322,20 @@ class SerpApiResilienceTests(unittest.TestCase):
         self.assertEqual(saved["week_start"], (datetime.now(monitor.TIMEZONE).date() - timedelta(days=datetime.now(monitor.TIMEZONE).date().weekday())).isoformat())
         self.assertEqual(len(saved["reservations"]), 1)
 
-    def test_safe_error_hides_request_url_and_credentials(self):
-        error = requests.HTTPError(
-            "429 Client Error for url: https://serpapi.com/search.json?api_key=secret-token"
+    def test_safe_error_hides_urls_tokens_and_secret_fields(self):
+        error = RuntimeError(
+            "URL https://api.example.test/path?api_key=secret-token "
+            "Bearer abc123 api_key=field-secret access_token:json-secret"
         )
-        with patch.dict("os.environ", {"SERPAPI_API_KEY": "secret-token"}):
+        with patch.dict("os.environ", {
+            "SERPAPI_API_KEY": "secret-token",
+            "GITHUB_TOKEN": "gh-secret",
+        }):
             message = monitor.safe_error(error)
-        self.assertNotIn("serpapi.com", message)
-        self.assertNotIn("secret-token", message)
+        for secret in ("api.example.test", "secret-token", "abc123", "field-secret", "json-secret", "gh-secret"):
+            self.assertNotIn(secret, message)
         self.assertIn("[request URL hidden]", message)
+        self.assertIn("[REDACTED]", message)
 
 
 if __name__ == "__main__":
