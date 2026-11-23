@@ -219,10 +219,10 @@ _SAFE_PARAMETER_FIELDS = {"mode", "origin", "destination", "destinations",
                            "departure_date", "return_date"}
 _SECRET_VALUE_RE = re.compile(
     r"(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|password)"
-    r"(\\s*[\\"']?\\s*[:=]\\s*[\\"']?)([^\\s,;\\\"']+)"
+    r"(\s*[\"']?\s*[:=]\s*[\"']?)([^\s,;\\"']+)"
 )
-_BEARER_RE = re.compile(r"(?i)\\bBearer\\s+[A-Za-z0-9._~+/-]+=*")
-_URL_RE = re.compile(r"https?://[^\\s]+", re.IGNORECASE)
+_BEARER_RE = re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/-]+=*")
+_URL_RE = re.compile(r"https?://[^\s]+", re.IGNORECASE)
 
 
 def _safe_task_text(value, limit=500):
@@ -232,7 +232,7 @@ def _safe_task_text(value, limit=500):
     text = str(value)
     text = _BEARER_RE.sub("Bearer [REDACTED]", text)
     text = _URL_RE.sub("[URL REDACTED]", text)
-    text = _SECRET_VALUE_RE.sub(r"\\1\\2[REDACTED]", text)
+    text = _SECRET_VALUE_RE.sub(r"\1\2[REDACTED]", text)
     return text[:limit]
 
 
@@ -253,7 +253,7 @@ def _safe_task_parameters(parameters):
                 if codes:
                     safe[key] = codes[:50]
         elif key in {"departure_date", "return_date"}:
-            if isinstance(value, str) and re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", value):
+            if isinstance(value, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
                 safe[key] = value
         elif key == "mode" and value in {"flexible"}:
             safe[key] = value
