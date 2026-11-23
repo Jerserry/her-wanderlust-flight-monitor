@@ -412,7 +412,11 @@ def search_fares(route, api_key, now, departure_date, return_date):
 
         if attempt >= MAX_429_RETRIES or wait_seconds > MAX_RETRY_AFTER_SECONDS:
             raise SerpApiRateLimitError(wait_seconds)
-        if not reserve_weekly_retry_quota():
+        try:
+            reserved = reserve_weekly_retry_quota()
+        except Exception as error:
+            raise SerpApiRateLimitError(wait_seconds) from error
+        if not reserved:
             raise SerpApiRateLimitError(wait_seconds)
         print(f"SerpApi returned HTTP 429; waiting {wait_seconds}s after reserving shared weekly quota.")
         time.sleep(wait_seconds)
