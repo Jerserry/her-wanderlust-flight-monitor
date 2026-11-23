@@ -178,19 +178,19 @@ class SerpApiResilienceTests(unittest.TestCase):
                 FakeResponse(429, headers={"Retry-After": "0"}),
                 FakeResponse(200, {"best_flights": [], "other_flights": []}, reason="OK"),
             ]
-            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", cooldown_path), \
-                 patch("monitor.reserve_weekly_retry_quota", return_value=True), \
-                 self.assertRaisesRegex(RuntimeError, "No priced round-trip"):
-                monitor.search_fares(
-                    {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
-                    "2026-12-01", "2026-12-08"
-                )
-            self.assertTrue(cooldown_path.exists())
-            cleared_state, remaining = monitor.read_serpapi_cooldown()
-            self.assertIsNone(cleared_state["cooldown_until"])
-            self.assertEqual(remaining, 0)
-            self.assertEqual(cleared_state["reason"], "cleared after successful retry")
-            self.assertEqual(get.call_count, 2)
+            with patch.object(monitor, "SERPAPI_COOLDOWN_PATH", cooldown_path):
+                with patch("monitor.reserve_weekly_retry_quota", return_value=True), \
+                     self.assertRaisesRegex(RuntimeError, "No priced round-trip"):
+                    monitor.search_fares(
+                        {"destination": "NRT"}, "test-key", "2026-11-18T12:00:00+08:00",
+                        "2026-12-01", "2026-12-08"
+                    )
+                self.assertTrue(cooldown_path.exists())
+                cleared_state, remaining = monitor.read_serpapi_cooldown()
+                self.assertIsNone(cleared_state["cooldown_until"])
+                self.assertEqual(remaining, 0)
+                self.assertEqual(cleared_state["reason"], "cleared after successful retry")
+                self.assertEqual(get.call_count, 2)
 
     @patch("monitor.pace_serpapi_request")
     @patch("monitor.time.sleep")
