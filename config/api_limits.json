@@ -7,7 +7,7 @@
   "stop_run_after_repeated_429": true,
   "notes": {
     "minimum_request_interval_seconds": "Minimum delay between SerpApi request starts to reduce burst traffic.",
-    "max_429_retries": "At most one retry for HTTP 429. A second 429 stops the remaining scan.",
+    "max_429_retries": "At most one retry per date pair; the shared weekly reservation ledger additionally limits each workflow run to one retry across all date pairs.",
     "fallback_retry_after_seconds": "Used only when the response has no valid Retry-After header.",
     "max_retry_after_seconds": "If Retry-After exceeds 1800 seconds (30 minutes), do not sleep/retry in the current workflow run; stop safely.",
     "minimum_429_cooldown_seconds": "Persist at least this many seconds of cooldown after a final HTTP 429, even when Retry-After is missing or shorter."
